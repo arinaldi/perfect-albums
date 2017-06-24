@@ -7,7 +7,7 @@ import passport from 'passport';
 import publicAlbumRoutes from './routes/publicAlbumRoutes';
 import privateAlbumRoutes from './routes/privateAlbumRoutes';
 import authenticationRoutes from './routes/AuthenticationRoutes';
-import instaRoutes from './routes/InstaRoutes';
+import instaRoutes from './routes/instaRoutes';
 
 mongoose.Promise = global.Promise;
 mongoose

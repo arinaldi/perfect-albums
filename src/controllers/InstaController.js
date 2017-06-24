@@ -1,4 +1,4 @@
-require('dotenv').config();
+//require('dotenv').config();
 import axios from 'axios';
 
 const url = 'https://api.instagram.com/v1/users/self/media/recent?access_token=';

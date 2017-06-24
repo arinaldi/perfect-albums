@@ -76,11 +76,31 @@ const TopNavbar = (props) => {
       <nav id="mobile-nav" className="navbar navbar-default navbar-static-top" >
         <div id="mobile-container" className="container" style={{marginBottom: '10px'}}>
           <ul className="nav navbar-nav navbar-right">
-            <li><Link to="/">Home</Link></li>
-            <li><Link to="/albums">Albums</Link></li>
-            <li><Link to="/songs">Songs</Link></li>
-            <li><Link to="/aotd">Instagram</Link></li>
-            <li><Link to="/collection">Collection</Link></li>
+            <li>
+              <Link to="/">
+                <i className="fa fa-home" aria-hidden="true" />
+              </Link>
+            </li>
+            <li>
+              <Link to="/albums">
+                <i className="fa fa-headphones" aria-hidden="true" />
+              </Link>
+            </li>
+            <li>
+              <Link to="/songs">
+                <i className="fa fa-music" aria-hidden="true" />
+              </Link>
+            </li>
+            <li>
+              <Link to="/aotd">
+                <i className="fa fa-instagram" aria-hidden="true" />
+              </Link>
+            </li>
+            <li>
+              <Link to="/collection">
+                <i className="fa fa-database" aria-hidden="true" />
+              </Link>
+            </li>
 
             { props.showAuthItems ? null : <MobileSignInLink /> }
             { props.showAuthItems ? <MobileAdminLink {...props} /> : null }

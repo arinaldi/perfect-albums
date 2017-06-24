@@ -5,15 +5,10 @@
   "main": "index.js",
   "scripts": {
     "lint": "eslint src",
-    "api-dev": "nodemon --exec \"babel-node src/index\"",
+    "dev": "nodemon --exec 'babel-node src/index'",
     "test": "npm run lint",
-    "dev": "nf start",
-    "build-client": "cd client && npm run build",
-    "clean-assets": "rm -rf ./public/*",
-    "copy-assets": "mkdir -p ./public && cp -R ./client/build/* ./public",
-    "compile-server": "rm -rf ./dist && babel src --out-dir dist",
-    "pre-deploy": "npm run compile-server && npm run build-client && npm run clean-assets && npm run copy-assets",
-    "start": "node ./dist/index"
+    "start": "concurrently 'npm run server' 'cd client && npm start'",
+    "server": "babel-node src/index.js"
   },
   "keywords": [],
   "author": "",

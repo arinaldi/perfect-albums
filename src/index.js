@@ -17,10 +17,15 @@ mongoose
 const app = express();
 
 app
+  .use(express.static('public'))
   .use(bodyParser.json())
   .use(publicAlbumRoutes)
   .use(authenticationRoutes)
   .use(instaRoutes);
+
+app.get('/', (req, res) => {
+  res.sendFile('public/index.html');
+});
 
 const authStrategy = passport.authenticate('authStrategy', { session: false });
 app.use(authStrategy);

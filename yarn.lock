@@ -1670,9 +1670,9 @@ concat-stream@^1.4.6:
     readable-stream "^2.2.2"
     typedarray "^0.0.6"
 
-concurrently@^3.4.0:
-  version "3.4.0"
-  resolved "https://registry.yarnpkg.com/concurrently/-/concurrently-3.4.0.tgz#60662b3defde07375bae19aac0ab780ec748ba79"
+concurrently@^3.5.0:
+  version "3.5.0"
+  resolved "https://registry.yarnpkg.com/concurrently/-/concurrently-3.5.0.tgz#8cf1b7707a6916a78a4ff5b77bb04dec54b379b2"
   dependencies:
     chalk "0.5.1"
     commander "2.6.0"
@@ -1945,13 +1945,13 @@ debug@2.2.0, debug@~2.2.0:
   dependencies:
     ms "0.7.1"
 
-debug@2.6.1, debug@^2.1.0, debug@^2.1.1, debug@^2.2.0, debug@^2.6.0:
+debug@2.6.1, debug@^2.1.0, debug@^2.1.1, debug@^2.2.0, debug@^2.4.5, debug@^2.6.0:
   version "2.6.1"
   resolved "https://registry.yarnpkg.com/debug/-/debug-2.6.1.tgz#79855090ba2c4e3115cc7d8769491d58f0491351"
   dependencies:
     ms "0.7.2"
 
-debug@^2.4.5, debug@^2.6.3:
+debug@^2.6.3:
   version "2.6.6"
   resolved "https://registry.yarnpkg.com/debug/-/debug-2.6.6.tgz#a9fa6fbe9ca43cf1e79f73b75c0189cbb7d6db5a"
   dependencies:
@@ -3216,11 +3216,7 @@ is-binary-path@^1.0.0:
   dependencies:
     binary-extensions "^1.0.0"
 
-is-buffer@^1.0.2:
-  version "1.1.4"
-  resolved "https://registry.yarnpkg.com/is-buffer/-/is-buffer-1.1.4.tgz#cfc86ccd5dc5a52fa80489111c6920c457e2d98b"
-
-is-buffer@^1.1.5:
+is-buffer@^1.0.2, is-buffer@^1.1.5:
   version "1.1.5"
   resolved "https://registry.yarnpkg.com/is-buffer/-/is-buffer-1.1.5.tgz#1f3b26ef613b214b88cbca23cc6c01d87961eecc"
 
@@ -5983,7 +5979,7 @@ style-loader@0.13.1:
   dependencies:
     loader-utils "^0.2.7"
 
-supports-color@3.1.x:
+supports-color@3.1.x, supports-color@^3.1.0, supports-color@^3.1.1:
   version "3.1.2"
   resolved "https://registry.yarnpkg.com/supports-color/-/supports-color-3.1.2.tgz#72a262894d9d408b956ca05ff37b2ed8a6e2a2d5"
   dependencies:
@@ -5997,7 +5993,7 @@ supports-color@^2.0.0:
   version "2.0.0"
   resolved "https://registry.yarnpkg.com/supports-color/-/supports-color-2.0.0.tgz#535d045ce6b6363fa40117084629995e9df324c7"
 
-supports-color@^3.1.0, supports-color@^3.1.1, supports-color@^3.1.2, supports-color@^3.2.3:
+supports-color@^3.1.2, supports-color@^3.2.3:
   version "3.2.3"
   resolved "https://registry.yarnpkg.com/supports-color/-/supports-color-3.2.3.tgz#65ac0504b3954171d8a64946b2ae3cbb8a5f54f6"
   dependencies:

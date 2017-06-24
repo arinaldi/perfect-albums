@@ -1,5 +1,6 @@
 require('dotenv').config();
 import express from 'express';
+import path from 'path';
 import bodyParser from 'body-parser';
 import mongoose from 'mongoose';
 import passport from 'passport';
@@ -17,14 +18,14 @@ mongoose
 const app = express();
 
 app
-  .use(express.static('public'))
+  .use(express.static(path.resolve(__dirname, '../client/build')))
   .use(bodyParser.json())
   .use(publicAlbumRoutes)
   .use(authenticationRoutes)
   .use(instaRoutes);
 
-app.get('/', (req, res) => {
-  res.sendFile('public/index.html');
+app.get('*', (req, res) => {
+  res.sendFile(path.resolve(__dirname, '../client/build', 'index.html'));
 });
 
 const authStrategy = passport.authenticate('authStrategy', { session: false });

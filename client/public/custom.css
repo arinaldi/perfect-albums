@@ -85,6 +85,14 @@ a.dashed:hover {
     border-radius: 0;
 }
 
+.insta-image {
+  padding: 5px;
+}
+
+.form {
+  padding: 0 15px;
+}
+
 @media only screen and (max-width: 768px) {
   #navigation {
     display: none;

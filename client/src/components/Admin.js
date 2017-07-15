@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { Link } from "react-router-dom";
 import uuidV1 from 'uuid/v1';
 import {
+  Button,
   Col,
   Form,
   FormGroup,
@@ -19,6 +20,7 @@ class Admin extends Component {
       searchText: ''
     };
     this.handleChange = this.handleChange.bind(this);
+    this.clearInput = this.clearInput.bind(this);
   }
 
   componentWillReceiveProps(nextProps) {
@@ -30,6 +32,13 @@ class Admin extends Component {
   handleChange({ target: { value } }) {
     this.setState({ searchText: value });
     this.filterData(value);
+  }
+
+  clearInput() {
+    this.setState({
+      filteredData: this.props.albums,
+      searchText: ''
+    });
   }
 
   getValidationState() {
@@ -70,7 +79,7 @@ class Admin extends Component {
         <Row className="show-grid">
           <Col xs={12}>
             <h3>Admin</h3>
-            <Form horizontal>
+            <Form horizontal className="form">
               <FormGroup
                 controlId="formBasicText"
                 validationState={this.getValidationState()}
@@ -82,6 +91,7 @@ class Admin extends Component {
                     onChange={this.handleChange}
                   />
                   <FormControl.Feedback />
+                  <Button onClick={this.clearInput}>Clear</Button>
               </FormGroup>
             </Form>
             <Table responsive striped hover className="songs">

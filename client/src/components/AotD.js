@@ -9,7 +9,7 @@ const renderPosts = (props) => (
     const caption = post.caption.text;
 
     return (
-      <Col xs={6} sm={3} key={uuidV1()} className="form-group">
+      <Col xs={6} sm={3} key={uuidV1()} className="insta-image">
         <a href={instaLink}>
           <img src={instaImage} alt={caption} className="img-responsive" />
         </a>

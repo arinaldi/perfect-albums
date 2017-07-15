@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "description": "",
   "engines": {
-    "node": "7.6.x"
+    "node": "7.10.1"
   },
   "scripts": {
     "lint": "eslint src",

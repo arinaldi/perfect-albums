@@ -172,7 +172,8 @@ class Collection extends Component {
         <Row className="show-grid">
           <Col xs={12} md={8}>
             <h3>My Collection</h3>
-            <Form horizontal>
+
+            <Form horizontal className="form">
               <FormGroup
                 controlId="formBasicText"
                 validationState={this.getValidationState()}
@@ -188,6 +189,7 @@ class Collection extends Component {
                   <Button onClick={this.seeAll}>See All</Button>
               </FormGroup>
             </Form>
+
             <Table responsive striped hover className="songs">
               <thead>
                 <tr>

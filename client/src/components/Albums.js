@@ -11,6 +11,7 @@ function Albums() {
           <ol>
             <li>Sheryl Crow &ndash; Be Myself</li>
             <li>The Classic Crime &ndash; How to Be Human</li>
+            <li>Foo Fighters &ndash; Concrete and Gold</li>
             <li>Eighteen Visions &ndash; XVIII</li>
             <li>Run the Jewels &ndash; Run the Jewels 3</li>
           </ol>

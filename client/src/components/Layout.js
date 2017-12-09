@@ -7,6 +7,7 @@ import Songs from './Songs';
 import AotDContainer from '../containers/AotDContainer';
 import CollectionContainer from '../containers/CollectionContainer';
 import AdminContainer from '../containers/AdminContainer';
+import NewAlbumContainer from '../containers/NewAlbumContainer';
 import EditAlbumContainer from '../containers/EditAlbumContainer';
 import SignIn from '../components/SignIn';
 
@@ -33,6 +34,7 @@ const Layout = (props) => {
             <AdminContainer /> :
               <Redirect to="/" />
         )} />
+        <Route path="/new" component={NewAlbumContainer} />
         <Route path="/edit/:id" component={EditAlbumContainer} />
         <Route path="/signin" render={props => (
           !showAuthItems ?

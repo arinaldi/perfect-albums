@@ -15,7 +15,7 @@ function albums(state = [], action) {
 }
 
 function album(state = [], action) {
-  if (action.type === "GET_ALBUM_DONE") {
+  if (action.type === 'GET_ALBUM_DONE') {
     return action.value;
   }
   return state;

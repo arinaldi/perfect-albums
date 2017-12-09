@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Link } from "react-router-dom";
+import { Link, withRouter } from 'react-router-dom';
 import uuidV1 from 'uuid/v1';
 import {
   Button,
@@ -21,6 +21,7 @@ class Admin extends Component {
     };
     this.handleChange = this.handleChange.bind(this);
     this.clearInput = this.clearInput.bind(this);
+    this.createAlbum = this.createAlbum.bind(this);
   }
 
   componentWillReceiveProps(nextProps) {
@@ -39,6 +40,10 @@ class Admin extends Component {
       filteredData: this.props.albums,
       searchText: ''
     });
+  }
+
+  createAlbum() {
+    this.props.history.push('/new')
   }
 
   getValidationState() {
@@ -84,14 +89,15 @@ class Admin extends Component {
                 controlId="formBasicText"
                 validationState={this.getValidationState()}
               >
-                  <FormControl
-                    type="text"
-                    value={this.state.searchText}
-                    placeholder="Search"
-                    onChange={this.handleChange}
-                  />
-                  <FormControl.Feedback />
-                  <Button onClick={this.clearInput}>Clear</Button>
+                <FormControl
+                  type="text"
+                  value={this.state.searchText}
+                  placeholder="Search"
+                  onChange={this.handleChange}
+                />
+                <FormControl.Feedback />
+                <Button onClick={this.clearInput}>Clear</Button>
+                <Button onClick={this.createAlbum}>New</Button>
               </FormGroup>
             </Form>
             <Table responsive striped hover className="songs">
@@ -101,7 +107,7 @@ class Admin extends Component {
                   <th>Album</th>
                   <th>CD</th>
                   <th>AotD</th>
-                  <th></th>
+                  <th>Edit</th>
                 </tr>
               </thead>
               <tbody>
@@ -115,4 +121,4 @@ class Admin extends Component {
   }
 }
 
-export default Admin;
+export default withRouter(Admin);

@@ -9,7 +9,6 @@ export function loadInsta() {
   };
 }
 
-
 function instaLoaded(data) {
   return {
     type: 'INSTA_LOADED',
@@ -49,6 +48,16 @@ function getAlbumDone(item) {
   return {
     type: 'GET_ALBUM_DONE',
     value: item
+  };
+}
+
+export function createAlbum(item) {
+  return function (dispatch) {
+    fetch('/albums', {
+      method: 'POST',
+      headers: {'Content-Type': 'application/json'},
+      body: JSON.stringify(item)
+    }).then(() => dispatch(loadAlbums()));
   };
 }
 

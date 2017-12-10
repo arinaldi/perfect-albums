@@ -9,6 +9,7 @@ import CollectionContainer from '../containers/CollectionContainer';
 import AdminContainer from '../containers/AdminContainer';
 import NewAlbumContainer from '../containers/NewAlbumContainer';
 import EditAlbumContainer from '../containers/EditAlbumContainer';
+import DeleteAlbumContainer from '../containers/DeleteAlbumContainer'
 import SignIn from '../components/SignIn';
 
 const Layout = (props) => {
@@ -36,6 +37,7 @@ const Layout = (props) => {
         )} />
         <Route path="/new" component={NewAlbumContainer} />
         <Route path="/edit/:id" component={EditAlbumContainer} />
+        <Route path="/delete/:id" component={DeleteAlbumContainer} />
         <Route path="/signin" render={props => (
           !showAuthItems ?
             <SignIn {...props} onSignIn={signIn} error={error} /> :

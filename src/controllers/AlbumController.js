@@ -45,12 +45,12 @@ export function edit(req, res) {
   });
 }
 
-// export function remove(req, res) {
-//   AlbumModel.findByIdAndRemove(req.params.id, (err, item) => {
-//     const response = {
-//       message: "Album successfully deleted",
-//       id: item._id
-//     };
-//     res.send(response);
-//   });
-// }
+export function remove(req, res) {
+  AlbumModel.findByIdAndRemove(req.params.id, (err, item) => {
+    const response = {
+      message: 'Album successfully deleted',
+      id: item._id
+    };
+    res.send(response);
+  });
+}

@@ -70,3 +70,12 @@ export function editAlbum(item) {
     }).then(() => dispatch(loadAlbums()));
   };
 }
+
+export function deleteAlbum(id) {
+  return function (dispatch) {
+    fetch(`/albums/${id}`, {
+      method: 'DELETE',
+      headers: {'Content-Type': 'application/json'}
+    }).then(() => dispatch(loadAlbums()));
+  };
+}

@@ -74,6 +74,8 @@ class Admin extends Component {
           <td>{data.aotd.toString()}</td>
           <td>
             <Link to={`/edit/${data._id}`}>Edit</Link>
+            &nbsp;|&nbsp;
+            <Link to={`/delete/${data._id}`}>Delete</Link>
           </td>
         </tr>
       );
@@ -107,7 +109,7 @@ class Admin extends Component {
                   <th>Album</th>
                   <th>CD</th>
                   <th>AotD</th>
-                  <th>Edit</th>
+                  <th>Actions</th>
                 </tr>
               </thead>
               <tbody>

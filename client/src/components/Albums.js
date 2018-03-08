@@ -7,6 +7,12 @@ function Albums() {
       <h3>Top Albums</h3>
       <Row className="show-grid">
         <Col xs={12} md={6} lg={4}>
+          <h2>2018</h2>
+          <ol>
+            <li>Turbonegro &ndash; RockNRoll Machine</li>
+          </ol>
+        </Col>
+        <Col xs={12} md={6} lg={4}>
           <h2>2017</h2>
           <ol>
             <li>Sheryl Crow &ndash; Be Myself</li>

@@ -40,6 +40,11 @@ export default {
     "song": "Rise",
     "youtube": "https://www.youtube.com/watch?v=2zdjE8mSJ9g"
   }, {
+    "artist": "Chuck Ragan",
+    "song": "Do What You Do",
+    "youtube": "https://www.youtube.com/watch?v=pKayyxJcHS4"
+  },
+  {
     "artist": "City and Colour",
     "song": "Sometimes (I Wish)",
     "youtube": "https://www.youtube.com/watch?v=5iOrvktsLGk"

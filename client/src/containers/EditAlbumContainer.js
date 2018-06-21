@@ -11,11 +11,10 @@ function mapStateToProps(state) {
 function mapDispatchToProps(dispatch) {
   return {
     getAlbum: (id) => {
-      const action = getAlbum(id);
-      dispatch(action);
+      dispatch(getAlbum(id));
     },
-    editAlbum: (item) => {
-      dispatch(editAlbum(item));
+    editAlbum: (id, item) => {
+      dispatch(editAlbum(id, item));
     }
   };
 }

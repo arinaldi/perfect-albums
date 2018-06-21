@@ -37,3 +37,17 @@ export function removeFromHistory(index) {
 
   localStorage.setItem('perfectAlbums', JSON.stringify(newHistory));
 }
+
+function sortByAlbum(a, b) {
+  if (a.artist < b.artist) return -1;
+  if (a.artist > b.artist) return 1;
+  if (a.album.toLowerCase() < b.album.toLowerCase()) return -1;
+  if (a.album.toLowerCase() > b.album.toLowerCase()) return 1;
+  return 0;
+}
+
+export const formatData = (data) => (
+  data
+    .sort(sortByAlbum)
+    .slice(0, 50)
+);

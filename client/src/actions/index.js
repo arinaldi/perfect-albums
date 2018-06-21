@@ -61,9 +61,9 @@ export function createAlbum(item) {
   };
 }
 
-export function editAlbum(item) {
+export function editAlbum(id, item) {
   return function (dispatch) {
-    fetch(`/albums/${item._id}`, {
+    fetch(`/albums/${id}`, {
       method: 'PUT',
       headers: {'Content-Type': 'application/json'},
       body: JSON.stringify(item)

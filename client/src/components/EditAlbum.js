@@ -1,53 +1,68 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import { Redirect } from 'react-router';
-import { Grid, Row, Col, Form, FormGroup, FormControl, ControlLabel, Button, Radio } from 'react-bootstrap';
+import {
+  Grid,
+  Row,
+  Col,
+  Form,
+  FormGroup,
+  FormControl,
+  ControlLabel,
+  Button,
+  Radio
+} from 'react-bootstrap';
 
 class EditAlbum extends Component {
 
   constructor() {
     super();
     this.state = {
-      album: {
-        artist: '',
-        album: '',
-        cd: false,
-        aotd: false
-      },
+      artist: '',
+      album: '',
+      cd: false,
+      aotd: false,
       fireRedirect: false
     };
+
+    this.handleChange = this.handleChange.bind(this);
+    this.handleSubmit = this.handleSubmit.bind(this);
   }
 
   componentDidMount() {
-    const id = this.props.match.params.id;
+    const { id } = this.props.match.params;
     this.props.getAlbum(id);
   }
 
   componentWillReceiveProps(nextProps) {
-    const { _id, artist, album, cd, aotd } = nextProps.album;
+    const { artist, album, cd, aotd } = nextProps.album;
     this.setState({
-      album: {
-        _id,
-        artist,
-        album,
-        cd,
-        aotd
-      }
+      artist,
+      album,
+      cd,
+      aotd
     });
   }
 
+  handleChange({ target: { name, value } }) {
+    if (name === 'cd' || name === 'aotd') value = value === 'true';
+    this.setState({ [name]: value });
+  }
+
+  handleSubmit(e) {
+    const { id } = this.props.match.params;
+    const { artist, album, cd, aotd } = this.state;
+    e.preventDefault();
+    this.props.editAlbum(id, { artist, album, cd, aotd });
+    this.setState({ fireRedirect: true });
+  }
+
   renderForm() {
-    const { artist, album, cd, aotd } = this.state.album;
+    const { artist, album, cd, aotd } = this.state;
     return (
       <Form
         horizontal
-        onSubmit={(e) => {
-          e.preventDefault();
-          if (this.props.editAlbum) {
-            this.props.editAlbum(this.state.album);
-            this.setState({ fireRedirect: true });
-          }
-        }}
+        onSubmit={this.handleSubmit}
       >
         <FormGroup controlId="formHorizontalArtist">
           <Col componentClass={ControlLabel} sm={2}>
@@ -57,12 +72,8 @@ class EditAlbum extends Component {
             <FormControl
               type="text"
               value={artist}
-              onChange={e => {
-                const updatedAlbum = {artist: e.target.value};
-                this.setState({
-                  album: Object.assign(this.state.album, updatedAlbum)
-                });
-              }}
+              name="artist"
+              onChange={this.handleChange}
             />
           </Col>
         </FormGroup>
@@ -75,63 +86,59 @@ class EditAlbum extends Component {
             <FormControl
               type="text"
               value={album}
-              onChange={e => {
-                const updatedAlbum = {album: e.target.value};
-                this.setState({
-                  album: Object.assign(this.state.album, updatedAlbum)
-                });
-              }}
+              name="album"
+              onChange={this.handleChange}
             />
           </Col>
         </FormGroup>
 
-        <FormGroup
-          controlId="formHorizontalCd"
-          onChange={e => {
-            let bool = false;
-            if (e.target.id === 'true') {
-              bool = true;
-            }
-            const updatedAlbum = {cd: bool};
-            this.setState({
-              album: Object.assign(this.state.album, updatedAlbum)
-            });
-          }}
-        >
+        <FormGroup controlId="formHorizontalCd">
           <Col componentClass={ControlLabel} sm={2}>
             CD
           </Col>
           <Col sm={10}>
-            <Radio name="cdGroup" inline id="false" checked={cd === false}>
+            <Radio
+              name="cd"
+              inline
+              checked={cd === false}
+              value="false"
+              onChange={this.handleChange}
+            >
               false
             </Radio>
-            <Radio name="cdGroup" inline id="true" checked={cd === true}>
+            <Radio
+              name="cd"
+              inline
+              checked={cd === true}
+              value="true"
+              onChange={this.handleChange}
+            >
               true
             </Radio>
           </Col>
         </FormGroup>
 
-        <FormGroup
-          controlId="formHorizontalAotd"
-          onChange={e => {
-            let bool = false;
-            if (e.target.id === 'true') {
-              bool = true;
-            }
-            const updatedAlbum = {aotd: bool};
-            this.setState({
-              album: Object.assign(this.state.album, updatedAlbum)
-            });
-          }}
-        >
+        <FormGroup controlId="formHorizontalAotd">
           <Col componentClass={ControlLabel} sm={2}>
             AotD
           </Col>
           <Col sm={10}>
-            <Radio name="aotdGroup" inline id="false" checked={aotd === false}>
+            <Radio
+              name="aotd"
+              inline
+              checked={aotd === false}
+              value="false"
+              onChange={this.handleChange}
+            >
               false
             </Radio>
-            <Radio name="aotdGroup" inline id="true" checked={aotd === true}>
+            <Radio
+              name="aotd"
+              inline
+              checked={aotd === true}
+              value="true"
+              onChange={this.handleChange}
+            >
               true
             </Radio>
           </Col>

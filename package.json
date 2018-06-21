@@ -12,9 +12,17 @@
     "test": "npm run lint",
     "heroku-postbuild": "cd client/ && npm install --only=dev && npm install && npm run build"
   },
-  "keywords": [ "node", "heroku", "create-react-app", "react"],
+  "keywords": [
+    "node",
+    "heroku",
+    "create-react-app",
+    "react"
+  ],
   "author": "Tony",
-  "cacheDirectories": ["node_modules", "client/node_modules"],
+  "cacheDirectories": [
+    "node_modules",
+    "client/node_modules"
+  ],
   "license": "ISC",
   "devDependencies": {
     "babel": "^6.23.0",

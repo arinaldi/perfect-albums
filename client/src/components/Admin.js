@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import { Link, withRouter } from 'react-router-dom';
-import uuidV1 from 'uuid/v1';
 import {
   Button,
   Col,
@@ -11,12 +10,13 @@ import {
   Row,
   Table
 } from 'react-bootstrap';
+import { formatData } from '../utilities';
 
 class Admin extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      filteredData: this.props.albums.slice(0, 49),
+      filteredData: formatData(props.albums),
       searchText: ''
     };
     this.handleChange = this.handleChange.bind(this);
@@ -26,7 +26,7 @@ class Admin extends Component {
 
   componentWillReceiveProps(nextProps) {
     this.setState({
-      filteredData: nextProps.albums.slice(0, 49)
+      filteredData: formatData(nextProps.albums)
     });
   }
 
@@ -37,13 +37,13 @@ class Admin extends Component {
 
   clearInput() {
     this.setState({
-      filteredData: this.props.albums,
+      filteredData: formatData(this.props.albums),
       searchText: ''
     });
   }
 
   createAlbum() {
-    this.props.history.push('/new')
+    this.props.history.push('/new');
   }
 
   getValidationState() {
@@ -67,7 +67,7 @@ class Admin extends Component {
   render() {
     const albumRows = this.state.filteredData.map((data) => {
       return (
-        <tr key={uuidV1()}>
+        <tr key={data._id}>
           <td>{data.artist}</td>
           <td>{data.album}</td>
           <td>{data.cd.toString()}</td>

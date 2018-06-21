@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import uuidV1 from 'uuid/v1';
 import {
   Button,
   Col,
@@ -18,7 +17,8 @@ import {
   localStorageTest,
   getHistory,
   saveToHistory,
-  removeFromHistory
+  removeFromHistory,
+  formatData
 } from '../utilities';
 
 let currentHistory;
@@ -33,7 +33,7 @@ class Collection extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      filteredData: this.props.albums.slice(0, 49),
+      filteredData: formatData(props.albums),
       searchText: '',
       randomIndex: 0,
       saved: currentHistory,
@@ -47,7 +47,7 @@ class Collection extends Component {
   
   componentWillReceiveProps(nextProps) {
     this.setState({
-      filteredData: nextProps.albums.slice(0, 49)
+      filteredData: formatData(nextProps.albums)
     });
   }
 
@@ -75,33 +75,34 @@ class Collection extends Component {
   }
 
   getRandom() {
+    const { albums } = this.props;
     const min = 0;
-    const max = this.props.albums.length - 1;
+    const max = albums.length - 1;
     const randomIndex = Math.floor(Math.random() * (max - min + 1)) + min;
 
     this.setState({
       randomIndex,
-      filteredData: [this.props.albums[randomIndex]]
+      filteredData: [albums[randomIndex]]
     });
   }
 
   seeAll() {
     this.setState({
-      filteredData: this.props.albums.slice(0, 49),
+      filteredData: formatData(this.props.albums),
       searchText: '',
       randomIndex: 0,
     });
   }
 
   saveAlbum(e) {
-    const id = uuidV1();
+    const { saved } = this.state;
+
+    const { id } = e.currentTarget;
     const childCells = e.currentTarget.getElementsByTagName('td');
     const artist = childCells[0].innerText;
     const album = childCells[1].innerText;
 
-    const found = this.state.saved.some((item) => {
-      return item.album === album;
-    });
+    const found = saved.some(item => item.id === id);
 
     if (found) {
       console.log('album exists');
@@ -114,7 +115,7 @@ class Collection extends Component {
 
       this.setState({
         saved: [
-          ...this.state.saved,
+          ...saved,
           newAlbum,
         ]
       });
@@ -142,7 +143,7 @@ class Collection extends Component {
   render() {
     const albumRows = this.state.filteredData.map((data) => {
       return (
-        <tr key={uuidV1()} onClick={this.saveAlbum}>
+        <tr key={data._id} id={data._id} onClick={this.saveAlbum}>
           <td>{data.artist}</td>
           <td>{data.album}</td>
           <td><Glyphicon glyph="star-empty" className="pull-right star" /></td>
@@ -178,15 +179,15 @@ class Collection extends Component {
                 controlId="formBasicText"
                 validationState={this.getValidationState()}
               >
-                  <FormControl
-                    type="text"
-                    value={this.state.searchText}
-                    placeholder="Search"
-                    onChange={this.handleChange}
-                  />
-                  <FormControl.Feedback />
-                  <Button onClick={this.getRandom}>Random</Button>
-                  <Button onClick={this.seeAll}>See All</Button>
+                <FormControl
+                  type="text"
+                  value={this.state.searchText}
+                  placeholder="Search"
+                  onChange={this.handleChange}
+                />
+                <FormControl.Feedback />
+                <Button onClick={this.getRandom}>Random</Button>
+                <Button onClick={this.seeAll}>See All</Button>
               </FormGroup>
             </Form>
 

@@ -1,4 +1,10 @@
 export default {
   posts: [],
-  albums: []
+  albums: [],
+  album: {},
+  alert: {
+    isOpen: false,
+    type: 'success',
+    message: ''
+  }
 };

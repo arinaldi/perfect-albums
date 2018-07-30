@@ -4,7 +4,8 @@ import Admin from '../components/Admin';
 
 function mapStateToProps(state) {
   return {
-    albums: state.albums
+    albums: state.albums,
+    alert: state.alert
   };
 }
 

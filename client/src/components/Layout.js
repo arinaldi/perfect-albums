@@ -9,7 +9,8 @@ import CollectionContainer from '../containers/CollectionContainer';
 import AdminContainer from '../containers/AdminContainer';
 import NewAlbumContainer from '../containers/NewAlbumContainer';
 import EditAlbumContainer from '../containers/EditAlbumContainer';
-import DeleteAlbumContainer from '../containers/DeleteAlbumContainer'
+import DeleteAlbumContainer from '../containers/DeleteAlbumContainer';
+import AppAlertContainer from '../containers/AppAlertContainer';
 import SignIn from '../components/SignIn';
 
 const Layout = (props) => {
@@ -24,7 +25,7 @@ const Layout = (props) => {
           onSignOut={props.onSignOut}
           showAuthItems={props.showAuthItems}
         />
-
+        <AppAlertContainer />
         <Route exact path="/" component={Home} />
         <Route path="/albums" component={Albums} />
         <Route path="/songs" component={Songs} />

@@ -12,6 +12,20 @@ import {
 } from 'react-bootstrap';
 import { formatData } from '../utilities';
 
+const AlbumRow = ({ data }) => (
+  <tr>
+    <td>{data.artist}</td>
+    <td>{data.album}</td>
+    <td>{data.cd.toString()}</td>
+    <td>{data.aotd.toString()}</td>
+    <td>
+      <Link to={`/edit/${data._id}`}>Edit</Link>
+      &nbsp;|&nbsp;
+      <Link to={`/delete/${data._id}`}>Delete</Link>
+    </td>
+  </tr>
+);
+
 class Admin extends Component {
   constructor(props) {
     super(props);
@@ -65,21 +79,7 @@ class Admin extends Component {
   }
 
   render() {
-    const albumRows = this.state.filteredData.map((data) => {
-      return (
-        <tr key={data._id}>
-          <td>{data.artist}</td>
-          <td>{data.album}</td>
-          <td>{data.cd.toString()}</td>
-          <td>{data.aotd.toString()}</td>
-          <td>
-            <Link to={`/edit/${data._id}`}>Edit</Link>
-            &nbsp;|&nbsp;
-            <Link to={`/delete/${data._id}`}>Delete</Link>
-          </td>
-        </tr>
-      );
-    });
+    const { filteredData } = this.state;
 
     return (
       <Grid>
@@ -113,7 +113,7 @@ class Admin extends Component {
                 </tr>
               </thead>
               <tbody>
-                {albumRows}
+                { filteredData.map(data => <AlbumRow key={data._id} data={data} />)}
               </tbody>
             </Table>
           </Col>

@@ -21,10 +21,25 @@ function album(state = [], action) {
   return state;
 }
 
+function alert(state = { isOpen: false, type: 'success', message: '' }, action) {
+  if (action.type === 'SHOW_ALERT') {
+    const { isOpen, type, message } = action.value; 
+    return { isOpen, type, message };
+  }
+
+  if (action.type === 'HIDE_ALERT') {
+    const { isOpen, type, message } = action.value; 
+    return { isOpen, type, message };
+  }
+  
+  return state;
+}
+
 const rootReducer = combineReducers({
   posts,
   albums,
-  album
+  album,
+  alert
 });
 
 export default rootReducer;

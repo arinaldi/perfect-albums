@@ -12,6 +12,8 @@ import {
   Button,
   Radio
 } from 'react-bootstrap';
+import Loader from './Loader';
+import ErrorMessage from './ErrorMessage';
 
 class EditAlbum extends Component {
 
@@ -24,7 +26,6 @@ class EditAlbum extends Component {
       aotd: false,
       fireRedirect: false
     };
-
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
   }
@@ -50,15 +51,17 @@ class EditAlbum extends Component {
   }
 
   handleSubmit(e) {
+    e.preventDefault();
     const { id } = this.props.match.params;
     const { artist, album, cd, aotd } = this.state;
-    e.preventDefault();
+
     this.props.editAlbum(id, { artist, album, cd, aotd });
     this.setState({ fireRedirect: true });
   }
 
   renderForm() {
     const { artist, album, cd, aotd } = this.state;
+    
     return (
       <Form
         horizontal
@@ -157,6 +160,11 @@ class EditAlbum extends Component {
   }
 
   render() {
+    const { status } = this.props;
+
+    if (status.isFetching) return <Loader />;
+    if (status.isError) return <ErrorMessage />;
+
     return (
       <Grid>
         <h3>Edit Album</h3>

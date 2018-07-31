@@ -2,13 +2,35 @@ const ALERT_TIMEOUT = 2000;
 const ERROR_GENERIC = 'Something went wrong';
 const ALBUM_PREFIX = 'Album successfully';
 
+function startFetch() {
+  return {
+    type: 'START_FETCH'
+  };
+}
+
+function endFetch() {
+  return {
+    type: 'END_FETCH'
+  };
+}
+
+function showError() {
+  return {
+    type: 'SHOW_ERROR'
+  };
+}
+
 export function loadInsta() {
   return function (dispatch) {
+    dispatch(startFetch());
     fetch('/instagram')
-    .then( (response) => {
-      return response.json();
-    }).then((res) => {
+    .then(res => res.json())
+    .then(res => {
       dispatch(instaLoaded(res.data));
+      dispatch(endFetch());
+    })
+    .catch(() => {
+      dispatch(showError());
     });
   };
 }
@@ -22,11 +44,15 @@ function instaLoaded(data) {
 
 export function loadAlbums() {
   return function (dispatch) {
+    dispatch(startFetch());
     fetch('/albums')
-    .then( (response) => {
-      return response.json();
-    }).then((items) => {
+    .then(res => res.json())
+    .then((items) => {
       dispatch(albumsLoaded(items));
+      dispatch(endFetch());
+    })
+    .catch(() => {
+      dispatch(showError());
     });
   };
 }
@@ -40,10 +66,15 @@ function albumsLoaded(items) {
 
 export function getAlbum(id) {
   return function (dispatch) {
+    dispatch(startFetch());
     fetch(`/albums/${id}`)
       .then(res => res.json())
-      .then((item) => {
+      .then(item => {
         dispatch(getAlbumDone(item));
+        dispatch(endFetch());
+      })
+      .catch(() => {
+        dispatch(showError());
       });
   };
 }

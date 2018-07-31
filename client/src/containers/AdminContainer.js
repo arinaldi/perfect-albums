@@ -2,10 +2,11 @@ import { connect } from 'react-redux';
 import { loadAlbums } from '../actions';
 import Admin from '../components/Admin';
 
-function mapStateToProps(state) {
+function mapStateToProps({ albums, alert, status }) {
   return {
-    albums: state.albums,
-    alert: state.alert
+    albums,
+    alert,
+    status
   };
 }
 

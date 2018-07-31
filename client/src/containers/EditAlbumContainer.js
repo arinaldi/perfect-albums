@@ -2,9 +2,10 @@ import { connect } from "react-redux";
 import EditAlbum from "../components/EditAlbum";
 import { getAlbum, editAlbum } from "../actions";
 
-function mapStateToProps(state) {
+function mapStateToProps({ album, status }) {
   return {
-    album: state.album
+    album,
+    status
   };
 }
 

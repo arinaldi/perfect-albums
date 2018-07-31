@@ -12,7 +12,6 @@ import {
   Row,
   Table
 } from 'react-bootstrap';
-// import collection from '../data/collection';
 import {
   localStorageTest,
   getHistory,
@@ -20,6 +19,8 @@ import {
   removeFromHistory,
   formatData
 } from '../utilities';
+import Loader from './Loader';
+import ErrorMessage from './ErrorMessage';
 
 let currentHistory;
 
@@ -43,6 +44,10 @@ class Collection extends Component {
     this.seeAll = this.seeAll.bind(this);
     this.saveAlbum = this.saveAlbum.bind(this);
     this.removeAlbum = this.removeAlbum.bind(this);
+  }
+
+  componentDidMount() {
+    this.props.loadAlbums();
   }
   
   componentWillReceiveProps(nextProps) {
@@ -141,6 +146,11 @@ class Collection extends Component {
   }
 
   render() {
+    const { status } = this.props;
+    
+    if (status.isFetching) return <Loader />;
+    if (status.isError) return <ErrorMessage />;
+
     const albumRows = this.state.filteredData.map((data) => {
       return (
         <tr key={data._id} id={data._id} onClick={this.saveAlbum}>

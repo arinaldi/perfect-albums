@@ -13,11 +13,6 @@ class App extends Component {
     this.handleSignOut = this.handleSignOut.bind(this);
   }
 
-  componentDidMount() {
-    this.props.loadInsta();
-    this.props.loadAlbums();
-  }
-
   handleSignIn(credentials) {
     const { username, password } = credentials;
     if (!username.trim() || !password.trim() ) {

@@ -9,6 +9,8 @@ import {
   FormGroup,
   Button,
 } from 'react-bootstrap';
+import Loader from './Loader';
+import ErrorMessage from './ErrorMessage';
 
 class DeleteAlbum extends Component {
 
@@ -20,13 +22,13 @@ class DeleteAlbum extends Component {
   }
 
   componentDidMount() {
-    const id = this.props.match.params.id;
+    const { id } = this.props.match.params;
     this.props.getAlbum(id);
   }
 
   renderForm() {
     const { artist, album } = this.props.album;
-    const id = this.props.match.params.id;
+    const { id } = this.props.match.params;
 
     return (
       <Form
@@ -58,6 +60,11 @@ class DeleteAlbum extends Component {
   }
 
   render() {
+    const { status } = this.props;
+
+    if (status.isFetching) return <Loader />;
+    if (status.isError) return <ErrorMessage />;
+    
     return (
       <Grid>
         <h3>Delete Album</h3>

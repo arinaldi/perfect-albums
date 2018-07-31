@@ -11,6 +11,8 @@ import {
   Table
 } from 'react-bootstrap';
 import { formatData } from '../utilities';
+import Loader from './Loader';
+import ErrorMessage from './ErrorMessage';
 
 const AlbumRow = ({ data }) => (
   <tr>
@@ -36,6 +38,10 @@ class Admin extends Component {
     this.handleChange = this.handleChange.bind(this);
     this.clearInput = this.clearInput.bind(this);
     this.createAlbum = this.createAlbum.bind(this);
+  }
+
+  componentDidMount() {
+    this.props.loadAlbums();
   }
 
   componentWillReceiveProps(nextProps) {
@@ -68,10 +74,10 @@ class Admin extends Component {
   }
 
   filterData(query) {
-    const filteredData = this.props.albums.filter((item) => {
-      return item.artist.toLowerCase().indexOf(query.toLowerCase()) >= 0 ||
-             item.album.toLowerCase().indexOf(query.toLowerCase()) >= 0;
-    });
+    const filteredData = this.props.albums.filter((item) => (
+      item.artist.toLowerCase().indexOf(query.toLowerCase()) >= 0 ||
+        item.album.toLowerCase().indexOf(query.toLowerCase()) >= 0
+    ));
 
     this.setState({
       filteredData
@@ -79,7 +85,11 @@ class Admin extends Component {
   }
 
   render() {
+    const { status } = this.props;
     const { filteredData } = this.state;
+
+    if (status.isFetching) return <Loader />;
+    if (status.isError) return <ErrorMessage />;
 
     return (
       <Grid>

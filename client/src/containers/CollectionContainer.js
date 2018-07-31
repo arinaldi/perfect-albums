@@ -2,9 +2,10 @@ import { connect } from 'react-redux';
 import { loadAlbums } from '../actions';
 import Collection from '../components/Collection';
 
-function mapStateToProps(state) {
+function mapStateToProps({ albums, status }) {
   return {
-    albums: state.albums
+    albums,
+    status
   };
 }
 

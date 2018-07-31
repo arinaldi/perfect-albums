@@ -1,10 +1,11 @@
-import { connect } from "react-redux";
-import DeleteAlbum from "../components/DeleteAlbum";
-import { getAlbum, deleteAlbum } from "../actions";
+import { connect } from 'react-redux';
+import DeleteAlbum from '../components/DeleteAlbum';
+import { getAlbum, deleteAlbum } from '../actions';
 
-function mapStateToProps(state) {
+function mapStateToProps({ album, status }) {
   return {
-    album: state.album
+    album,
+    status
   };
 }
 

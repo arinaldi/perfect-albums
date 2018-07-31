@@ -4,13 +4,12 @@ import TopNavbar from './TopNavbar';
 import Home from './Home';
 import Albums from './Albums';
 import Songs from './Songs';
-import AotDContainer from '../containers/AotDContainer';
-import CollectionContainer from '../containers/CollectionContainer';
-import AdminContainer from '../containers/AdminContainer';
-import NewAlbumContainer from '../containers/NewAlbumContainer';
-import EditAlbumContainer from '../containers/EditAlbumContainer';
-import DeleteAlbumContainer from '../containers/DeleteAlbumContainer';
-import AppAlertContainer from '../containers/AppAlertContainer';
+import AotD from '../containers/AotD';
+import Collection from '../containers/Collection';
+import Admin from '../containers/Admin';
+import Album from '../containers/Album';
+import DeleteAlbum from '../containers/DeleteAlbum';
+import AppAlert from '../containers/AppAlert';
 import SignIn from '../components/SignIn';
 
 const Layout = (props) => {
@@ -25,20 +24,20 @@ const Layout = (props) => {
           onSignOut={props.onSignOut}
           showAuthItems={props.showAuthItems}
         />
-        <AppAlertContainer />
+        <AppAlert />
         <Route exact path="/" component={Home} />
         <Route path="/albums" component={Albums} />
         <Route path="/songs" component={Songs} />
-        <Route path="/aotd" component={AotDContainer} />
-        <Route path="/collection" component={CollectionContainer} />
+        <Route path="/aotd" component={AotD} />
+        <Route path="/collection" component={Collection} />
         <Route path="/admin" render={props => (
           showAuthItems ?
-            <AdminContainer /> :
+            <Admin /> :
               <Redirect to="/" />
         )} />
-        <Route path="/new" component={NewAlbumContainer} />
-        <Route path="/edit/:id" component={EditAlbumContainer} />
-        <Route path="/delete/:id" component={DeleteAlbumContainer} />
+        <Route path="/new" component={Album} />
+        <Route path="/edit/:id" component={Album} />
+        <Route path="/delete/:id" component={DeleteAlbum} />
         <Route path="/signin" render={props => (
           !showAuthItems ?
             <SignIn {...props} onSignIn={signIn} error={error} /> :

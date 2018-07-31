@@ -15,7 +15,7 @@ import {
 import Loader from './Loader';
 import ErrorMessage from './ErrorMessage';
 
-class EditAlbum extends Component {
+class Album extends Component {
 
   constructor() {
     super();
@@ -24,6 +24,7 @@ class EditAlbum extends Component {
       album: '',
       cd: false,
       aotd: false,
+      isEditMode: false,
       fireRedirect: false
     };
     this.handleChange = this.handleChange.bind(this);
@@ -31,18 +32,29 @@ class EditAlbum extends Component {
   }
 
   componentDidMount() {
-    const { id } = this.props.match.params;
-    this.props.getAlbum(id);
+    const { match } = this.props;
+    const { id } = match.params;
+    const { path } = match;
+    const isEditMode = path.includes('edit');
+
+    if (isEditMode) {
+      this.props.getAlbum(id);
+      this.setState({ isEditMode });
+    }
   }
 
   componentWillReceiveProps(nextProps) {
-    const { artist, album, cd, aotd } = nextProps.album;
-    this.setState({
-      artist,
-      album,
-      cd,
-      aotd
-    });
+    const { isEditMode } = this.state;
+
+    if (isEditMode) {
+      const { artist, album, cd, aotd } = nextProps.album;
+      this.setState({
+        artist,
+        album,
+        cd,
+        aotd
+      });
+    }
   }
 
   handleChange({ target: { name, value } }) {
@@ -52,10 +64,16 @@ class EditAlbum extends Component {
 
   handleSubmit(e) {
     e.preventDefault();
-    const { id } = this.props.match.params;
-    const { artist, album, cd, aotd } = this.state;
+    const { createAlbum, editAlbum } = this.props;
+    const { artist, album, cd, aotd, isEditMode } = this.state;
 
-    this.props.editAlbum(id, { artist, album, cd, aotd });
+    if (isEditMode) {
+      const { id } = this.props.match.params;
+      editAlbum(id, { artist, album, cd, aotd });
+    } else {
+      createAlbum({ artist, album, cd, aotd });
+    }
+
     this.setState({ fireRedirect: true });
   }
 
@@ -161,13 +179,15 @@ class EditAlbum extends Component {
 
   render() {
     const { status } = this.props;
+    const { isEditMode } = this.state;
+    const title = isEditMode ? 'Edit' : 'Create';
 
     if (status.isFetching) return <Loader />;
     if (status.isError) return <ErrorMessage />;
 
     return (
       <Grid>
-        <h3>Edit Album</h3>
+        <h3>{`${title} Album`}</h3>
         <Row className="show-grid">
           <Col xs={12}>
             { this.renderForm() }
@@ -181,4 +201,4 @@ class EditAlbum extends Component {
     );
   }
 }
-export default EditAlbum;
+export default Album;

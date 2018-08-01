@@ -1,4 +1,4 @@
-import mongoose from "mongoose";
+import mongoose from 'mongoose';
 
 const schema = new mongoose.Schema({
   artist: {
@@ -19,4 +19,4 @@ const schema = new mongoose.Schema({
   }
 });
 
-export default mongoose.model("Album", schema);
+export default mongoose.model('Album', schema);

@@ -1,4 +1,4 @@
-export function localStorageTest() {
+export const localStorageTest = () => {
   try {
     localStorage.setItem('test', 'test');
     localStorage.removeItem('test');
@@ -6,27 +6,28 @@ export function localStorageTest() {
   } catch (error) {
     return false;
   }
-}
+};
 
-export function getHistory() {
+export const getHistory = () => {
   const history = localStorage.getItem('perfectAlbums');
+  
   if (history) {
     return JSON.parse(history);
   }
   localStorage.setItem('perfectAlbums', '');
+  
   return [];
-}
+};
 
-export function saveToHistory(newAlbum) {
+export const saveToHistory = (newAlbum) => {
   const currentHistory = getHistory();
   const newHistory = [...currentHistory];
 
   newHistory.push(newAlbum);
-
   localStorage.setItem('perfectAlbums', JSON.stringify(newHistory));
-}
+};
 
-export function removeFromHistory(index) {
+export const removeFromHistory = (index) => {
   const currentHistory = getHistory();
   let newHistory = [...currentHistory];
 
@@ -34,17 +35,16 @@ export function removeFromHistory(index) {
     ...newHistory.slice(0, index),
     ...newHistory.slice(index + 1)
   ];
-
   localStorage.setItem('perfectAlbums', JSON.stringify(newHistory));
-}
+};
 
-function sortByAlbum(a, b) {
+const sortByAlbum = (a, b) => {
   if (a.artist < b.artist) return -1;
   if (a.artist > b.artist) return 1;
   if (a.album.toLowerCase() < b.album.toLowerCase()) return -1;
   if (a.album.toLowerCase() > b.album.toLowerCase()) return 1;
   return 0;
-}
+};
 
 export const formatData = (data) => (
   data

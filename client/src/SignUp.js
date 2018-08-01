@@ -5,72 +5,72 @@ import { FormGroup, ControlLabel, FormControl, Button } from 'react-bootstrap';
 class SignUp extends Component {
   constructor() {
     super();
-
     this.state = {
       username: '',
       password: '',
       confirmPassword: '',
-    }
+    };
+    this.handleChange = this.handleChange.bind(this);
+    this.handleSubmit = this.handleSubmit.bind(this);
   }
 
-  handleSubmit(event) {
-    event.preventDefault();
+  handleChange(e) {
+    const { name, value } = e.target;
+    this.setState({ [name]: value });
+  }
+
+  handleSubmit(e) {
+    e.preventDefault();
+    const { username, password, confirmPassword } = this.state;
 
     this.props.onSignUp({
-      username: this.state.username,
-      password: this.state.password,
-      confirmPassword: this.state.confirmPassword
+      username,
+      password,
+      confirmPassword
     });
   }
 
-  handleChange(event) {
-    const { name, value } = event.target;
-
-    this.setState(prev => ({
-      ...prev,
-      [name]: value
-    }));
-  }
-
   render() {
+    const { username, password, confirmPassword } = this.state;
+
     return (
-      <form onSubmit={this.handleSubmit.bind(this)}>
+      <form onSubmit={this.handleSubmit}>
         <FormGroup>
           <ControlLabel>Username</ControlLabel>
           <FormControl
             type="email"
             name="username"
-            onChange={event => this.handleChange(event)}
+            onChange={this.handleChange}
             placeholder="Enter Username"
-            value={this.state.username}
+            value={username}
           />
         </FormGroup>
-
         <FormGroup>
           <ControlLabel>Password</ControlLabel>
           <FormControl
             type="password"
             name="password"
-            onChange={event => this.handleChange(event)}
+            onChange={this.handleChange}
             placeholder="Enter Password"
-            value={this.state.password}
+            value={password}
           />
         </FormGroup>
-
         <FormGroup>
           <ControlLabel>Confirm Password</ControlLabel>
           <FormControl
             type="password"
             name="confirmPassword"
-            onChange={event => this.handleChange(event)}
+            onChange={this.handleChange}
             placeholder="Confirm Password"
-            value={this.state.confirmPassword}
+            value={confirmPassword}
           />
         </FormGroup>
-
-        <Button type="submit">
+        <Button
+          type="submit"
+          disabled={!(username && password && confirmPassword)}
+        >
          Sign Up
-       </Button>
+        </Button>
       </form>
     );
   }

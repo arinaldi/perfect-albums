@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Link, withRouter } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import {
   Button,
   Col,
@@ -123,7 +123,7 @@ class Admin extends Component {
                 </tr>
               </thead>
               <tbody>
-                { filteredData.map(data => <AlbumRow key={data._id} data={data} />)}
+                { filteredData.map(data => <AlbumRow key={data._id} data={data} />) }
               </tbody>
             </Table>
           </Col>
@@ -133,4 +133,4 @@ class Admin extends Component {
   }
 }
 
-export default withRouter(Admin);
+export default Admin;

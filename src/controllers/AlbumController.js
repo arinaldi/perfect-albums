@@ -1,20 +1,20 @@
 import AlbumModel from '../models/AlbumModel';
 
-export function list(req, res) {
-  AlbumModel.find({}).exec()
-    .then(albums => {
-      return res.json(albums);
-    });
-}
+export const list = (req, res) => {
+  AlbumModel
+    .find({})
+    .exec()
+    .then(albums => res.json(albums));
+};
 
-export function show(req, res) {
-  AlbumModel.findById(req.params.id).exec()
-    .then(item => {
-      return res.json(item);
-    });
-}
+export const show = (req, res) => {
+  AlbumModel
+    .findById(req.params.id)
+    .exec()
+    .then(item => res.json(item));
+};
 
-export function create(req, res) {
+export const create = (req, res) => {
   const { artist, album, cd, aotd } = req.body;
   const item = new AlbumModel({
     artist,
@@ -22,13 +22,13 @@ export function create(req, res) {
     cd,
     aotd
   });
-  item.save()
-    .then(newAlbum => {
-      return res.json(newAlbum);
-    });
-}
 
-export function edit(req, res) {
+  item
+    .save()
+    .then(newAlbum => res.json(newAlbum));
+};
+
+export const edit = (req, res) => {
   const { artist, album, cd, aotd } = req.body;
   const updatedAlbum = {
     artist,
@@ -43,9 +43,9 @@ export function edit(req, res) {
     };
     res.send(response);
   });
-}
+};
 
-export function remove(req, res) {
+export const remove = (req, res) => {
   AlbumModel.findByIdAndRemove(req.params.id, (err, item) => {
     const response = {
       message: 'Album successfully deleted',
@@ -53,4 +53,4 @@ export function remove(req, res) {
     };
     res.send(response);
   });
-}
+};

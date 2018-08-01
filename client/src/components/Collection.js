@@ -69,14 +69,12 @@ class Collection extends Component {
   }
 
   filterData(query) {
-    const filteredData = this.props.albums.filter((item) => {
-      return item.artist.toLowerCase().indexOf(query.toLowerCase()) >= 0 ||
-             item.album.toLowerCase().indexOf(query.toLowerCase()) >= 0;
-    });
+    const filteredData = this.props.albums.filter(item => (
+      item.artist.toLowerCase().indexOf(query.toLowerCase()) >= 0 ||
+        item.album.toLowerCase().indexOf(query.toLowerCase()) >= 0
+    ));
 
-    this.setState({
-      filteredData
-    });
+    this.setState({ filteredData });
   }
 
   getRandom() {
@@ -140,9 +138,7 @@ class Collection extends Component {
       ]
     });
 
-    // remove from LS
     removeFromHistory(index);
-
   }
 
   render() {
@@ -151,7 +147,7 @@ class Collection extends Component {
     if (status.isFetching) return <Loader />;
     if (status.isError) return <ErrorMessage />;
 
-    const albumRows = this.state.filteredData.map((data) => {
+    const albumRows = this.state.filteredData.map(data => {
       return (
         <tr key={data._id} id={data._id} onClick={this.saveAlbum}>
           <td>{data.artist}</td>
@@ -161,7 +157,7 @@ class Collection extends Component {
       );
     });
 
-    const savedItems = this.state.saved.map((item) => {
+    const savedItems = this.state.saved.map(item => {
       return (
         <ListGroupItem
           key={item.id}

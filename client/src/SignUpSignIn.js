@@ -4,12 +4,11 @@ import { Tabs, Tab, Row, Col, Alert } from 'react-bootstrap';
 import SignUp from './SignUp';
 
 class SignUpSignIn extends Component {
-
   renderError() {
     return (
-      <Alert bsStyle="danger">
-        <strong>{this.props.error}</strong>
-      </Alert>
+      <div className="alert-container">
+        <Alert bsClass="alert" bsStyle="danger">{this.props.error}</Alert>
+      </div>
     );
   }
 
@@ -28,7 +27,7 @@ class SignUpSignIn extends Component {
           </Tabs>
         </Col>
       </Row>
-    )
+    );
   }
 }
 

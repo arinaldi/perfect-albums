@@ -11,6 +11,7 @@ class App extends Component {
     };
     this.handleSignIn = this.handleSignIn.bind(this);
     this.handleSignOut = this.handleSignOut.bind(this);
+    this.clearError = this.clearError.bind(this);
   }
 
   handleSignIn(credentials) {
@@ -20,25 +21,26 @@ class App extends Component {
         error: 'Must provide all fields'
       });
     } else {
-
       fetch('/api/signin', {
         method: 'POST',
         headers: {'Content-Type': 'application/json'},
         body: JSON.stringify(credentials)
-      }).then((res) => {
+      }).then(res => {
         if (res.status === 401) {
           return this.setState({
             error: 'Invalid username or password'
           });
         }
         return res.json();
-      }).then((data) => {
-        const { token } = data;
-        localStorage.setItem('token', token);
-        this.setState({
-          error: '',
-          authenticated: token
-        });
+      }).then(data => {
+        if (data) {
+          const { token } = data;
+          localStorage.setItem('token', token);
+          this.setState({
+            error: '',
+            authenticated: token
+          });
+        }
       });
     }
   }
@@ -50,12 +52,17 @@ class App extends Component {
     });
   }
 
+  clearError() {
+    this.setState({ error: '' });
+  }
+
   render() {
     return (
       <div>
         <Layout
           onSignIn={this.handleSignIn}
           onSignOut={this.handleSignOut}
+          clearError={this.clearError}
           error={this.state.error}
           showAuthItems={this.state.authenticated}
         />

@@ -15,7 +15,11 @@ const AuthLinks = (props) => (
 );
 
 const MobileAdminLink = () => (
-  <li><Link to="/admin"><i className="fa fa-unlock-alt" aria-hidden="true" /></Link></li>
+  <li>
+    <Link to="/admin">
+      <i className="fa fa-unlock-alt" aria-hidden="true" />
+    </Link>
+  </li>
 );
 
 const MobileSignOutLink = (props) => (
@@ -35,83 +39,76 @@ const SignInLink = () => (
 );
 
 const MobileSignInLink = () => (
-  <li><Link to="/signin"><i className="fa fa-sign-in" aria-hidden="true" /></Link></li>
+  <li>
+    <Link to="/signin">
+      <i className="fa fa-sign-in" aria-hidden="true" />
+    </Link>
+  </li>
 );
 
-const TopNavbar = (props) => {
-  return (
-    <div>
-
-      <Navbar inverse id="navigation">
-        <Navbar.Header>
-          <Navbar.Brand>
+const TopNavbar = (props) => (
+  <div>
+    <Navbar inverse id="navigation">
+      <Navbar.Header>
+        <Navbar.Brand>
+          <Link to="/">
+            <i className="fa fa-home" aria-hidden="true" />
+            &nbsp;&nbsp;Perfect Albums&nbsp;&nbsp;
+          </Link>
+        </Navbar.Brand>
+      </Navbar.Header>
+      { props.showAuthItems && <AuthLinks {...props} /> }
+      <Nav pullRight>
+        <LinkContainer to="/albums">
+          <NavItem eventKey={2}>Top Albums</NavItem>
+        </LinkContainer>
+        <LinkContainer to="/songs">
+          <NavItem eventKey={3}>Perfect Songs</NavItem>
+        </LinkContainer>
+        <LinkContainer to="/aotd">
+          <NavItem eventKey={4}>Album of the Day</NavItem>
+        </LinkContainer>
+        <LinkContainer to="/collection">
+          <NavItem eventKey={5}>My Collection</NavItem>
+        </LinkContainer>
+        { !props.showAuthItems && <SignInLink /> }
+      </Nav>
+    </Navbar>
+    <nav id="mobile-nav" className="navbar navbar-default navbar-static-top" >
+      <div id="mobile-container" className="container" style={{marginBottom: '10px'}}>
+        <ul className="nav navbar-nav navbar-right">
+          <li>
             <Link to="/">
               <i className="fa fa-home" aria-hidden="true" />
-              &nbsp;&nbsp;Perfect Albums&nbsp;&nbsp;
             </Link>
-          </Navbar.Brand>
-        </Navbar.Header>
-
-        { props.showAuthItems ? <AuthLinks {...props} /> : null }
-
-        <Nav pullRight>
-          <LinkContainer to="/albums">
-            <NavItem eventKey={2}>Top Albums</NavItem>
-          </LinkContainer>
-          <LinkContainer to="/songs">
-            <NavItem eventKey={3}>Perfect Songs</NavItem>
-          </LinkContainer>
-          <LinkContainer to="/aotd">
-            <NavItem eventKey={4}>Album of the Day</NavItem>
-          </LinkContainer>
-          <LinkContainer to="/collection">
-            <NavItem eventKey={5}>My Collection</NavItem>
-          </LinkContainer>
-
-          { props.showAuthItems ? null : <SignInLink /> }
-          
-        </Nav>
-      </Navbar>
-
-      <nav id="mobile-nav" className="navbar navbar-default navbar-static-top" >
-        <div id="mobile-container" className="container" style={{marginBottom: '10px'}}>
-          <ul className="nav navbar-nav navbar-right">
-            <li>
-              <Link to="/">
-                <i className="fa fa-home" aria-hidden="true" />
-              </Link>
-            </li>
-            <li>
-              <Link to="/albums">
-                <i className="fa fa-headphones" aria-hidden="true" />
-              </Link>
-            </li>
-            <li>
-              <Link to="/songs">
-                <i className="fa fa-music" aria-hidden="true" />
-              </Link>
-            </li>
-            <li>
-              <Link to="/aotd">
-                <i className="fa fa-instagram" aria-hidden="true" />
-              </Link>
-            </li>
-            <li>
-              <Link to="/collection">
-                <i className="fa fa-database" aria-hidden="true" />
-              </Link>
-            </li>
-
-            { props.showAuthItems ? null : <MobileSignInLink /> }
-            { props.showAuthItems ? <MobileAdminLink {...props} /> : null }
-            { props.showAuthItems ? <MobileSignOutLink {...props} /> : null }
-          
-          </ul>
-        </div>
-      </nav>
-
-    </div>
-  );
-};
+          </li>
+          <li>
+            <Link to="/albums">
+              <i className="fa fa-headphones" aria-hidden="true" />
+            </Link>
+          </li>
+          <li>
+            <Link to="/songs">
+              <i className="fa fa-music" aria-hidden="true" />
+            </Link>
+          </li>
+          <li>
+            <Link to="/aotd">
+              <i className="fa fa-instagram" aria-hidden="true" />
+            </Link>
+          </li>
+          <li>
+            <Link to="/collection">
+              <i className="fa fa-database" aria-hidden="true" />
+            </Link>
+          </li>
+          { !props.showAuthItems && <MobileSignInLink /> }
+          { props.showAuthItems && <MobileAdminLink {...props} /> }
+          { props.showAuthItems && <MobileSignOutLink {...props} /> }
+        </ul>
+      </div>
+    </nav>
+  </div>
+);
 
 export default TopNavbar;

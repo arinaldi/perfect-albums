@@ -16,7 +16,6 @@ import Loader from './Loader';
 import ErrorMessage from './ErrorMessage';
 
 class Album extends Component {
-
   constructor() {
     super();
     this.state = {
@@ -48,12 +47,7 @@ class Album extends Component {
 
     if (isEditMode) {
       const { artist, album, cd, aotd } = nextProps.album;
-      this.setState({
-        artist,
-        album,
-        cd,
-        aotd
-      });
+      this.setState({ artist, album, cd, aotd });
     }
   }
 
@@ -191,9 +185,7 @@ class Album extends Component {
         <Row className="show-grid">
           <Col xs={12}>
             { this.renderForm() }
-            {this.state.fireRedirect && (
-              <Redirect to={'/admin'} />
-            )}
+            { this.state.fireRedirect && <Redirect to={'/admin'} /> }
           </Col>
         </Row>
       </Grid>

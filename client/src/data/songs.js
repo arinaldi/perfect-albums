@@ -148,8 +148,8 @@ export default {
     "youtube": "https://www.youtube.com/watch?v=gGdGFtwCNBE"
   }, {
     "artist": "Lana Del Rey",
-    "song": "Video Games",
-    "youtube": "https://www.youtube.com/watch?v=cE6wxDqdOV0"
+    "song": "Blue Jeans",
+    "youtube": "https://www.youtube.com/watch?v=JRWox-i6aAk"
   }, {
     "artist": "Led Zeppelin",
     "song": "Over the Hills and Far Away",

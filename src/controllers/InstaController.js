@@ -1,15 +1,12 @@
-//require('dotenv').config();
 import axios from 'axios';
 
-const url = 'https://api.instagram.com/v1/users/self/media/recent?access_token=';
-const accessToken = process.env.INSTATOKEN;
+const URL = 'https://api.instagram.com/v1/users/self/media/recent?access_token=';
+const { INSTATOKEN } = process.env;
 
-export function list(req, res) {
-  axios.get(`${url}${accessToken}`)
-    .then(function (response) {
-      return res.json(response.data);
-    })
-    .catch(function (error) {
+export const list = (req, res) => {
+  axios.get(`${URL}${INSTATOKEN}`)
+    .then(response => res.json(response.data))
+    .catch(error => {
       console.log(error);
     });
-}
+};

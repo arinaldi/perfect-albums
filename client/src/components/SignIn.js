@@ -1,49 +1,70 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { Grid, Row, Col, FormGroup, ControlLabel, FormControl, Button, Alert } from 'react-bootstrap';
+import {
+  Grid,
+  Row,
+  Col,
+  FormGroup,
+  ControlLabel,
+  FormControl,
+  Button,
+  Alert
+} from 'react-bootstrap';
 
 class SignIn extends Component {
   constructor(props) {
     super(props);
-
     this.state = {
       username: '',
       password: ''
     };
+    this.handleChange = this.handleChange.bind(this);
+    this.handleSubmit = this.handleSubmit.bind(this);
   }
 
-  handleSubmit(event) {
-    event.preventDefault();
+  handleChange(e) {
+    const { clearError, error } = this.props;
+    const { name, value } = e.target;
+
+    this.setState({ [name]: value });
+    if (error) {
+      clearError();
+    }
+  }
+
+  handleSubmit(e) {
+    e.preventDefault();
+    const { username, password } = this.state;
+
     this.props.onSignIn({
-      username: this.state.username,
-      password: this.state.password
+      username,
+      password
     });
   }
 
   renderError() {
     return (
-      <Alert bsStyle="danger">
-        <strong>{this.props.error}</strong>
-      </Alert>
+      <div className="alert-container">
+        <Alert bsClass="alert" bsStyle="danger">{this.props.error}</Alert>
+      </div>
     );
   }
 
   render() {
+    const { username, password } = this.state;
+
     return (
       <Grid>
         <Row>
-          <Col xs={8} xsOffset={2}>
-            {this.props.error && this.renderError()}
-            <form onSubmit={this.handleSubmit.bind(this)}>
+          <Col xs={12} sm={8} smOffset={2} md={6} mdOffset={3} lg={4} lgOffset={4}>
+            <form onSubmit={this.handleSubmit}>
               <FormGroup>
                 <ControlLabel>Username</ControlLabel>
                 <FormControl
                   type="text"
                   name="username"
-                  onChange={e => {
-                    this.setState({[e.target.name]: e.target.value});
-                  }}
-                  value={this.state.username}
+                  onChange={this.handleChange}
+                  value={username}
                 />
               </FormGroup>
               <FormGroup>
@@ -51,17 +72,19 @@ class SignIn extends Component {
                 <FormControl
                   type="password"
                   name="password"
-                  onChange={e => {
-                    this.setState({[e.target.name]: e.target.value});
-                  }}
-                  value={this.state.password}
+                  onChange={this.handleChange}
+                  value={password}
                 />
               </FormGroup>
-              <Button type="submit">
+              <Button
+                type="submit"
+                disabled={!(username && password)}
+              >
                Sign In
               </Button>
             </form>
-            </Col>
+            { this.props.error && this.renderError() }
+          </Col>
         </Row>
       </Grid>
     );
@@ -70,6 +93,7 @@ class SignIn extends Component {
 
 SignIn.propTypes = {
   onSignIn: PropTypes.func.isRequired,
+  clearError: PropTypes.func.isRequired,
   error: PropTypes.string
 };
 

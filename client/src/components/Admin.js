@@ -8,11 +8,16 @@ import {
   FormControl,
   Grid,
   Row,
-  Table
+  Table,
+  ListGroup,
+  ListGroupItem
 } from 'react-bootstrap';
-import { formatData } from '../utilities';
+import { formatData, isMobileDevice } from '../utilities';
 import Loader from './Loader';
 import ErrorMessage from './ErrorMessage';
+
+const CHECK = '✔';
+const X = '✘';
 
 const AlbumRow = ({ data }) => (
   <tr>
@@ -84,9 +89,68 @@ class Admin extends Component {
     });
   }
 
+  renderCards() {
+    const { history } = this.props;
+    const { filteredData } = this.state;
+
+    return filteredData.map(data => (
+      <ListGroup key={data._id}>
+        <ListGroupItem
+          header={data.album}
+          style={{ backgroundColor: '#f5f5f5' }}
+        >
+          {data.artist}
+        </ListGroupItem>
+        <ListGroupItem style={{
+          display: 'flex',
+          justifyContent: 'space-between',
+          alignItems: 'center'
+        }}>
+          <div>
+            <span>{`CD: ${data.cd ? CHECK : X}`}</span>
+            <span style={{ marginLeft: 15 }}>{`AotD: ${data.aotd ? CHECK : X}`}</span>
+          </div>
+          <div>
+            <Button
+              onClick={() => history.push(`/edit/${data._id}`)}
+            >
+              Edit
+            </Button>
+            <Button
+              onClick={() => history.push(`/delete/${data._id}`)}
+              style={{ marginLeft: 5 }}
+            >
+              Delete
+            </Button>
+          </div>
+        </ListGroupItem>
+      </ListGroup>
+    ));
+  }
+
+  renderTable() {
+    const { filteredData } = this.state;
+
+    return (
+      <Table responsive striped hover className="songs">
+        <thead>
+          <tr>
+            <th>Artist</th>
+            <th>Album</th>
+            <th>CD</th>
+            <th>AotD</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          { filteredData.map(data => <AlbumRow key={data._id} data={data} />) }
+        </tbody>
+      </Table>
+    );
+  }
+
   render() {
     const { status } = this.props;
-    const { filteredData } = this.state;
 
     if (status.isFetching) return <Loader />;
     if (status.isError) return <ErrorMessage />;
@@ -108,24 +172,21 @@ class Admin extends Component {
                   onChange={this.handleChange}
                 />
                 <FormControl.Feedback />
-                <Button onClick={this.clearInput}>Clear</Button>
-                <Button onClick={this.createAlbum}>New</Button>
+                <Button
+                  onClick={this.clearInput}
+                  style={{ marginTop: 5, marginRight: 5 }}
+                >
+                  Clear
+                </Button>
+                <Button
+                  onClick={this.createAlbum}
+                  style={{ marginTop: 5 }}
+                >
+                  New
+                </Button>
               </FormGroup>
             </Form>
-            <Table responsive striped hover className="songs">
-              <thead>
-                <tr>
-                  <th>Artist</th>
-                  <th>Album</th>
-                  <th>CD</th>
-                  <th>AotD</th>
-                  <th>Actions</th>
-                </tr>
-              </thead>
-              <tbody>
-                { filteredData.map(data => <AlbumRow key={data._id} data={data} />) }
-              </tbody>
-            </Table>
+            { isMobileDevice() ? this.renderCards() : this.renderTable() }
           </Col>
         </Row>
       </Grid>

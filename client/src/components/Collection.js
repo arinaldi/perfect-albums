@@ -17,7 +17,8 @@ import {
   getHistory,
   saveToHistory,
   removeFromHistory,
-  formatData
+  formatData,
+  isMobileDevice
 } from '../utilities';
 import Loader from './Loader';
 import ErrorMessage from './ErrorMessage';
@@ -97,14 +98,8 @@ class Collection extends Component {
     });
   }
 
-  saveAlbum(e) {
+  saveAlbum(id, artist, album) {
     const { saved } = this.state;
-
-    const { id } = e.currentTarget;
-    const childCells = e.currentTarget.getElementsByTagName('td');
-    const artist = childCells[0].innerText;
-    const album = childCells[1].innerText;
-
     const found = saved.some(item => item.id === id);
 
     if (found) {
@@ -126,46 +121,92 @@ class Collection extends Component {
     }
   }
 
-  removeAlbum(e) {
-    const id = e.currentTarget.dataset.id;
-    const theObj = this.state.saved.find((item => item.id === id));
-    const index = this.state.saved.indexOf(theObj);
+  removeAlbum(id) {
+    const { saved } = this.state;
+    const album = saved.find((item => item.id === id));
+    const index = saved.indexOf(album);
 
     this.setState({
       saved: [
-        ...this.state.saved.slice(0, index),
-        ...this.state.saved.slice(index + 1)
+        ...saved.slice(0, index),
+        ...saved.slice(index + 1)
       ]
     });
 
     removeFromHistory(index);
   }
 
-  render() {
-    const { status } = this.props;
-    
-    if (status.isFetching) return <Loader />;
-    if (status.isError) return <ErrorMessage />;
+  renderCards() {
+    const { filteredData } = this.state;
 
-    const albumRows = this.state.filteredData.map(data => {
+    return filteredData.map(({ _id, artist, album }) => (
+      <ListGroupItem
+        key={_id}
+        onClick={() => {
+          this.saveAlbum(_id, artist, album);
+        }}
+        header={album}
+      >
+        {artist}
+        <Glyphicon
+          glyph="star-empty"
+          className="pull-right star"
+        />
+      </ListGroupItem>
+    ));
+  }
+
+  renderTable() {
+    const { filteredData } = this.state;
+
+    const albumRows = filteredData.map(({ _id, artist, album }) => {
       return (
-        <tr key={data._id} id={data._id} onClick={this.saveAlbum}>
-          <td>{data.artist}</td>
-          <td>{data.album}</td>
+        <tr
+          key={_id}
+          onClick={() => {
+            this.saveAlbum(_id, artist, album);
+          }}
+        >
+          <td>{artist}</td>
+          <td>{album}</td>
           <td><Glyphicon glyph="star-empty" className="pull-right star" /></td>
         </tr>
       );
     });
 
-    const savedItems = this.state.saved.map(item => {
+    return (
+      <Table responsive striped hover className="songs">
+        <thead>
+          <tr>
+            <th>Artist</th>
+            <th>Album</th>
+            <th />
+          </tr>
+        </thead>
+        <tbody>
+          {albumRows}
+        </tbody>
+      </Table>
+    );
+  }
+
+  render() {
+    const { status } = this.props;
+    const { saved } = this.state;
+    
+    if (status.isFetching) return <Loader />;
+    if (status.isError) return <ErrorMessage />;
+
+    const savedItems = saved.map(({ id, artist, album }) => {
       return (
         <ListGroupItem
-          key={item.id}
-          data-id={item.id}
-          onClick={this.removeAlbum}
-          header={item.album}
+          key={id}
+          onClick={() => {
+            this.removeAlbum(id);
+          }}
+          header={album}
         >
-          {item.artist}
+          {artist}
           <Glyphicon
             glyph="remove"
             className="pull-right x"
@@ -192,23 +233,21 @@ class Collection extends Component {
                   onChange={this.handleChange}
                 />
                 <FormControl.Feedback />
-                <Button onClick={this.getRandom}>Random</Button>
-                <Button onClick={this.seeAll}>See All</Button>
+                <Button
+                  onClick={this.getRandom}
+                  style={{ marginTop: 5, marginRight: 5 }}
+                >
+                  Random
+                </Button>
+                <Button
+                  onClick={this.seeAll}
+                  style={{ marginTop: 5 }}
+                >
+                  See All
+                </Button>
               </FormGroup>
             </Form>
-
-            <Table responsive striped hover className="songs">
-              <thead>
-                <tr>
-                  <th>Artist</th>
-                  <th>Album</th>
-                  <th />
-                </tr>
-              </thead>
-              <tbody>
-                {albumRows}
-              </tbody>
-            </Table>
+            { isMobileDevice() ? this.renderCards() : this.renderTable() }
           </Col>
 
           <Col xs={12} md={4}>

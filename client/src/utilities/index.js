@@ -51,3 +51,22 @@ export const formatData = (data) => (
     .sort(sortByAlbum)
     .slice(0, 50)
 );
+
+export const isMobileDevice = () => {
+  const { userAgent } = navigator;
+
+  if (userAgent.match(/Android/i) ||
+    userAgent.match(/webOS/i) ||
+    userAgent.match(/iPhone/i) ||
+    userAgent.match(/iPod/i) ||
+    userAgent.match(/BlackBerry/i) ||
+    userAgent.match(/Windows Phone/i) ||
+    userAgent.match(/SymbianOS/i) ||
+    userAgent.match(/RIM/i) ||
+    userAgent.match(/BB/i)
+  ) {
+    return true;
+  }
+
+  return false;
+};

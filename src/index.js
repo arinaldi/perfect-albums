@@ -13,7 +13,7 @@ mongoose.Promise = global.Promise;
 mongoose
   .connect(process.env.DATABASE)
   .then(() => console.log('[mongoose] Connected to MongoDB'))
-  .catch(() => console.log('[mongoose] Error connecting to MongoDB'));
+  .catch((err) => console.log('[mongoose] Error connecting to MongoDB', err));
 
 const app = express();
 

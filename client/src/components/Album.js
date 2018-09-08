@@ -14,6 +14,7 @@ import {
 } from 'react-bootstrap';
 import Loader from './Loader';
 import ErrorMessage from './ErrorMessage';
+import { getQuery } from '../utilities';
 
 class Album extends Component {
   constructor() {
@@ -24,22 +25,28 @@ class Album extends Component {
       cd: false,
       aotd: false,
       isEditMode: false,
-      fireRedirect: false
+      fireRedirect: false,
+      query: ''
     };
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
   }
 
   componentDidMount() {
-    const { match } = this.props;
+    const { match, location } = this.props;
     const { id } = match.params;
     const { path } = match;
     const isEditMode = path.includes('edit');
+    let query = '';
 
     if (isEditMode) {
       this.props.getAlbum(id);
-      this.setState({ isEditMode });
     }
+    if (location.search) {
+      query = getQuery(location.search);
+    }
+
+    this.setState({ isEditMode, query });
   }
 
   componentWillReceiveProps(nextProps) {
@@ -72,7 +79,7 @@ class Album extends Component {
   }
 
   renderForm() {
-    const { artist, album, cd, aotd } = this.state;
+    const { artist, album, cd, aotd, query } = this.state;
     
     return (
       <Form
@@ -161,7 +168,7 @@ class Album extends Component {
 
         <FormGroup>
           <Col smOffset={2} sm={10}>
-            <Link to="/admin">
+            <Link to={`/admin?${query}`}>
               <Button>Cancel</Button>
             </Link>&nbsp;&nbsp;
             <Button type="submit">Save</Button>
@@ -173,7 +180,7 @@ class Album extends Component {
 
   render() {
     const { status } = this.props;
-    const { isEditMode } = this.state;
+    const { isEditMode, fireRedirect, query } = this.state;
     const title = isEditMode ? 'Edit' : 'Create';
 
     if (status.isFetching) return <Loader />;
@@ -185,7 +192,7 @@ class Album extends Component {
         <Row className="show-grid">
           <Col xs={12}>
             { this.renderForm() }
-            { this.state.fireRedirect && <Redirect to={'/admin'} /> }
+            { fireRedirect && <Redirect to={`/admin?${query}`} /> }
           </Col>
         </Row>
       </Grid>

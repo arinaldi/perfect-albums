@@ -12,23 +12,23 @@ import {
   ListGroup,
   ListGroupItem
 } from 'react-bootstrap';
-import { formatData, isMobileDevice } from '../utilities';
+import { formatData, filterData, isMobileDevice, getQuery } from '../utilities';
 import Loader from './Loader';
 import ErrorMessage from './ErrorMessage';
 
 const CHECK = '✔';
 const X = '✘';
 
-const AlbumRow = ({ data }) => (
+const AlbumRow = ({ data, searchText }) => (
   <tr>
     <td>{data.artist}</td>
     <td>{data.album}</td>
     <td>{data.cd.toString()}</td>
     <td>{data.aotd.toString()}</td>
     <td>
-      <Link to={`/edit/${data._id}`}>Edit</Link>
+      <Link to={`/edit/${data._id}?${searchText}`}>Edit</Link>
       &nbsp;|&nbsp;
-      <Link to={`/delete/${data._id}`}>Delete</Link>
+      <Link to={`/delete/${data._id}?${searchText}`}>Delete</Link>
     </td>
   </tr>
 );
@@ -46,13 +46,30 @@ class Admin extends Component {
   }
 
   componentDidMount() {
-    this.props.loadAlbums();
+    const { loadAlbums, location } = this.props;
+    let { searchText } = this.state;
+
+    if (location.search) {
+      searchText = getQuery(location.search);
+    }
+    
+    loadAlbums();
+    this.setState({ searchText });
   }
 
   componentWillReceiveProps(nextProps) {
-    this.setState({
-      filteredData: formatData(nextProps.albums)
-    });
+    const { albums, location } = nextProps;
+    let filteredData = [];
+
+    if (location.search) {
+      const query = getQuery(location.search);
+      filteredData = filterData(albums, query);
+      filteredData = formatData(filteredData);
+    } else {
+      filteredData = formatData(albums);
+    }
+
+    this.setState({ filteredData });
   }
 
   handleChange({ target: { value } }) {
@@ -68,7 +85,10 @@ class Admin extends Component {
   }
 
   createAlbum() {
-    this.props.history.push('/new');
+    const { history } = this.props;
+    const { searchText } = this.state;
+
+    history.push(`/new?${searchText}`);
   }
 
   getValidationState() {
@@ -79,19 +99,14 @@ class Admin extends Component {
   }
 
   filterData(query) {
-    const filteredData = this.props.albums.filter((item) => (
-      item.artist.toLowerCase().indexOf(query.toLowerCase()) >= 0 ||
-        item.album.toLowerCase().indexOf(query.toLowerCase()) >= 0
-    ));
+    const filteredData = filterData(this.props.albums, query);
 
-    this.setState({
-      filteredData
-    });
+    this.setState({ filteredData });
   }
 
   renderCards() {
     const { history } = this.props;
-    const { filteredData } = this.state;
+    const { filteredData, searchText } = this.state;
 
     return filteredData.map(data => (
       <ListGroup key={data._id}>
@@ -112,12 +127,12 @@ class Admin extends Component {
           </div>
           <div>
             <Button
-              onClick={() => history.push(`/edit/${data._id}`)}
+              onClick={() => history.push(`/edit/${data._id}?${searchText}`)}
             >
               Edit
             </Button>
             <Button
-              onClick={() => history.push(`/delete/${data._id}`)}
+              onClick={() => history.push(`/delete/${data._id}?${searchText}`)}
               style={{ marginLeft: 5 }}
             >
               Delete
@@ -129,7 +144,7 @@ class Admin extends Component {
   }
 
   renderTable() {
-    const { filteredData } = this.state;
+    const { filteredData, searchText } = this.state;
 
     return (
       <Table responsive striped hover className="songs">
@@ -143,7 +158,13 @@ class Admin extends Component {
           </tr>
         </thead>
         <tbody>
-          { filteredData.map(data => <AlbumRow key={data._id} data={data} />) }
+          { filteredData.map(data => (
+            <AlbumRow
+              key={data._id}
+              data={data}
+              searchText={searchText}
+            />
+          )) }
         </tbody>
       </Table>
     );

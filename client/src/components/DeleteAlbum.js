@@ -11,35 +11,48 @@ import {
 } from 'react-bootstrap';
 import Loader from './Loader';
 import ErrorMessage from './ErrorMessage';
+import { getQuery } from '../utilities';
 
 class DeleteAlbum extends Component {
 
   constructor() {
     super();
     this.state = {
-      fireRedirect: false
+      fireRedirect: false,
+      query: ''
     };
+
+    this.handleSubmit = this.handleSubmit.bind(this);
   }
 
   componentDidMount() {
-    const { id } = this.props.match.params;
-    this.props.getAlbum(id);
+    const { getAlbum, match, location } = this.props;
+    let query = '';
+
+    if (location.search) {
+      query = getQuery(location.search);
+    }
+
+    getAlbum(match.params.id);
+    this.setState({ query });
+  }
+
+  handleSubmit(e) {
+    e.preventDefault();
+    const { deleteAlbum, match } = this.props;
+
+    deleteAlbum(match.params.id);
+    this.setState({ fireRedirect: true });
   }
 
   renderForm() {
     const { artist, album } = this.props.album;
-    const { id } = this.props.match.params;
+    const { query } = this.state;
 
     return (
       <Form
         horizontal
-        onSubmit={(e) => {
-          e.preventDefault();
-          if (this.props.deleteAlbum) {
-            this.props.deleteAlbum(id);
-            this.setState({ fireRedirect: true });
-          }
-        }}
+        onSubmit={this.handleSubmit}
       >
         <FormGroup>
           <Col smOffset={2} sm={10}>
@@ -49,7 +62,7 @@ class DeleteAlbum extends Component {
 
         <FormGroup>
           <Col smOffset={2} sm={10}>
-            <Link to="/admin">
+            <Link to={`/admin?${query}`}>
               <Button>Cancel</Button>
             </Link>&nbsp;&nbsp;
             <Button type="submit">Delete</Button>
@@ -61,6 +74,7 @@ class DeleteAlbum extends Component {
 
   render() {
     const { status } = this.props;
+    const { query } = this.state;
 
     if (status.isFetching) return <Loader />;
     if (status.isError) return <ErrorMessage />;
@@ -72,7 +86,7 @@ class DeleteAlbum extends Component {
           <Col xs={12}>
             { this.renderForm() }
             {this.state.fireRedirect && (
-              <Redirect to={'/admin'} />
+              <Redirect to={`/admin?${query}`} />
             )}
           </Col>
         </Row>

@@ -52,6 +52,13 @@ export const formatData = (data) => (
     .slice(0, 50)
 );
 
+export const filterData = (data, query) => (
+  data.filter((item) => (
+    item.artist.toLowerCase().indexOf(query.toLowerCase()) >= 0 ||
+    item.album.toLowerCase().indexOf(query.toLowerCase()) >= 0
+  ))
+);
+
 export const isMobileDevice = () => {
   const { userAgent } = navigator;
 
@@ -70,3 +77,5 @@ export const isMobileDevice = () => {
 
   return false;
 };
+
+export const getQuery = (query) => decodeURI(query.substring(1));

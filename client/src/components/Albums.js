@@ -9,6 +9,7 @@ function Albums() {
         <Col xs={12} md={6} lg={4}>
           <h2>2018</h2>
           <ol>
+            <li>Hardcore Superstar &ndash; You Can't Kill My Rock 'n Roll</li>
             <li>Turbonegro &ndash; RockNRoll Machine</li>
           </ol>
         </Col>

@@ -1,6 +1,7 @@
 require('dotenv').config();
-import express from 'express';
 import path from 'path';
+import express from 'express';
+import cors from 'cors';
 import bodyParser from 'body-parser';
 import mongoose from 'mongoose';
 import passport from 'passport';
@@ -18,6 +19,7 @@ const app = express();
 
 app
   .use(express.static(path.resolve(__dirname, '../client/build')))
+  .use(cors())
   .use(bodyParser.json())
   .use(publicAlbumRoutes)
   .use(authenticationRoutes);

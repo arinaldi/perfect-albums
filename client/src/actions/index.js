@@ -14,11 +14,6 @@ const showError = () => ({
   type: 'SHOW_ERROR'
 });
 
-const instaLoaded = (data) => ({
-  type: 'INSTA_LOADED',
-  value: data
-});
-
 const albumsLoaded = (items) => ({
   type: 'ALBUMS_LOADED',
   value: items
@@ -47,25 +42,10 @@ const hideAlert = () => ({
   }
 });
 
-export const loadInsta = () => (
-  (dispatch) => {
-    dispatch(startFetch());
-    fetch('/instagram')
-      .then(res => res.json())
-      .then(res => {
-        dispatch(instaLoaded(res.data));
-        dispatch(endFetch());
-      })
-      .catch(() => {
-        dispatch(showError());
-      });
-  }
-);
-
 export const loadAlbums = () => (
   (dispatch) => {
     dispatch(startFetch());
-    fetch('/albums')
+    fetch('/api/albums')
       .then(res => res.json())
       .then((items) => {
         dispatch(albumsLoaded(items));
@@ -80,7 +60,7 @@ export const loadAlbums = () => (
 export const getAlbum = (id) => (
   (dispatch) => {
     dispatch(startFetch());
-    fetch(`/albums/${id}`)
+    fetch(`/api/albums/${id}`)
       .then(res => res.json())
       .then(item => {
         dispatch(getAlbumDone(item));
@@ -94,7 +74,7 @@ export const getAlbum = (id) => (
 
 export const createAlbum = (item) => (
   (dispatch) => {
-    fetch('/albums', {
+    fetch('/api/albums', {
       method: 'POST',
       headers: {'Content-Type': 'application/json'},
       body: JSON.stringify(item)
@@ -116,7 +96,7 @@ export const createAlbum = (item) => (
 
 export const editAlbum = (id, item) => (
   (dispatch) => {
-    fetch(`/albums/${id}`, {
+    fetch(`/api/albums/${id}`, {
       method: 'PUT',
       headers: {'Content-Type': 'application/json'},
       body: JSON.stringify(item)
@@ -139,7 +119,7 @@ export const editAlbum = (id, item) => (
 
 export const deleteAlbum = (id) => (
   (dispatch) => {
-    fetch(`/albums/${id}`, {
+    fetch(`/api/albums/${id}`, {
       method: 'DELETE',
       headers: {'Content-Type': 'application/json'}
     })

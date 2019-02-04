@@ -7,7 +7,6 @@ import passport from 'passport';
 import publicAlbumRoutes from './routes/publicAlbumRoutes';
 import privateAlbumRoutes from './routes/privateAlbumRoutes';
 import authenticationRoutes from './routes/AuthenticationRoutes';
-import instaRoutes from './routes/instaRoutes';
 
 mongoose.Promise = global.Promise;
 mongoose
@@ -21,8 +20,7 @@ app
   .use(express.static(path.resolve(__dirname, '../client/build')))
   .use(bodyParser.json())
   .use(publicAlbumRoutes)
-  .use(authenticationRoutes)
-  .use(instaRoutes);
+  .use(authenticationRoutes);
 
 app.get('*', (req, res) => {
   res.sendFile(path.resolve(__dirname, '../client/build', 'index.html'));

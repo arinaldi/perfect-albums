@@ -4,7 +4,6 @@ import TopNavbar from './TopNavbar';
 import Home from './Home';
 import Albums from './Albums';
 import Songs from './Songs';
-import AotD from '../containers/AotD';
 import Collection from '../containers/Collection';
 import Admin from '../containers/Admin';
 import Album from '../containers/Album';
@@ -23,7 +22,6 @@ const Layout = ({ onSignIn, onSignOut, clearError, error, showAuthItems }) => (
       <Route exact path="/" component={Home} />
       <Route path="/albums" component={Albums} />
       <Route path="/songs" component={Songs} />
-      <Route path="/aotd" component={AotD} />
       <Route path="/collection" component={Collection} />
       <Route path="/admin" render={props => (
         showAuthItems ?

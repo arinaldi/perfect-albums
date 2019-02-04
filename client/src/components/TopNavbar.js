@@ -65,11 +65,8 @@ const TopNavbar = (props) => (
         <LinkContainer to="/songs">
           <NavItem eventKey={3}>Perfect Songs</NavItem>
         </LinkContainer>
-        <LinkContainer to="/aotd">
-          <NavItem eventKey={4}>Album of the Day</NavItem>
-        </LinkContainer>
         <LinkContainer to="/collection">
-          <NavItem eventKey={5}>My Collection</NavItem>
+          <NavItem eventKey={4}>My Collection</NavItem>
         </LinkContainer>
         { !props.showAuthItems && <SignInLink /> }
       </Nav>
@@ -90,11 +87,6 @@ const TopNavbar = (props) => (
           <li>
             <Link to="/songs">
               <i className="fa fa-music" aria-hidden="true" />
-            </Link>
-          </li>
-          <li>
-            <Link to="/aotd">
-              <i className="fa fa-instagram" aria-hidden="true" />
             </Link>
           </li>
           <li>

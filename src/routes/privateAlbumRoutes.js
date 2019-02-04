@@ -3,8 +3,8 @@ import { create, edit, remove } from '../controllers/AlbumController';
 
 const router = express.Router();
 
-router.post('/albums', create);
-router.put('/albums/:id', edit);
-router.delete('/albums/:id', remove);
+router.post('/api/albums', create);
+router.put('/api/albums/:id', edit);
+router.delete('/api/albums/:id', remove);
 
 export default router;

@@ -3,7 +3,7 @@ import { list, show } from '../controllers/AlbumController';
 
 const router = express.Router();
 
-router.get('/albums', list);
-router.get('/albums/:id', show);
+router.get('/api/albums', list);
+router.get('/api/albums/:id', show);
 
 export default router;

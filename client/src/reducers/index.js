@@ -1,12 +1,5 @@
 import { combineReducers } from 'redux';
 
-const posts = (state = [], action) => {
-  if (action.type === 'INSTA_LOADED') {
-    return action.value;
-  }
-  return state;
-};
-
 const albums = (state = [], action) => {
   if (action.type === 'ALBUMS_LOADED') {
     return action.value;
@@ -22,7 +15,7 @@ const album = (state = {}, action) => {
 };
 
 const alert = (state = { isOpen: false, type: 'success', message: '' }, action) => {
-  if (action.type === 'SHOW_ALERT' || action.type === 'HIDE_ALERT') {
+  if (['SHOW_ALERT', 'HIDE_ALERT'].includes(action.type)) {
     return action.value;
   }
   return state;
@@ -51,7 +44,6 @@ const status = (state = { isFetching: false, isError: false }, action) => {
 };
 
 const rootReducer = combineReducers({
-  posts,
   albums,
   album,
   alert,

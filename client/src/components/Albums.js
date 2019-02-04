@@ -11,6 +11,12 @@ function Albums() {
           <ol>
             <li>Hardcore Superstar &ndash; You Can't Kill My Rock 'n Roll</li>
             <li>Turbonegro &ndash; RockNRoll Machine</li>
+            <li>Bleeding Through &ndash; Love Will Kill All</li>
+            <li>Escondido &ndash; Warning Bells</li>
+            <li>96 Bitter Beings &ndash; Camp Pain</li>
+            <li>MxPx &ndash; MxPx</li>
+            <li>Hank Von Hell &ndash; Egomania</li>
+            <li>The Ting Tings &ndash; Black Light</li>
           </ol>
         </Col>
         <Col xs={12} md={6} lg={4}>

@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import { Link } from 'react-router-dom';
 import {
   Button,
   Col,
@@ -15,23 +14,24 @@ import {
 import { formatData, filterData, isMobileDevice, getQuery } from '../utilities';
 import Loader from './Loader';
 import ErrorMessage from './ErrorMessage';
+import AlbumRow from './AlbumRow';
 
 const CHECK = '✔';
 const X = '✘';
 
-const AlbumRow = ({ data, searchText }) => (
-  <tr>
-    <td>{data.artist}</td>
-    <td>{data.album}</td>
-    <td>{data.cd.toString()}</td>
-    <td>{data.aotd.toString()}</td>
-    <td>
-      <Link to={`/edit/${data._id}?${searchText}`}>Edit</Link>
-      &nbsp;|&nbsp;
-      <Link to={`/delete/${data._id}?${searchText}`}>Delete</Link>
-    </td>
-  </tr>
-);
+// const AlbumRow = ({ data, searchText }) => (
+//   <tr>
+//     <td>{data.artist}</td>
+//     <td>{data.album}</td>
+//     <td>{data.cd.toString()}</td>
+//     <td>{data.aotd.toString()}</td>
+//     <td>
+//       <Link to={`/edit/${data._id}?${searchText}`}>Edit</Link>
+//       &nbsp;|&nbsp;
+//       <Link to={`/delete/${data._id}?${searchText}`}>Delete</Link>
+//     </td>
+//   </tr>
+// );
 
 class Admin extends Component {
   constructor(props) {

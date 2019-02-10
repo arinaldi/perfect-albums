@@ -1,5 +1,4 @@
 export default {
-  posts: [],
   albums: [],
   album: {},
   alert: {

@@ -1,20 +1,20 @@
-import AlbumModel from '../models/AlbumModel';
+const AlbumModel = require('../models/AlbumModel');
 
-export const list = (req, res) => {
+const list = (req, res) => {
   AlbumModel
     .find({})
     .exec()
     .then(albums => res.json(albums));
 };
 
-export const show = (req, res) => {
+const show = (req, res) => {
   AlbumModel
     .findById(req.params.id)
     .exec()
     .then(item => res.json(item));
 };
 
-export const create = (req, res) => {
+const create = (req, res) => {
   const { artist, album, cd, aotd } = req.body;
   const item = new AlbumModel({
     artist,
@@ -28,7 +28,7 @@ export const create = (req, res) => {
     .then(newAlbum => res.json(newAlbum));
 };
 
-export const edit = (req, res) => {
+const edit = (req, res) => {
   const { artist, album, cd, aotd } = req.body;
   const updatedAlbum = {
     artist,
@@ -45,7 +45,7 @@ export const edit = (req, res) => {
   });
 };
 
-export const remove = (req, res) => {
+const remove = (req, res) => {
   AlbumModel.findByIdAndRemove(req.params.id, (err, item) => {
     const response = {
       message: 'Album successfully deleted',
@@ -54,3 +54,5 @@ export const remove = (req, res) => {
     res.send(response);
   });
 };
+
+module.exports = { list, show, create, edit, remove };

@@ -1,14 +1,14 @@
 require('dotenv').config();
-import User from '../models/UserModel';
-import bcrypt from 'bcrypt-nodejs';
-import jwt from 'jwt-simple';
+const User = require('../models/UserModel');
+const bcrypt = require('bcrypt-nodejs');
+const jwt = require('jwt-simple');
 
 const getToken = (user) => {
   const timestamp = new Date().getTime();
   return jwt.encode({ userId: user.id, iat: timestamp }, process.env.SECRET);
 };
 
-export const signIn = (req, res) => {
+const signIn = (req, res) => {
   res.json({ token: getToken(req.user)});
 };
 
@@ -25,7 +25,7 @@ const saveUser = (username, password, res, next) => {
   });
 };
  
-export const signUp = (req, res, next) => {
+const signUp = (req, res, next) => {
   const { username, password } = req.body;
   
   if (!username || !password) {
@@ -46,3 +46,5 @@ export const signUp = (req, res, next) => {
     })
     .catch(err => next(err));
 };
+
+module.exports = { signIn, signUp };

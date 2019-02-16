@@ -1,21 +1,8 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import App from './App';
-import store from './store';
-import { Provider } from 'react-redux';
-
-const oldFetch = window.fetch;
-window.fetch = function fetch(url, settings) {
-  const headers = Object.assign(settings ? settings.headers : {},
-  {authorization: localStorage.getItem('token')});
-  settings = settings || {};
-  settings.headers = headers;
-  return oldFetch(url, settings);
-};
+import App from './containers/App';
 
 ReactDOM.render(
-  <Provider store={store}>
-    <App />
-  </Provider>,
+  <App />,
   document.getElementById('root')
 );

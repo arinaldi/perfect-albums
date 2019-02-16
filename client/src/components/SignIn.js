@@ -1,28 +1,21 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import {
-  Grid,
+  Container,
   Row,
   Col,
-  FormGroup,
-  ControlLabel,
-  FormControl,
+  Form,
   Button,
   Alert
 } from 'react-bootstrap';
 
 class SignIn extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      username: '',
-      password: ''
-    };
-    this.handleChange = this.handleChange.bind(this);
-    this.handleSubmit = this.handleSubmit.bind(this);
-  }
+  state = {
+    username: '',
+    password: ''
+  };
 
-  handleChange(e) {
+  handleChange = (e) => {
     const { clearError, error } = this.props;
     const { name, value } = e.target;
 
@@ -32,7 +25,7 @@ class SignIn extends Component {
     }
   }
 
-  handleSubmit(e) {
+  handleSubmit = (e) => {
     e.preventDefault();
     const { username, password } = this.state;
 
@@ -45,7 +38,7 @@ class SignIn extends Component {
   renderError() {
     return (
       <div className="alert-container">
-        <Alert bsClass="alert" bsStyle="danger">{this.props.error}</Alert>
+        <Alert variant="danger">{this.props.error}</Alert>
       </div>
     );
   }
@@ -54,29 +47,30 @@ class SignIn extends Component {
     const { username, password } = this.state;
 
     return (
-      <Grid>
-        <Row>
-          <Col xs={12} sm={8} smOffset={2} md={6} mdOffset={3} lg={4} lgOffset={4}>
+      <Container>
+        <Row className="justify-content-center">
+          <Col xs="12" sm="9" md="6">
             <form onSubmit={this.handleSubmit}>
-              <FormGroup>
-                <ControlLabel>Username</ControlLabel>
-                <FormControl
+              <Form.Group>
+                <Form.Label>Username</Form.Label>
+                <Form.Control
                   type="text"
                   name="username"
                   onChange={this.handleChange}
                   value={username}
                 />
-              </FormGroup>
-              <FormGroup>
-                <ControlLabel>Password</ControlLabel>
-                <FormControl
+              </Form.Group>
+              <Form.Group>
+                <Form.Label>Password</Form.Label>
+                <Form.Control
                   type="password"
                   name="password"
                   onChange={this.handleChange}
                   value={password}
                 />
-              </FormGroup>
+              </Form.Group>
               <Button
+                variant="outline-dark"
                 type="submit"
                 disabled={!(username && password)}
               >
@@ -86,7 +80,7 @@ class SignIn extends Component {
             { this.props.error && this.renderError() }
           </Col>
         </Row>
-      </Grid>
+      </Container>
     );
   }
 }

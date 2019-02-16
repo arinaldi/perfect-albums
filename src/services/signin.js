@@ -1,8 +1,8 @@
-import bcrypt from 'bcrypt-nodejs';
-import User from '../models/UserModel';
-import LocalStrategy from 'passport-local';
+const bcrypt = require('bcrypt-nodejs');
+const User = require('../models/UserModel');
+const LocalStrategy = require('passport-local');
 
-export default new LocalStrategy((username, password, done) => {
+const localStrategy = new LocalStrategy((username, password, done) => {
   User
     .findOne({ username })
     .exec()
@@ -18,3 +18,5 @@ export default new LocalStrategy((username, password, done) => {
     })
     .catch(err => done(err, false));
 });
+
+module.exports = localStrategy;

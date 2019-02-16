@@ -6,7 +6,7 @@ const AppAlert = ({ alert }) => {
 
   return (
     <div className={`alert-container ${alertClass}`}>
-      <Alert bsClass="alert" bsStyle={alert.type}>{alert.message}</Alert>
+      <Alert variant={alert.type}>{alert.message}</Alert>
     </div>
   );
 };

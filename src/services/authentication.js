@@ -1,15 +1,12 @@
-import User from '../models/UserModel';
-import {
-  Strategy as JwtStrategy,
-  ExtractJwt
-} from 'passport-jwt';
+const User = require('../models/UserModel');
+const { Strategy, ExtractJwt } = require('passport-jwt');
 
 const jwtOptions = {
   secretOrKey: process.env.SECRET,
   jwtFromRequest: ExtractJwt.fromHeader('authorization')
 };
 
-export default new JwtStrategy(jwtOptions, (payload, done) => {
+const strategy = new Strategy(jwtOptions, (payload, done) => {
   User.findById(payload.userId, (err, user) => {
     if (err) return done(err, false);
     if (user) {
@@ -19,3 +16,5 @@ export default new JwtStrategy(jwtOptions, (payload, done) => {
     }
   });
 });
+
+module.exports = strategy;

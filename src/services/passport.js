@@ -1,6 +1,6 @@
-import passport from 'passport';
-import signinStrategy from './signin';
-import authStrategy from './authentication';
+const passport = require('passport');
+const signinStrategy = require('./signin');
+const authStrategy = require('./authentication');
 
 passport.use('signinStrategy', signinStrategy);
 passport.use('authStrategy', authStrategy);

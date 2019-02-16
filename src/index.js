@@ -1,17 +1,18 @@
 require('dotenv').config();
-import path from 'path';
-import express from 'express';
-import cors from 'cors';
-import bodyParser from 'body-parser';
-import mongoose from 'mongoose';
-import passport from 'passport';
-import publicAlbumRoutes from './routes/publicAlbumRoutes';
-import privateAlbumRoutes from './routes/privateAlbumRoutes';
-import authenticationRoutes from './routes/AuthenticationRoutes';
+const path = require('path');
+const express = require('express');
+const cors = require('cors');
+const bodyParser = require('body-parser');
+const mongoose = require('mongoose');
+const passport = require('passport');
+const publicAlbumRoutes = require('./routes/publicAlbumRoutes');
+const privateAlbumRoutes = require('./routes/privateAlbumRoutes');
+const authenticationRoutes = require('./routes/AuthenticationRoutes');
 
 mongoose.Promise = global.Promise;
+mongoose.set('useCreateIndex', true);
 mongoose
-  .connect(process.env.DATABASE)
+  .connect(process.env.DATABASE, { useNewUrlParser: true })
   .then(() => console.log('[mongoose] Connected to MongoDB'))
   .catch((err) => console.log('[mongoose] Error connecting to MongoDB', err));
 

@@ -61,6 +61,7 @@ class AdminContainer extends Component {
   }
 
   render () {
+    const { history } = this.props;
     const { searchText, filteredData, isLoading, error } = this.state;
 
     if (isLoading) return <Loader />;
@@ -68,6 +69,7 @@ class AdminContainer extends Component {
 
     return (
       <Admin
+        history={history}
         searchText={searchText}
         filteredData={filteredData}
         handleChange={this.handleChange}

@@ -11,7 +11,14 @@ import AdminTable from './AdminTable';
 import AdminCard from './AdminCard';
 import { isMobileDevice } from '../utils';
 
-const Admin = ({ filteredData, searchText, handleChange, clearInput, createAlbum }) => (
+const Admin = ({
+  history,
+  filteredData,
+  searchText,
+  handleChange,
+  clearInput,
+  createAlbum,
+}) => (
   <Container>
     <Row>
       <Col xs={12}>
@@ -40,11 +47,9 @@ const Admin = ({ filteredData, searchText, handleChange, clearInput, createAlbum
             </Button>
           </Form.Group>
         </Form>
-        {
-          isMobileDevice()
-            ? <AdminCard data={filteredData} />
-            : <AdminTable data={filteredData} />
-        }
+        {isMobileDevice()
+          ? <AdminCard history={history} data={filteredData} />
+          : <AdminTable data={filteredData} />}
       </Col>
     </Row>
   </Container>

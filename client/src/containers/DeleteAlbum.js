@@ -1,17 +1,15 @@
-import React, { Component, Fragment } from 'react';
-import { Redirect } from 'react-router';
+import React, { Component } from 'react';
 
 import DeleteAlbum from '../components/DeleteAlbum';
 import Loader from '../components/Loader';
 import ErrorMessage from '../components/ErrorMessage';
 import Api from '../utils/api';
-import { ALERT_TYPE, MESSAGE_PREFIX } from '../constants';
+import { ALERT_TYPES, MESSAGE_PREFIX } from '../constants';
 
 class DeleteAlbumContainer extends Component {
   state = {
     artist: '',
     album: '',
-    fireRedirect: false,
     isLoading: true,
     error: ''
   };
@@ -40,34 +38,30 @@ class DeleteAlbumContainer extends Component {
 
   handleSubmit = (e) => {
     e.preventDefault();
-    const { showAlert, match } = this.props;
+    const { history, match, showAlert } = this.props;
 
     Api.delete(`/api/albums/${match.params.id}`)
       .then(() => {
-        this.setState({ fireRedirect: true });
-        showAlert(ALERT_TYPE, `${MESSAGE_PREFIX} deleted`);
+        history.push('/admin');
+        showAlert(ALERT_TYPES.SUCCESS, `${MESSAGE_PREFIX} deleted`);
       })
-      // refactor me to use AppAlert
       .catch(err => {
         this.setState({ error: err.message });
       });
   }
 
   render () {
-    const { artist, album, fireRedirect, isLoading, error } = this.state;
+    const { artist, album, isLoading, error } = this.state;
 
     if (isLoading) return <Loader />;
     if (error) return <ErrorMessage />;
 
     return (
-      <Fragment>
-        {fireRedirect && <Redirect to='/admin' />}
-        <DeleteAlbum
-          artist={artist}
-          album={album}
-          handleSubmit={this.handleSubmit}
-        />
-      </Fragment>
+      <DeleteAlbum
+        artist={artist}
+        album={album}
+        handleSubmit={this.handleSubmit}
+      />
     );
   }
 }

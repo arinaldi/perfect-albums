@@ -1,10 +1,9 @@
-import React, { Component, Fragment } from 'react';
-import { Redirect } from 'react-router';
+import React, { Component } from 'react';
 import CreateEditAlbum from '../components/CreateEditAlbum';
 import Loader from '../components/Loader';
 import ErrorMessage from '../components/ErrorMessage';
 import Api from '../utils/api';
-import { ALERT_TYPE, MESSAGE_PREFIX } from '../constants';
+import { ALERT_TYPES, MESSAGE_PREFIX } from '../constants';
 
 class CreateEditAlbumContainer extends Component {
   state = {
@@ -13,7 +12,6 @@ class CreateEditAlbumContainer extends Component {
     cd: false,
     aotd: false,
     isEditMode: this.props.match.path.includes('edit'),
-    fireRedirect: false,
     isLoading: true,
     error: ''
   };
@@ -55,7 +53,7 @@ class CreateEditAlbumContainer extends Component {
 
   handleSubmit = (e) => {
     e.preventDefault();
-    const { showAlert, match } = this.props;
+    const { history, showAlert, match } = this.props;
     const { artist, album, cd, aotd, isEditMode } = this.state;
 
     if (isEditMode) {
@@ -66,8 +64,8 @@ class CreateEditAlbumContainer extends Component {
         aotd
       })
         .then(() => {
-          this.setState({ fireRedirect: true });
-          showAlert(ALERT_TYPE, `${MESSAGE_PREFIX} edited`);
+          history.push('/admin');
+          showAlert(ALERT_TYPES.SUCCESS, `${MESSAGE_PREFIX} edited`);
         })
         .catch(err => {
           this.setState({ error: err.message });
@@ -80,8 +78,8 @@ class CreateEditAlbumContainer extends Component {
         aotd
       })
         .then(() => {
-          this.setState({ fireRedirect: true });
-          showAlert(ALERT_TYPE, `${MESSAGE_PREFIX} created`);
+          history.push('/admin');
+          showAlert(ALERT_TYPES.SUCCESS, `${MESSAGE_PREFIX} created`);
         })
         .catch(err => {
           this.setState({ error: err.message });
@@ -96,7 +94,6 @@ class CreateEditAlbumContainer extends Component {
       cd,
       aotd,
       isEditMode,
-      fireRedirect,
       isLoading,
       error
     } = this.state;
@@ -106,18 +103,15 @@ class CreateEditAlbumContainer extends Component {
     if (error) return <ErrorMessage />;
 
     return (
-      <Fragment>
-        { fireRedirect && <Redirect to='/admin' /> }
-        <CreateEditAlbum
-          artist={artist}
-          album={album}
-          cd={cd}
-          aotd={aotd}
-          title={title}
-          handleChange={this.handleChange}
-          handleSubmit={this.handleSubmit}
-        />
-      </Fragment>
+      <CreateEditAlbum
+        artist={artist}
+        album={album}
+        cd={cd}
+        aotd={aotd}
+        title={title}
+        handleChange={this.handleChange}
+        handleSubmit={this.handleSubmit}
+      />
     );
   }
 }

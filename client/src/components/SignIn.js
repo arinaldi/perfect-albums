@@ -36,7 +36,7 @@ class SignIn extends Component {
     });
   }
 
-  render() {
+  render () {
     const { error } = this.props;
     const { username, password } = this.state;
 

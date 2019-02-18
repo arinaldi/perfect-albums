@@ -9,7 +9,6 @@ const publicAlbumRoutes = require('./routes/publicAlbumRoutes');
 const privateAlbumRoutes = require('./routes/privateAlbumRoutes');
 const authenticationRoutes = require('./routes/AuthenticationRoutes');
 
-// mongoose.Promise = global.Promise;
 mongoose.set('useCreateIndex', true);
 mongoose.connect(process.env.DATABASE, { useNewUrlParser: true });
 const db = mongoose.connection;

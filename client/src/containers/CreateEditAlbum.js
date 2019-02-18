@@ -88,7 +88,7 @@ class CreateEditAlbumContainer extends Component {
     }
   }
 
-  render() {
+  render () {
     const {
       artist,
       album,

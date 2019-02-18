@@ -21,7 +21,9 @@ const TopNavbar = (props) => (
       <Nav className="mr-auto">
         <Link className="nav-link" to="/albums">Top Albums</Link>
         <Link className="nav-link" to="/songs">Perfect Songs</Link>
-        { props.showAuthItems ? <AuthLinks {...props} /> : <SignInLink /> }
+        {props.showAuthItems
+          ? <AuthLinks {...props} />
+          : <SignInLink />}
       </Nav>
     </Navbar.Collapse>
   </Navbar>

@@ -17,7 +17,6 @@ const Admin = ({
   searchText,
   handleChange,
   clearInput,
-  createAlbum,
 }) => (
   <Container>
     <Row>
@@ -40,7 +39,7 @@ const Admin = ({
             </Button>
             <Button
               variant="outline-dark"
-              onClick={createAlbum}
+              onClick={() => history.push('/new')}
               style={{ marginTop: 5 }}
             >
               New

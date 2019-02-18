@@ -6,8 +6,9 @@ import {
   Col,
   Form,
   Button,
-  Alert
 } from 'react-bootstrap';
+
+import ErrorMessage from './ErrorMessage';
 
 class SignIn extends Component {
   state = {
@@ -35,15 +36,8 @@ class SignIn extends Component {
     });
   }
 
-  renderError() {
-    return (
-      <div className="alert-container">
-        <Alert variant="danger">{this.props.error}</Alert>
-      </div>
-    );
-  }
-
   render() {
+    const { error } = this.props;
     const { username, password } = this.state;
 
     return (
@@ -77,7 +71,7 @@ class SignIn extends Component {
                Sign In
               </Button>
             </form>
-            { this.props.error && this.renderError() }
+            {error && <ErrorMessage message={error} />}
           </Col>
         </Row>
       </Container>

@@ -9,15 +9,16 @@ const publicAlbumRoutes = require('./routes/publicAlbumRoutes');
 const privateAlbumRoutes = require('./routes/privateAlbumRoutes');
 const authenticationRoutes = require('./routes/AuthenticationRoutes');
 
-mongoose.Promise = global.Promise;
+// mongoose.Promise = global.Promise;
 mongoose.set('useCreateIndex', true);
-mongoose
-  .connect(process.env.DATABASE, { useNewUrlParser: true })
-  .then(() => console.log('[mongoose] Connected to MongoDB'))
-  .catch((err) => console.log('[mongoose] Error connecting to MongoDB', err));
+mongoose.connect(process.env.DATABASE, { useNewUrlParser: true });
+const db = mongoose.connection;
+db.on('error', console.error.bind(console, 'connection error:'));
+db.once('open', () => {
+  console.log('Connected to MongoDB');
+});
 
 const app = express();
-
 app
   .use(express.static(path.resolve(__dirname, '../client/build')))
   .use(cors())

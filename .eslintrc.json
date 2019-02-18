@@ -1,0 +1,53 @@
+{
+  "extends": [
+    "eslint:recommended",
+    "plugin:import/errors",
+    "plugin:import/warnings",
+    "plugin:react/recommended",
+    "standard",
+    "standard-jsx"
+  ],
+  "env": {
+    "browser": true,
+    "es6": true,
+    "node": true
+  },
+  "parser": "babel-eslint",
+  "plugins": [
+    "import",
+    "node",
+    "promise",
+    "react",
+    "standard"
+  ],
+  "rules": {
+    "comma-dangle": ["error", "always-multiline"],
+    "eol-last": "error",
+    "indent": ["error", 2],
+    "import/order": [
+      "error",
+      { "groups": ["builtin", "external", "parent", "sibling", "index"] }
+    ],
+    "jsx-quotes": "error",
+    "no-console": "warn",
+    "quotes": ["error", "single"],
+    "semi": ["error", "always"],
+    "space-before-function-paren": "error",
+    "spaced-comment": "error"
+  },
+  "settings": {
+    "react": {
+      "version": "16.8.1"
+    }
+  },
+  "globals": {
+    "afterEach": false,
+    "beforeEach": false,
+    "context": false,
+    "describe": false,
+    "expect": false,
+    "fetchMock": false,
+    "it": false,
+    "jest": false
+  }
+}

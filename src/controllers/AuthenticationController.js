@@ -1,7 +1,7 @@
 require('dotenv').config();
-const User = require('../models/UserModel');
 const bcrypt = require('bcrypt-nodejs');
 const jwt = require('jwt-simple');
+const User = require('../models/UserModel');
 
 const getToken = (user) => {
   const timestamp = new Date().getTime();
@@ -9,7 +9,7 @@ const getToken = (user) => {
 };
 
 const signIn = (req, res) => {
-  res.json({ token: getToken(req.user)});
+  res.json({ token: getToken(req.user) });
 };
 
 const saveUser = (username, password, res, next) => {
@@ -24,10 +24,10 @@ const saveUser = (username, password, res, next) => {
     });
   });
 };
- 
+
 const signUp = (req, res, next) => {
   const { username, password } = req.body;
-  
+
   if (!username || !password) {
     return res
       .status(422)

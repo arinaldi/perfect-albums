@@ -9,9 +9,9 @@ const AdminTableRow = ({ item }) => (
     <td>{item.cd.toString()}</td>
     <td>{item.aotd.toString()}</td>
     <td>
-      <Link to={`/edit/${item._id}`}>Edit</Link>
+      <Link to={`/edit/${item.id}`}>Edit</Link>
       &nbsp;|&nbsp;
-      <Link to={`/delete/${item._id}`}>Delete</Link>
+      <Link to={`/delete/${item.id}`}>Delete</Link>
     </td>
   </tr>
 );
@@ -30,7 +30,7 @@ const AdminTable = ({ data }) => (
     <tbody>
       {data.map(item => (
         <AdminTableRow
-          key={item._id}
+          key={item.id}
           item={item}
         />
       ))}

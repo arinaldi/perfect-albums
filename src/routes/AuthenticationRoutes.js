@@ -1,7 +1,6 @@
-const express = require('express');
-const router = express.Router();
-const { signUp, signIn } = require('../controllers/AuthenticationController');
+const router = require('express').Router();
 const passport = require('passport');
+const { signIn } = require('../controllers/AuthenticationController');
 require('../services/passport');
 
 const signinStrategy = passport.authenticate('signinStrategy', { session: false });

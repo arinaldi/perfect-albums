@@ -53,13 +53,6 @@ class AdminContainer extends Component {
     });
   }
 
-  createAlbum = () => {
-    const { history } = this.props;
-    const { searchText } = this.state;
-
-    history.push(`/new?${searchText}`);
-  }
-
   render () {
     const { history } = this.props;
     const { searchText, filteredData, isLoading, error } = this.state;
@@ -74,7 +67,6 @@ class AdminContainer extends Component {
         filteredData={filteredData}
         handleChange={this.handleChange}
         clearInput={this.clearInput}
-        createAlbum={this.createAlbum}
       />
     );
   }

@@ -1,22 +1,31 @@
 const mongoose = require('mongoose');
 
-const schema = new mongoose.Schema({
+const AlbumSchema = new mongoose.Schema({
   artist: {
     required: true,
-    type: String
+    type: String,
   },
   album: {
     required: true,
-    type: String
+    type: String,
   },
   cd: {
     required: true,
-    type: Boolean
+    type: Boolean,
   },
   aotd: {
     required: true,
-    type: Boolean
-  }
+    type: Boolean,
+  },
 });
 
-module.exports = mongoose.model('Album', schema);
+AlbumSchema.set('toJSON', {
+  transform: (doc, ret, options) => {
+    ret.id = ret._id;
+    delete ret._id;
+    delete ret.__v;
+    return ret;
+  },
+});
+
+module.exports = mongoose.model('Album', AlbumSchema);

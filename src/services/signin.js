@@ -1,6 +1,6 @@
+const LocalStrategy = require('passport-local');
 const bcrypt = require('bcrypt-nodejs');
 const User = require('../models/UserModel');
-const LocalStrategy = require('passport-local');
 
 const localStrategy = new LocalStrategy((username, password, done) => {
   User

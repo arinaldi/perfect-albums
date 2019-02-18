@@ -60,7 +60,7 @@ const Routes = ({
         <Route path="/signin" render={props => (
           !showAuthItems
             ? <SignIn {...props} onSignIn={onSignIn} clearError={clearError} error={error} />
-            : <Redirect to="/albums" />
+            : <Redirect to="/admin" />
         )} />
         <Route render={() => <Redirect to="/albums" />} />
         </Switch>

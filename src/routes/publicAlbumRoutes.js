@@ -1,9 +1,23 @@
-const express = require('express');
-const { list, show } = require('../controllers/AlbumController');
+const router = require('express').Router();
+const getAllAlbums = require('../controllers/albums/getAllAlbums');
+const getAlbumById = require('../controllers/albums/getAlbumById');
 
-const router = express.Router();
+router.get('/api/albums', async (req, res) => {
+  try {
+    const albums = await getAllAlbums();
+    res.send(albums);
+  } catch (err) {
+    res.status(500).send(err.message);
+  }
+});
 
-router.get('/api/albums', list);
-router.get('/api/albums/:id', show);
+router.get('/api/albums/:id', async (req, res) => {
+  try {
+    const album = await getAlbumById(req.params.id);
+    res.send(album);
+  } catch (err) {
+    res.status(500).send(err.message);
+  }
+});
 
 module.exports = router;

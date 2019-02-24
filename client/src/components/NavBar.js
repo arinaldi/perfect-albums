@@ -18,7 +18,7 @@ const SignInLink = () => (
   <Link className='nav-link' to='/signin'>Sign In</Link>
 );
 
-const TopNavbar = ({ signOut, isAuthenticated }) => (
+const NavBar = ({ signOut, isAuthenticated }) => (
   <Navbar bg='dark'  variant='dark' expand='md'>
     <Navbar.Brand>Perfect Albums</Navbar.Brand>
     <Navbar.Toggle aria-controls='basic-navbar-nav' />
@@ -34,9 +34,9 @@ const TopNavbar = ({ signOut, isAuthenticated }) => (
   </Navbar>
 );
 
-TopNavbar.propTypes = {
+NavBar.propTypes = {
   signOut: PropTypes.func.isRequired,
   isAuthenticated: PropTypes.bool.isRequired,
 };
 
-export default TopNavbar;
+export default NavBar;

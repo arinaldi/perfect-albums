@@ -1,10 +1,16 @@
 import React from 'react';
 import { Container, Row, Col } from 'react-bootstrap';
 
-const Albums = () => (
+const TopAlbums = () => (
   <Container>
     <h3>Top Albums</h3>
     <Row>
+      <Col xs={12} md={6} lg={4}>
+        <h4>2019</h4>
+        <ol>
+          <li>Czarface &ndash; Czarface Meets Ghostface</li>
+        </ol>
+      </Col>
       <Col xs={12} md={6} lg={4}>
         <h4>2018</h4>
         <ol>
@@ -450,4 +456,4 @@ const Albums = () => (
   </Container>
 );
 
-export default Albums;
+export default TopAlbums;

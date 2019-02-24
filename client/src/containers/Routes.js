@@ -7,9 +7,9 @@ import {
 } from 'react-router-dom';
 import PropTypes from 'prop-types';
 
-import TopNavbar from '../components/TopNavbar';
+import NavBar from '../components/NavBar';
 import AppAlert from '../components/AppAlert';
-import Albums from '../components/Albums';
+import TopAlbums from '../components/TopAlbums';
 import Songs from '../components/Songs';
 import SignIn from '../components/SignIn';
 import Admin from './Admin';
@@ -28,13 +28,13 @@ const Routes = ({
 }) => (
   <Router>
     <Fragment>
-      <TopNavbar
+      <NavBar
         signOut={signOut}
         isAuthenticated={isAuthenticated}
       />
       <AppAlert alert={alert} />
       <Switch>
-        <Route path='/albums' component={Albums} />
+        <Route path='/albums' component={TopAlbums} />
         <Route path='/songs' component={Songs} />
         <AuthRoute
           path='/admin'

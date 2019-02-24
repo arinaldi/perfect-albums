@@ -1,14 +1,14 @@
 {
   "name": "perfect-albums",
   "version": "1.0.0",
-  "description": "",
+  "description": "Perfect Albums",
   "engines": {
     "node": "10.15.1"
   },
   "scripts": {
     "start": "node src/index.js",
     "dev": "nodemon --exec 'node src/index'",
-    "heroku-postbuild": "cd client/ && npm install --only=dev && npm install && npm run build"
+    "heroku-postbuild": "cd client/ && npm install && npm run build"
   },
   "author": "Tony",
   "cacheDirectories": [
@@ -18,7 +18,6 @@
   "license": "ISC",
   "devDependencies": {
     "babel-eslint": "9.0.0",
-    "concurrently": "^3.5.0",
     "eslint": "5.12.0",
     "eslint-config-react-app": "^3.0.7",
     "eslint-config-standard": "^12.0.0",
@@ -30,11 +29,9 @@
     "eslint-plugin-promise": "^4.0.1",
     "eslint-plugin-react": "^7.12.4",
     "eslint-plugin-standard": "^4.0.0",
-    "foreman": "^3.0.1",
     "nodemon": "^1.18.10"
   },
   "dependencies": {
-    "axios": "^0.16.2",
     "bcrypt-nodejs": "^0.0.3",
     "body-parser": "^1.18.3",
     "cors": "^2.8.5",

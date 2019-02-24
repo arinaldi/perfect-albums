@@ -20,7 +20,7 @@ const AlbumSchema = new mongoose.Schema({
 });
 
 AlbumSchema.set('toJSON', {
-  transform: (doc, ret, options) => {
+  transform: (_, ret) => {
     ret.id = ret._id;
     delete ret._id;
     delete ret.__v;

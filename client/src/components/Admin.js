@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import {
   Button,
   Col,
@@ -23,22 +24,22 @@ const Admin = ({
       <Col xs={12}>
         <h3>Admin</h3>
         <Form>
-          <Form.Group controlId="formBasicText">
+          <Form.Group controlId='formBasicText'>
             <Form.Control
-              type="text"
+              type='text'
               value={searchText}
-              placeholder="Search"
+              placeholder='Search'
               onChange={handleChange}
             />
             <Button
-              variant="outline-dark"
+              variant='outline-dark'
               onClick={clearInput}
               style={{ marginTop: 5, marginRight: 5 }}
             >
               Clear
             </Button>
             <Button
-              variant="outline-dark"
+              variant='outline-dark'
               onClick={() => history.push('/new')}
               style={{ marginTop: 5 }}
             >
@@ -53,5 +54,13 @@ const Admin = ({
     </Row>
   </Container>
 );
+
+Admin.propTypes = {
+  history: PropTypes.object.isRequired,
+  filteredData: PropTypes.array.isRequired,
+  searchText: PropTypes.string.isRequired,
+  handleChange: PropTypes.func.isRequired,
+  clearInput: PropTypes.func.isRequired,
+};
 
 export default Admin;

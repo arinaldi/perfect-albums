@@ -3,4 +3,7 @@ export const ALERT_TYPES = {
   SUCCESS: 'success',
   ERROR: 'danger',
 };
-export const MESSAGE_PREFIX = 'Album successfully';
+export const MESSAGES = {
+  PREFIX: 'Album successfully',
+  UNAUTHORIZED: 'You are unauthorized to perform this operation',
+};

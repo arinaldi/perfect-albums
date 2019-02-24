@@ -7,7 +7,12 @@ const songRows = data.songs.map((song, index) => (
     <td>{song.artist}</td>
     <td>{song.song}</td>
     <td>
-      <a className="no-color" href={song.youtube} target="_blank" rel="noopener noreferrer">
+      <a
+        href={song.youtube}
+        className='no-color'
+        target='_blank'
+        rel='noopener noreferrer'
+      >
         Link
       </a>
     </td>

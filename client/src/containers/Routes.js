@@ -5,6 +5,7 @@ import {
   Redirect,
   Switch,
 } from 'react-router-dom';
+import PropTypes from 'prop-types';
 
 import TopNavbar from '../components/TopNavbar';
 import AppAlert from '../components/AppAlert';
@@ -14,58 +15,89 @@ import SignIn from '../components/SignIn';
 import Admin from './Admin';
 import CreateEditAlbum from './CreateEditAlbum';
 import DeleteAlbum from './DeleteAlbum';
+import AuthRoute from './AuthRoute';
 
 const Routes = ({
-  onSignIn,
-  onSignOut,
+  signIn,
+  signOut,
   clearError,
   error,
-  showAuthItems,
+  isAuthenticated,
   alert,
   showAlert,
 }) => (
   <Router>
     <Fragment>
       <TopNavbar
-        onSignOut={onSignOut}
-        showAuthItems={showAuthItems}
+        signOut={signOut}
+        isAuthenticated={isAuthenticated}
       />
       <AppAlert alert={alert} />
       <Switch>
-        <Route path="/albums" component={Albums} />
-        <Route path="/songs" component={Songs} />
-        <Route path="/admin" render={props => (
-          showAuthItems ?
-            <Admin {...props} /> :
-              <Redirect to="/albums" />
+        <Route path='/albums' component={Albums} />
+        <Route path='/songs' component={Songs} />
+        <AuthRoute
+          path='/admin'
+          isAuthenticated={isAuthenticated}
+          render={props => <Admin {...props} />}
+        />
+        <AuthRoute
+          path='/new'
+          isAuthenticated={isAuthenticated}
+          render={props => (
+            <CreateEditAlbum
+              {...props}
+              showAlert={showAlert}
+              signOut={signOut}
+            />
+          )}
+        />
+        <AuthRoute
+          path='/edit/:id'
+          isAuthenticated={isAuthenticated}
+          render={props => (
+            <CreateEditAlbum
+              {...props}
+              showAlert={showAlert}
+              signOut={signOut}
+            />
+          )}
+        />
+        <AuthRoute
+          path='/delete/:id'
+          isAuthenticated={isAuthenticated}
+          render={props => (
+            <DeleteAlbum
+              {...props}
+              showAlert={showAlert}
+              signOut={signOut}
+            />
+          )}
+        />
+        <Route path='/signin' render={props => (
+          isAuthenticated
+            ? <Redirect to='/admin' />
+            : <SignIn
+              {...props}
+              signIn={signIn}
+              clearError={clearError}
+              error={error}
+              />
         )} />
-        <Route path="/new" render={props => (
-          <CreateEditAlbum
-            {...props}
-            showAlert={showAlert}
-          />
-        )} />
-        <Route path="/edit/:id" render={props => (
-          <CreateEditAlbum
-            {...props}
-            showAlert={showAlert}
-          />
-        )} />
-        <Route path="/delete/:id" render={props => (
-          <DeleteAlbum
-            {...props}
-            showAlert={showAlert}
-          />
-        )} />
-        <Route path="/signin" render={props => (
-          !showAuthItems
-            ? <SignIn {...props} onSignIn={onSignIn} clearError={clearError} error={error} />
-            : <Redirect to="/admin" />
-        )} />
-        <Route render={() => <Redirect to="/albums" />} />
+        <Route render={() => <Redirect to='/albums' />} />
         </Switch>
     </Fragment>
   </Router>
 );
+
+Routes.propTypes = {
+  signIn: PropTypes.func.isRequired,
+  signOut: PropTypes.func.isRequired,
+  clearError: PropTypes.func.isRequired,
+  error: PropTypes.string.isRequired,
+  isAuthenticated: PropTypes.bool.isRequired,
+  alert: PropTypes.object.isRequired,
+  showAlert: PropTypes.func.isRequired,
+};
 
 export default Routes;

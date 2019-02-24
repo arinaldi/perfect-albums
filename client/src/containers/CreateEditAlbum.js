@@ -1,10 +1,11 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 
 import CreateEditAlbum from '../components/CreateEditAlbum';
 import Loader from '../components/Loader';
 import ErrorMessage from '../components/ErrorMessage';
 import Api from '../utils/api';
-import { ALERT_TYPES, MESSAGE_PREFIX } from '../constants';
+import { ALERT_TYPES, MESSAGES } from '../constants';
 
 class CreateEditAlbumContainer extends Component {
   state = {
@@ -23,7 +24,6 @@ class CreateEditAlbumContainer extends Component {
 
     if (isEditMode) {
       Api.get(`/api/albums/${id}`)
-        .then(res => res.json())
         .then(data => {
           const { artist, album, cd, aotd } = data;
           this.setState({
@@ -52,9 +52,23 @@ class CreateEditAlbumContainer extends Component {
     this.setState({ [name]: value });
   }
 
+  handleResponse (res) {
+    const { history, showAlert, signOut } = this.props;
+    const { isEditMode } = this.state;
+    const action = isEditMode ? 'edited' : 'created';
+
+    if (res.status === 401) {
+      signOut();
+      showAlert(ALERT_TYPES.ERROR, MESSAGES.UNAUTHORIZED);
+    } else {
+      history.push('/admin');
+      showAlert(ALERT_TYPES.SUCCESS, `${MESSAGES.PREFIX} ${action}`);
+    }
+  }
+
   handleSubmit = (e) => {
     e.preventDefault();
-    const { history, showAlert, match } = this.props;
+    const { match } = this.props;
     const { artist, album, cd, aotd, isEditMode } = this.state;
 
     if (isEditMode) {
@@ -64,9 +78,8 @@ class CreateEditAlbumContainer extends Component {
         cd,
         aotd
       })
-        .then(() => {
-          history.push('/admin');
-          showAlert(ALERT_TYPES.SUCCESS, `${MESSAGE_PREFIX} edited`);
+        .then(res => {
+          this.handleResponse(res);
         })
         .catch(err => {
           this.setState({ error: err.message });
@@ -78,9 +91,8 @@ class CreateEditAlbumContainer extends Component {
         cd,
         aotd
       })
-        .then(() => {
-          history.push('/admin');
-          showAlert(ALERT_TYPES.SUCCESS, `${MESSAGE_PREFIX} created`);
+        .then(res => {
+          this.handleResponse(res);
         })
         .catch(err => {
           this.setState({ error: err.message });
@@ -116,4 +128,12 @@ class CreateEditAlbumContainer extends Component {
     );
   }
 }
+
+CreateEditAlbumContainer.propTypes = {
+  history: PropTypes.object.isRequired,
+  match: PropTypes.object.isRequired,
+  showAlert: PropTypes.func.isRequired,
+  signOut: PropTypes.func.isRequired,
+};
+
 export default CreateEditAlbumContainer;

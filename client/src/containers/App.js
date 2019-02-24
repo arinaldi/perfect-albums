@@ -3,11 +3,13 @@ import React, { Component } from 'react';
 import Routes from './Routes';
 import '../styles.css';
 import { ALERT_TIMEOUT } from '../constants';
+import Api from '../utils/api';
+import { setToken, getToken, removeToken } from '../utils/storage';
 
 class App extends Component {
   state = {
     error: '',
-    authenticated: localStorage.getItem('token') || false,
+    isAuthenticated: !!getToken(),
     alert: {
       isOpen: false,
       type: '',
@@ -22,34 +24,31 @@ class App extends Component {
         error: 'Must provide all fields'
       });
     } else {
-      fetch('/api/signin', {
-        method: 'POST',
-        headers: {'Content-Type': 'application/json'},
-        body: JSON.stringify(credentials)
-      }).then(res => {
-        if (res.status === 401) {
-          return this.setState({
-            error: 'Invalid username or password'
-          });
-        }
-        return res.json();
-      }).then(data => {
-        if (data) {
-          const { token } = data;
-          localStorage.setItem('token', token);
-          this.setState({
-            error: '',
-            authenticated: token
-          });
-        }
-      });
+      Api.post('/api/signin', credentials)
+        .then(res => {
+          if (res.status === 401) {
+            return this.setState({
+              error: 'Invalid username or password',
+            });
+          }
+          return res.json();
+        })
+        .then(data => {
+          if (data) {
+            setToken(data.token);
+            this.setState({
+              error: '',
+              isAuthenticated: true,
+            });
+          }
+        });
     }
   }
 
   handleSignOut = () => {
-    localStorage.removeItem('token');
+    removeToken();
     this.setState({
-      authenticated: false
+      isAuthenticated: false
     });
   }
 
@@ -77,15 +76,15 @@ class App extends Component {
   }
 
   render () {
-    const { error, authenticated, alert } = this.state;
+    const { error, isAuthenticated, alert } = this.state;
 
     return (
       <Routes
-        onSignIn={this.handleSignIn}
-        onSignOut={this.handleSignOut}
+        signIn={this.handleSignIn}
+        signOut={this.handleSignOut}
         clearError={this.clearError}
         error={error}
-        showAuthItems={authenticated}
+        isAuthenticated={isAuthenticated}
         alert={alert}
         showAlert={this.showAlert}
       />

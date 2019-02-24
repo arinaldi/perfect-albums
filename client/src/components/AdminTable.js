@@ -1,6 +1,7 @@
 import React from 'react';
 import { Table } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
+import PropTypes from 'prop-types';
 
 const AdminTableRow = ({ item }) => (
   <tr>
@@ -15,6 +16,10 @@ const AdminTableRow = ({ item }) => (
     </td>
   </tr>
 );
+
+AdminTableRow.propTypes = {
+  item: PropTypes.object.isRequired,
+};
 
 const AdminTable = ({ data }) => (
   <Table striped hover>
@@ -37,5 +42,9 @@ const AdminTable = ({ data }) => (
     </tbody>
   </Table>
 );
+
+AdminTable.propTypes = {
+  data: PropTypes.array.isRequired,
+};
 
 export default AdminTable;

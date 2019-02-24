@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 
 import Admin from '../components/Admin';
 import Loader from '../components/Loader';
@@ -17,7 +18,6 @@ class AdminContainer extends Component {
 
   componentDidMount () {
     Api.get('/api/albums')
-      .then(res => res.json())
       .then(data => {
         this.setState({
           data,
@@ -71,5 +71,9 @@ class AdminContainer extends Component {
     );
   }
 }
+
+AdminContainer.propTypes = {
+  history: PropTypes.object.isRequired,
+};
 
 export default AdminContainer;

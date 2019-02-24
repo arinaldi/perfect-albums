@@ -3,13 +3,38 @@ const bcrypt = require('bcrypt-nodejs');
 const jwt = require('jwt-simple');
 const User = require('../models/UserModel');
 
-const getToken = (user) => {
+const makeToken = (user) => {
   const timestamp = new Date().getTime();
   return jwt.encode({ userId: user.id, iat: timestamp }, process.env.SECRET);
 };
 
+const decodeToken = (token) => {
+  try {
+    return jwt.decode(token, process.env.SECRET);
+  } catch (err) {
+    return err;
+  }
+};
+
 const signIn = (req, res) => {
-  res.json({ token: getToken(req.user) });
+  res.json({ token: makeToken(req.user) });
+};
+
+const checkUser = (req, res, next) => {
+  const token = req.headers.authorization;
+  const { userId } = decodeToken(token);
+
+  User
+    .findById(userId)
+    .exec()
+    .then(user => {
+      if (user) {
+        return res.send('Valid user');
+      } else {
+        return res.status(404).send('User not found');
+      }
+    })
+    .catch(() => res.status(500).send('Something went wrong'));
 };
 
 const saveUser = (username, password, res, next) => {
@@ -20,7 +45,7 @@ const saveUser = (username, password, res, next) => {
       const user = new User({ username, password: hashedPassword });
       user
         .save()
-        .then(newUser => res.json({ token: getToken(newUser) }));
+        .then(newUser => res.json({ token: makeToken(newUser) }));
     });
   });
 };
@@ -47,4 +72,4 @@ const signUp = (req, res, next) => {
     .catch(err => next(err));
 };
 
-module.exports = { signIn, signUp };
+module.exports = { signIn, checkUser, signUp };

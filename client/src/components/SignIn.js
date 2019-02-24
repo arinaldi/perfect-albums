@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import PropTypes from 'prop-types';
 import {
   Container,
   Row,
@@ -7,6 +6,7 @@ import {
   Form,
   Button,
 } from 'react-bootstrap';
+import PropTypes from 'prop-types';
 
 import ErrorMessage from './ErrorMessage';
 
@@ -28,12 +28,10 @@ class SignIn extends Component {
 
   handleSubmit = (e) => {
     e.preventDefault();
+    const { signIn } = this.props;
     const { username, password } = this.state;
 
-    this.props.onSignIn({
-      username,
-      password
-    });
+    signIn({ username, password });
   }
 
   render () {
@@ -42,14 +40,14 @@ class SignIn extends Component {
 
     return (
       <Container>
-        <Row className="justify-content-center">
-          <Col xs="12" sm="9" md="6">
+        <Row className='justify-content-center'>
+          <Col xs='12' sm='9' md='6'>
             <form onSubmit={this.handleSubmit}>
               <Form.Group>
                 <Form.Label>Username</Form.Label>
                 <Form.Control
-                  type="text"
-                  name="username"
+                  type='text'
+                  name='username'
                   onChange={this.handleChange}
                   value={username}
                 />
@@ -57,15 +55,15 @@ class SignIn extends Component {
               <Form.Group>
                 <Form.Label>Password</Form.Label>
                 <Form.Control
-                  type="password"
-                  name="password"
+                  type='password'
+                  name='password'
                   onChange={this.handleChange}
                   value={password}
                 />
               </Form.Group>
               <Button
-                variant="outline-dark"
-                type="submit"
+                variant='outline-dark'
+                type='submit'
                 disabled={!(username && password)}
               >
                Sign In
@@ -80,9 +78,9 @@ class SignIn extends Component {
 }
 
 SignIn.propTypes = {
-  onSignIn: PropTypes.func.isRequired,
+  signIn: PropTypes.func.isRequired,
   clearError: PropTypes.func.isRequired,
-  error: PropTypes.string
+  error: PropTypes.string,
 };
 
 export default SignIn;

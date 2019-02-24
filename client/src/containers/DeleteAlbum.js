@@ -1,10 +1,11 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 
 import DeleteAlbum from '../components/DeleteAlbum';
 import Loader from '../components/Loader';
 import ErrorMessage from '../components/ErrorMessage';
 import Api from '../utils/api';
-import { ALERT_TYPES, MESSAGE_PREFIX } from '../constants';
+import { ALERT_TYPES, MESSAGES } from '../constants';
 
 class DeleteAlbumContainer extends Component {
   state = {
@@ -18,7 +19,6 @@ class DeleteAlbumContainer extends Component {
     const { id } = this.props.match.params;
 
     Api.get(`/api/albums/${id}`)
-      .then(res => res.json())
       .then(data => {
         const { artist, album } = data;
         this.setState({
@@ -36,14 +36,25 @@ class DeleteAlbumContainer extends Component {
       });
   }
 
+  handleResponse (res) {
+    const { history, showAlert, signOut } = this.props;
+
+    if (res.status === 401) {
+      signOut();
+      showAlert(ALERT_TYPES.ERROR, MESSAGES.UNAUTHORIZED);
+    } else {
+      history.push('/admin');
+      showAlert(ALERT_TYPES.SUCCESS, `${MESSAGES.PREFIX} deleted`);
+    }
+  }
+
   handleSubmit = (e) => {
     e.preventDefault();
-    const { history, match, showAlert } = this.props;
+    const { match } = this.props;
 
     Api.delete(`/api/albums/${match.params.id}`)
-      .then(() => {
-        history.push('/admin');
-        showAlert(ALERT_TYPES.SUCCESS, `${MESSAGE_PREFIX} deleted`);
+      .then(res => {
+        this.handleResponse(res);
       })
       .catch(err => {
         this.setState({ error: err.message });
@@ -65,5 +76,12 @@ class DeleteAlbumContainer extends Component {
     );
   }
 }
+
+DeleteAlbumContainer.propTypes = {
+  history: PropTypes.object.isRequired,
+  match: PropTypes.object.isRequired,
+  showAlert: PropTypes.func.isRequired,
+  signOut: PropTypes.func.isRequired,
+};
 
 export default DeleteAlbumContainer;

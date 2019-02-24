@@ -7,6 +7,7 @@ import {
   Form,
   Button
 } from 'react-bootstrap';
+import PropTypes from 'prop-types';
 
 const CreateEditAlbum = ({
   artist,
@@ -22,78 +23,78 @@ const CreateEditAlbum = ({
     <Row>
       <Col>
         <Form onSubmit={handleSubmit}>
-          <Form.Group controlId="formHorizontalArtist">
+          <Form.Group controlId='formHorizontalArtist'>
             <Col sm={2}>
               Artist
             </Col>
             <Col sm={10}>
               <Form.Control
-                type="text"
+                type='text'
                 value={artist}
-                name="artist"
+                name='artist'
                 onChange={handleChange}
               />
             </Col>
           </Form.Group>
-          <Form.Group controlId="formHorizontalAlbum">
+          <Form.Group controlId='formHorizontalAlbum'>
             <Col sm={2}>
               Album
             </Col>
             <Col sm={10}>
               <Form.Control
-                type="text"
+                type='text'
                 value={album}
-                name="album"
+                name='album'
                 onChange={handleChange}
               />
             </Col>
           </Form.Group>
-          <Form.Group controlId="formHorizontalCd">
+          <Form.Group controlId='formHorizontalCd'>
             <Col sm={2}>
               CD
             </Col>
             <Col sm={10}>
               <Form.Check
                 inline
-                type="radio"
-                name="cd"
-                label="false"
+                type='radio'
+                name='cd'
+                label='false'
                 checked={cd === false}
-                value="false"
+                value='false'
                 onChange={handleChange}
               />
               <Form.Check
                 inline
-                type="radio"
-                name="cd"
-                label="true"
+                type='radio'
+                name='cd'
+                label='true'
                 checked={cd === true}
-                value="true"
+                value='true'
                 onChange={handleChange}
               />
             </Col>
           </Form.Group>
-          <Form.Group controlId="formHorizontalAotd">
+          <Form.Group controlId='formHorizontalAotd'>
             <Col sm={2}>
               AotD
             </Col>
             <Col sm={10}>
               <Form.Check
                 inline
-                type="radio"
-                name="aotd"
-                label="false"
+                type='radio'
+                name='aotd'
+                label='false'
                 checked={aotd === false}
-                value="false"
+                value='false'
                 onChange={handleChange}
               />
               <Form.Check
                 inline
-                type="radio"
-                name="aotd"
-                label="true"
+                type='radio'
+                name='aotd'
+                label='true'
                 checked={aotd === true}
-                value="true"
+                value='true'
                 onChange={handleChange}
               />
             </Col>
@@ -101,9 +102,9 @@ const CreateEditAlbum = ({
           <Form.Group>
             <Col sm={10}>
               <Link to='/admin'>
-                <Button variant="outline-dark">Cancel</Button>
+                <Button variant='outline-dark'>Cancel</Button>
               </Link>&nbsp;&nbsp;
-              <Button variant="outline-dark" type="submit">Save</Button>
+              <Button variant='outline-dark' type='submit'>Save</Button>
             </Col>
           </Form.Group>
         </Form>
@@ -111,5 +112,15 @@ const CreateEditAlbum = ({
     </Row>
   </Container>
 );
+
+CreateEditAlbum.propTypes = {
+  artist: PropTypes.string.isRequired,
+  album: PropTypes.string.isRequired,
+  cd: PropTypes.bool.isRequired,
+  aotd: PropTypes.bool.isRequired,
+  title: PropTypes.string.isRequired,
+  handleChange: PropTypes.func.isRequired,
+  handleSubmit: PropTypes.func.isRequired,
+};
 
 export default CreateEditAlbum;

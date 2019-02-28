@@ -1,32 +1,44 @@
 import React from 'react';
-import { Table } from 'react-bootstrap';
-import { Link } from 'react-router-dom';
+import { Table, Button } from 'react-bootstrap';
 import PropTypes from 'prop-types';
 
-const AdminTableRow = ({ item }) => (
+const AdminTableRow = ({ history, item }) => (
   <tr>
     <td>{item.artist}</td>
     <td>{item.album}</td>
+    <td>{item.year}</td>
     <td>{item.cd.toString()}</td>
     <td>{item.aotd.toString()}</td>
     <td>
-      <Link to={`/edit/${item.id}`}>Edit</Link>
-      &nbsp;|&nbsp;
-      <Link to={`/delete/${item.id}`}>Delete</Link>
+      <Button
+        variant='outline-dark'
+        onClick={() => history.push(`/edit/${item.id}`)}
+      >
+        Edit
+      </Button>
+      <Button
+        variant='outline-dark'
+        onClick={() => history.push(`/delete/${item.id}`)}
+        style={{ marginLeft: 5 }}
+      >
+        Delete
+      </Button>
     </td>
   </tr>
 );
 
 AdminTableRow.propTypes = {
+  history: PropTypes.object.isRequired,
   item: PropTypes.object.isRequired,
 };
 
-const AdminTable = ({ data }) => (
+const AdminTable = ({ history, data }) => (
   <Table striped hover>
     <thead>
       <tr>
         <th>Artist</th>
-        <th>Album</th>
+        <th>Title</th>
+        <th>Year</th>
         <th>CD</th>
         <th>AotD</th>
         <th>Actions</th>
@@ -36,6 +48,7 @@ const AdminTable = ({ data }) => (
       {data.map(item => (
         <AdminTableRow
           key={item.id}
+          history={history}
           item={item}
         />
       ))}
@@ -44,6 +57,7 @@ const AdminTable = ({ data }) => (
 );
 
 AdminTable.propTypes = {
+  history: PropTypes.object.isRequired,
   data: PropTypes.array.isRequired,
 };
 

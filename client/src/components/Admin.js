@@ -49,7 +49,7 @@ const Admin = ({
         </Form>
         {isMobileDevice()
           ? <AdminCard history={history} data={filteredData} />
-          : <AdminTable data={filteredData} />}
+          : <AdminTable history={history} data={filteredData} />}
       </Col>
     </Row>
   </Container>

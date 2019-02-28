@@ -17,6 +17,9 @@ const AlbumSchema = new mongoose.Schema({
     required: true,
     type: Boolean,
   },
+  year: {
+    type: String,
+  },
 });
 
 AlbumSchema.set('toJSON', {

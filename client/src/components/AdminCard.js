@@ -14,6 +14,8 @@ const AdminCard = ({ history, data }) => (
         <span className='album-title'>{item.album}</span>
         <br />
         {item.artist}
+        <br />
+        {item.year}
       </ListGroup.Item>
       <ListGroup.Item style={{
         display: 'flex',

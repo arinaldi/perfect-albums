@@ -11,6 +11,7 @@ class CreateEditAlbumContainer extends Component {
   state = {
     artist: '',
     album: '',
+    year: '',
     cd: false,
     aotd: false,
     isEditMode: this.props.match.path.includes('edit'),
@@ -25,10 +26,11 @@ class CreateEditAlbumContainer extends Component {
     if (isEditMode) {
       Api.get(`/api/albums/${id}`)
         .then(data => {
-          const { artist, album, cd, aotd } = data;
+          const { artist, album, year, cd, aotd } = data;
           this.setState({
             artist,
             album,
+            year,
             cd,
             aotd,
             isEditMode,
@@ -48,8 +50,15 @@ class CreateEditAlbumContainer extends Component {
   }
 
   handleChange = ({ target: { name, value } }) => {
-    if (name === 'cd' || name === 'aotd') value = value === 'true';
-    this.setState({ [name]: value });
+    let newValue = value;
+
+    if (['cd', 'aotd'].includes(name)) {
+      newValue = value === 'true';
+    } else if (name === 'year') {
+      newValue = value.replace(/\D/, '');
+    }
+
+    this.setState({ [name]: newValue });
   }
 
   handleResponse (res) {
@@ -69,12 +78,13 @@ class CreateEditAlbumContainer extends Component {
   handleSubmit = (e) => {
     e.preventDefault();
     const { match } = this.props;
-    const { artist, album, cd, aotd, isEditMode } = this.state;
+    const { artist, album, year, cd, aotd, isEditMode } = this.state;
 
     if (isEditMode) {
       Api.put(`/api/albums/${match.params.id}`, {
         artist,
         album,
+        year,
         cd,
         aotd
       })
@@ -88,6 +98,7 @@ class CreateEditAlbumContainer extends Component {
       Api.post('/api/albums', {
         artist,
         album,
+        year,
         cd,
         aotd
       })
@@ -104,6 +115,7 @@ class CreateEditAlbumContainer extends Component {
     const {
       artist,
       album,
+      year,
       cd,
       aotd,
       isEditMode,
@@ -119,6 +131,7 @@ class CreateEditAlbumContainer extends Component {
       <CreateEditAlbum
         artist={artist}
         album={album}
+        year={year}
         cd={cd}
         aotd={aotd}
         title={title}

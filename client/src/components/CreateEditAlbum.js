@@ -12,6 +12,7 @@ import PropTypes from 'prop-types';
 const CreateEditAlbum = ({
   artist,
   album,
+  year,
   cd,
   aotd,
   title,
@@ -45,6 +46,19 @@ const CreateEditAlbum = ({
                 type='text'
                 value={album}
                 name='album'
+                onChange={handleChange}
+              />
+            </Col>
+          </Form.Group>
+          <Form.Group controlId='formHorizontalYear'>
+            <Col sm={2}>
+              Year
+            </Col>
+            <Col sm={10}>
+              <Form.Control
+                type='text'
+                value={year}
+                name='year'
                 onChange={handleChange}
               />
             </Col>
@@ -116,11 +130,16 @@ const CreateEditAlbum = ({
 CreateEditAlbum.propTypes = {
   artist: PropTypes.string.isRequired,
   album: PropTypes.string.isRequired,
+  year: PropTypes.string,
   cd: PropTypes.bool.isRequired,
   aotd: PropTypes.bool.isRequired,
   title: PropTypes.string.isRequired,
   handleChange: PropTypes.func.isRequired,
   handleSubmit: PropTypes.func.isRequired,
+};
+
+CreateEditAlbum.defaultProps = {
+  year: '',
 };
 
 export default CreateEditAlbum;

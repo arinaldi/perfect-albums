@@ -9,7 +9,7 @@ import {
 } from 'react-bootstrap';
 import PropTypes from 'prop-types';
 
-const DeleteAlbum = ({ artist, album, handleSubmit }) => (
+const DeleteAlbum = ({ artist, title, handleSubmit }) => (
   <Container>
     <h3>Delete Album</h3>
     <Row>
@@ -17,7 +17,7 @@ const DeleteAlbum = ({ artist, album, handleSubmit }) => (
         <Form onSubmit={handleSubmit}>
           <Form.Group>
             <Col>
-              {`Are you sure you want to delete ${artist} – ${album}?`}
+              {`Are you sure you want to delete ${artist} – ${title}?`}
             </Col>
           </Form.Group>
           <Form.Group>
@@ -36,7 +36,7 @@ const DeleteAlbum = ({ artist, album, handleSubmit }) => (
 
 DeleteAlbum.propTypes = {
   artist: PropTypes.string.isRequired,
-  album: PropTypes.string.isRequired,
+  title: PropTypes.string.isRequired,
   handleSubmit: PropTypes.func.isRequired,
 };
 

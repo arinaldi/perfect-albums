@@ -11,16 +11,16 @@ import PropTypes from 'prop-types';
 
 const CreateEditAlbum = ({
   artist,
-  album,
+  title,
   year,
   cd,
   aotd,
-  title,
+  header,
   handleChange,
   handleSubmit
 }) => (
   <Container>
-    <h3>{`${title} Album`}</h3>
+    <h3>{`${header} Album`}</h3>
     <Row>
       <Col>
         <Form onSubmit={handleSubmit}>
@@ -39,13 +39,13 @@ const CreateEditAlbum = ({
           </Form.Group>
           <Form.Group controlId='formHorizontalAlbum'>
             <Col sm={2}>
-              Album
+              Title
             </Col>
             <Col sm={10}>
               <Form.Control
                 type='text'
-                value={album}
-                name='album'
+                value={title}
+                name='title'
                 onChange={handleChange}
               />
             </Col>
@@ -129,11 +129,11 @@ const CreateEditAlbum = ({
 
 CreateEditAlbum.propTypes = {
   artist: PropTypes.string.isRequired,
-  album: PropTypes.string.isRequired,
+  title: PropTypes.string.isRequired,
   year: PropTypes.string,
   cd: PropTypes.bool.isRequired,
   aotd: PropTypes.bool.isRequired,
-  title: PropTypes.string.isRequired,
+  header: PropTypes.string.isRequired,
   handleChange: PropTypes.func.isRequired,
   handleSubmit: PropTypes.func.isRequired,
 };

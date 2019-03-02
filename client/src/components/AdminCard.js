@@ -11,7 +11,7 @@ const AdminCard = ({ history, data }) => (
       <ListGroup.Item
         style={{ backgroundColor: '#f5f5f5' }}
       >
-        <span className='album-title'>{item.album}</span>
+        <span className='album-title'>{item.title}</span>
         <br />
         {item.artist}
         <br />

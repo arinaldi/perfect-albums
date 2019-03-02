@@ -5,7 +5,7 @@ import PropTypes from 'prop-types';
 const AdminTableRow = ({ history, item }) => (
   <tr>
     <td>{item.artist}</td>
-    <td>{item.album}</td>
+    <td>{item.title}</td>
     <td>{item.year}</td>
     <td>{item.cd.toString()}</td>
     <td>{item.aotd.toString()}</td>

@@ -10,7 +10,7 @@ import { ALERT_TYPES, MESSAGES } from '../constants';
 class CreateEditAlbumContainer extends Component {
   state = {
     artist: '',
-    album: '',
+    title: '',
     year: '',
     cd: false,
     aotd: false,
@@ -26,10 +26,10 @@ class CreateEditAlbumContainer extends Component {
     if (isEditMode) {
       Api.get(`/api/albums/${id}`)
         .then(data => {
-          const { artist, album, year, cd, aotd } = data;
+          const { artist, title, year, cd, aotd } = data;
           this.setState({
             artist,
-            album,
+            title,
             year,
             cd,
             aotd,
@@ -78,12 +78,12 @@ class CreateEditAlbumContainer extends Component {
   handleSubmit = (e) => {
     e.preventDefault();
     const { match } = this.props;
-    const { artist, album, year, cd, aotd, isEditMode } = this.state;
+    const { artist, title, year, cd, aotd, isEditMode } = this.state;
 
     if (isEditMode) {
       Api.put(`/api/albums/${match.params.id}`, {
         artist,
-        album,
+        title,
         year,
         cd,
         aotd
@@ -97,7 +97,7 @@ class CreateEditAlbumContainer extends Component {
     } else {
       Api.post('/api/albums', {
         artist,
-        album,
+        title,
         year,
         cd,
         aotd
@@ -114,7 +114,7 @@ class CreateEditAlbumContainer extends Component {
   render () {
     const {
       artist,
-      album,
+      title,
       year,
       cd,
       aotd,
@@ -122,7 +122,7 @@ class CreateEditAlbumContainer extends Component {
       isLoading,
       error
     } = this.state;
-    const title = isEditMode ? 'Edit' : 'Create';
+    const header = isEditMode ? 'Edit' : 'Create';
 
     if (isLoading) return <Loader />;
     if (error) return <ErrorMessage />;
@@ -130,11 +130,11 @@ class CreateEditAlbumContainer extends Component {
     return (
       <CreateEditAlbum
         artist={artist}
-        album={album}
+        title={title}
         year={year}
         cd={cd}
         aotd={aotd}
-        title={title}
+        header={header}
         handleChange={this.handleChange}
         handleSubmit={this.handleSubmit}
       />

@@ -10,7 +10,7 @@ import { ALERT_TYPES, MESSAGES } from '../constants';
 class DeleteAlbumContainer extends Component {
   state = {
     artist: '',
-    album: '',
+    title: '',
     isLoading: true,
     error: ''
   };
@@ -19,11 +19,10 @@ class DeleteAlbumContainer extends Component {
     const { id } = this.props.match.params;
 
     Api.get(`/api/albums/${id}`)
-      .then(data => {
-        const { artist, album } = data;
+      .then(({ artist, title }) => {
         this.setState({
           artist,
-          album,
+          title,
           isLoading: false,
           error: ''
         });
@@ -62,7 +61,7 @@ class DeleteAlbumContainer extends Component {
   }
 
   render () {
-    const { artist, album, isLoading, error } = this.state;
+    const { artist, title, isLoading, error } = this.state;
 
     if (isLoading) return <Loader />;
     if (error) return <ErrorMessage />;
@@ -70,7 +69,7 @@ class DeleteAlbumContainer extends Component {
     return (
       <DeleteAlbum
         artist={artist}
-        album={album}
+        title={title}
         handleSubmit={this.handleSubmit}
       />
     );

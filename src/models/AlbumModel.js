@@ -5,7 +5,7 @@ const AlbumSchema = new mongoose.Schema({
     required: true,
     type: String,
   },
-  album: {
+  title: {
     required: true,
     type: String,
   },

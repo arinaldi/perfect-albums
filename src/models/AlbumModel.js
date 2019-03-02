@@ -2,23 +2,28 @@ const mongoose = require('mongoose');
 
 const AlbumSchema = new mongoose.Schema({
   artist: {
-    required: true,
     type: String,
+    required: true,
   },
   title: {
-    required: true,
     type: String,
-  },
-  cd: {
     required: true,
-    type: Boolean,
-  },
-  aotd: {
-    required: true,
-    type: Boolean,
   },
   year: {
     type: String,
+    required: true,
+  },
+  cd: {
+    type: Boolean,
+    required: true,
+  },
+  aotd: {
+    type: Boolean,
+    required: true,
+  },
+  favorite: {
+    type: Boolean,
+    required: true,
   },
 });
 

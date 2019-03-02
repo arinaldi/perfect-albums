@@ -14,7 +14,7 @@ class App extends Component {
       isOpen: false,
       type: '',
       message: '',
-    }
+    },
   };
 
   handleSignIn = (credentials) => {

@@ -4,7 +4,7 @@ const getHeaders = (withAuth = false) => {
   const headers = { 'Content-Type': 'application/json' };
 
   if (withAuth) {
-    headers.authorization = getToken();
+    headers.authorization = `Bearer ${getToken()}`;
   }
 
   return headers;

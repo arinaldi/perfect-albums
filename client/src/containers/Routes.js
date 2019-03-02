@@ -9,9 +9,9 @@ import PropTypes from 'prop-types';
 
 import NavBar from '../components/NavBar';
 import AppAlert from '../components/AppAlert';
-import TopAlbums from '../components/TopAlbums';
-import Songs from '../components/Songs';
 import SignIn from '../components/SignIn';
+import Songs from '../components/Songs';
+import TopAlbums from './TopAlbums';
 import Admin from './Admin';
 import CreateEditAlbum from './CreateEditAlbum';
 import DeleteAlbum from './DeleteAlbum';

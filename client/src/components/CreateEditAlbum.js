@@ -1,145 +1,153 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
 import {
   Container,
-  Row,
   Col,
   Form,
-  Button
+  Button,
 } from 'react-bootstrap';
 import PropTypes from 'prop-types';
 
 const CreateEditAlbum = ({
-  artist,
-  title,
-  year,
-  cd,
-  aotd,
+  history,
+  album,
   header,
+  query,
   handleChange,
-  handleSubmit
+  handleSubmit,
 }) => (
   <Container>
     <h3>{`${header} Album`}</h3>
-    <Row>
-      <Col>
-        <Form onSubmit={handleSubmit}>
-          <Form.Group controlId='formHorizontalArtist'>
-            <Col sm={2}>
-              Artist
-            </Col>
-            <Col sm={10}>
-              <Form.Control
-                type='text'
-                value={artist}
-                name='artist'
-                onChange={handleChange}
-              />
-            </Col>
-          </Form.Group>
-          <Form.Group controlId='formHorizontalAlbum'>
-            <Col sm={2}>
-              Title
-            </Col>
-            <Col sm={10}>
-              <Form.Control
-                type='text'
-                value={title}
-                name='title'
-                onChange={handleChange}
-              />
-            </Col>
-          </Form.Group>
-          <Form.Group controlId='formHorizontalYear'>
-            <Col sm={2}>
-              Year
-            </Col>
-            <Col sm={10}>
-              <Form.Control
-                type='text'
-                value={year}
-                name='year'
-                onChange={handleChange}
-              />
-            </Col>
-          </Form.Group>
-          <Form.Group controlId='formHorizontalCd'>
-            <Col sm={2}>
-              CD
-            </Col>
-            <Col sm={10}>
-              <Form.Check
-                inline
-                type='radio'
-                name='cd'
-                label='false'
-                checked={cd === false}
-                value='false'
-                onChange={handleChange}
-              />
-              <Form.Check
-                inline
-                type='radio'
-                name='cd'
-                label='true'
-                checked={cd === true}
-                value='true'
-                onChange={handleChange}
-              />
-            </Col>
-          </Form.Group>
-          <Form.Group controlId='formHorizontalAotd'>
-            <Col sm={2}>
-              AotD
-            </Col>
-            <Col sm={10}>
-              <Form.Check
-                inline
-                type='radio'
-                name='aotd'
-                label='false'
-                checked={aotd === false}
-                value='false'
-                onChange={handleChange}
-              />
-              <Form.Check
-                inline
-                type='radio'
-                name='aotd'
-                label='true'
-                checked={aotd === true}
-                value='true'
-                onChange={handleChange}
-              />
-            </Col>
-          </Form.Group>
-          <Form.Group>
-            <Col sm={10}>
-              <Link to='/admin'>
-                <Button variant='outline-dark'>Cancel</Button>
-              </Link>&nbsp;&nbsp;
-              <Button variant='outline-dark' type='submit'>Save</Button>
-            </Col>
-          </Form.Group>
-        </Form>
-      </Col>
-    </Row>
+    <Form onSubmit={handleSubmit}>
+      <Form.Row>
+        <Form.Group as={Col} controlId='formArtist'>
+          <Form.Label>Artist</Form.Label>
+          <Form.Control
+            type='text'
+            name='artist'
+            value={album.artist}
+            onChange={handleChange}
+          />
+        </Form.Group>
+      </Form.Row>
+      <Form.Row>
+        <Form.Group as={Col} controlId='formTitle'>
+          <Form.Label>Title</Form.Label>
+          <Form.Control
+            type='text'
+            name='title'
+            value={album.title}
+            onChange={handleChange}
+          />
+        </Form.Group>
+      </Form.Row>
+      <Form.Row>
+        <Form.Group as={Col} controlId='formYear'>
+          <Form.Label>Year</Form.Label>
+          <Form.Control
+            type='text'
+            name='year'
+            value={album.year}
+            maxLength='4'
+            onChange={handleChange}
+          />
+        </Form.Group>
+      </Form.Row>
+      <Form.Row>
+        <Form.Group as={Col} controlId='formCd'>
+          <Form.Label>CD</Form.Label>
+          <Form.Check
+            type='radio'
+            name='cd'
+            value='false'
+            label='false'
+            checked={album.cd === false}
+            onChange={handleChange}
+          />
+          <Form.Check
+            type='radio'
+            name='cd'
+            value='true'
+            label='true'
+            checked={album.cd === true}
+            onChange={handleChange}
+          />
+        </Form.Group>
+        <Form.Group as={Col} controlId='formAotd'>
+          <Form.Label>AotD</Form.Label>
+          <Form.Check
+            type='radio'
+            name='aotd'
+            value='false'
+            label='false'
+            checked={album.aotd === false}
+            onChange={handleChange}
+          />
+          <Form.Check
+            type='radio'
+            name='aotd'
+            value='true'
+            label='true'
+            checked={album.aotd === true}
+            onChange={handleChange}
+          />
+        </Form.Group>
+        <Form.Group as={Col} controlId='formFavorite'>
+          <Form.Label>Favorite</Form.Label>
+          <Form.Check
+            type='radio'
+            name='favorite'
+            value='false'
+            label='false'
+            checked={album.favorite === false}
+            onChange={handleChange}
+          />
+          <Form.Check
+            type='radio'
+            name='favorite'
+            value='true'
+            label='true'
+            checked={album.favorite === true}
+            onChange={handleChange}
+          />
+        </Form.Group>
+      </Form.Row>
+      <Form.Row>
+        <Button
+          onClick={() => history.push(`/admin?${query}`)}
+          variant='outline-dark'
+          style={{ marginRight: 5 }}
+        >
+          Cancel
+        </Button>
+        <Button
+          type='submit'
+          variant='outline-dark'
+        >
+          Save
+        </Button>
+      </Form.Row>
+    </Form>
   </Container>
 );
 
 CreateEditAlbum.propTypes = {
-  artist: PropTypes.string.isRequired,
-  title: PropTypes.string.isRequired,
-  year: PropTypes.string,
-  cd: PropTypes.bool.isRequired,
-  aotd: PropTypes.bool.isRequired,
+  history: PropTypes.object.isRequired,
+  album: PropTypes.shape({
+    artist: PropTypes.string.isRequired,
+    title: PropTypes.string.isRequired,
+    year: PropTypes.string.isRequired,
+    cd: PropTypes.bool.isRequired,
+    aotd: PropTypes.bool.isRequired,
+    favorite: PropTypes.bool.isRequired,
+  }).isRequired,
   header: PropTypes.string.isRequired,
+  query: PropTypes.string,
   handleChange: PropTypes.func.isRequired,
   handleSubmit: PropTypes.func.isRequired,
 };
 
 CreateEditAlbum.defaultProps = {
-  year: '',
+  query: '',
 };
 
 export default CreateEditAlbum;

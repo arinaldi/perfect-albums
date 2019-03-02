@@ -3,74 +3,87 @@ import PropTypes from 'prop-types';
 
 import CreateEditAlbum from '../components/CreateEditAlbum';
 import Loader from '../components/Loader';
-import ErrorMessage from '../components/ErrorMessage';
+import AppMessage from '../components/AppMessage';
 import Api from '../utils/api';
+import { getQuery } from '../utils';
 import { ALERT_TYPES, MESSAGES } from '../constants';
 
 class CreateEditAlbumContainer extends Component {
   state = {
-    artist: '',
-    title: '',
-    year: '',
-    cd: false,
-    aotd: false,
-    isEditMode: this.props.match.path.includes('edit'),
+    album: {
+      artist: '',
+      title: '',
+      year: '',
+      cd: false,
+      aotd: false,
+      favorite: false,
+    },
+    isEditMode: false,
     isLoading: true,
-    error: ''
+    error: '',
+    query: '',
   };
 
   componentDidMount () {
-    const { id } = this.props.match.params;
-    const { isEditMode } = this.state;
+    const { location, match } = this.props;
+    const isEditMode = match.path.includes('edit');
+    const query = location.search ? getQuery(location.search) : '';
 
     if (isEditMode) {
-      Api.get(`/api/albums/${id}`)
-        .then(data => {
-          const { artist, title, year, cd, aotd } = data;
+      Api.get(`/api/albums/${match.params.id}`)
+        .then(({ id, ...album }) => {
           this.setState({
-            artist,
-            title,
-            year,
-            cd,
-            aotd,
+            album,
             isEditMode,
             isLoading: false,
-            error: ''
+            error: '',
+            query,
           });
         })
         .catch(err => {
           this.setState({
+            isEditMode,
             isLoading: false,
-            error: err.message
+            error: err.message,
+            query,
           });
         });
     } else {
-      this.setState({ isLoading: false });
+      this.setState({
+        isEditMode,
+        isLoading: false,
+        query,
+      });
     }
   }
 
   handleChange = ({ target: { name, value } }) => {
     let newValue = value;
 
-    if (['cd', 'aotd'].includes(name)) {
+    if (['cd', 'aotd', 'favorite'].includes(name)) {
       newValue = value === 'true';
     } else if (name === 'year') {
       newValue = value.replace(/\D/, '');
     }
 
-    this.setState({ [name]: newValue });
+    this.setState({
+      album: {
+        ...this.state.album,
+        [name]: newValue,
+      },
+    });
   }
 
   handleResponse (res) {
     const { history, showAlert, signOut } = this.props;
-    const { isEditMode } = this.state;
+    const { isEditMode, query } = this.state;
     const action = isEditMode ? 'edited' : 'created';
 
     if (res.status === 401) {
       signOut();
       showAlert(ALERT_TYPES.ERROR, MESSAGES.UNAUTHORIZED);
     } else {
-      history.push('/admin');
+      history.push(`/admin?${query}`);
       showAlert(ALERT_TYPES.SUCCESS, `${MESSAGES.PREFIX} ${action}`);
     }
   }
@@ -78,16 +91,10 @@ class CreateEditAlbumContainer extends Component {
   handleSubmit = (e) => {
     e.preventDefault();
     const { match } = this.props;
-    const { artist, title, year, cd, aotd, isEditMode } = this.state;
+    const { album, isEditMode } = this.state;
 
     if (isEditMode) {
-      Api.put(`/api/albums/${match.params.id}`, {
-        artist,
-        title,
-        year,
-        cd,
-        aotd
-      })
+      Api.put(`/api/albums/${match.params.id}`, album)
         .then(res => {
           this.handleResponse(res);
         })
@@ -95,13 +102,7 @@ class CreateEditAlbumContainer extends Component {
           this.setState({ error: err.message });
         });
     } else {
-      Api.post('/api/albums', {
-        artist,
-        title,
-        year,
-        cd,
-        aotd
-      })
+      Api.post('/api/albums', album)
         .then(res => {
           this.handleResponse(res);
         })
@@ -112,29 +113,25 @@ class CreateEditAlbumContainer extends Component {
   }
 
   render () {
+    const { history } = this.props;
     const {
-      artist,
-      title,
-      year,
-      cd,
-      aotd,
+      album,
       isEditMode,
       isLoading,
-      error
+      error,
+      query,
     } = this.state;
     const header = isEditMode ? 'Edit' : 'Create';
 
     if (isLoading) return <Loader />;
-    if (error) return <ErrorMessage />;
+    if (error) return <AppMessage />;
 
     return (
       <CreateEditAlbum
-        artist={artist}
-        title={title}
-        year={year}
-        cd={cd}
-        aotd={aotd}
+        history={history}
+        album={album}
         header={header}
+        query={query}
         handleChange={this.handleChange}
         handleSubmit={this.handleSubmit}
       />
@@ -144,6 +141,7 @@ class CreateEditAlbumContainer extends Component {
 
 CreateEditAlbumContainer.propTypes = {
   history: PropTypes.object.isRequired,
+  location: PropTypes.object.isRequired,
   match: PropTypes.object.isRequired,
   showAlert: PropTypes.func.isRequired,
   signOut: PropTypes.func.isRequired,

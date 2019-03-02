@@ -9,8 +9,8 @@ import {
 } from 'react-bootstrap';
 
 import AdminTable from './AdminTable';
-import AdminCard from './AdminCard';
-import { isMobileDevice } from '../utils';
+import AppMessage from './AppMessage';
+import { ALERT_TYPES, MESSAGES } from '../constants';
 
 const Admin = ({
   history,
@@ -24,7 +24,7 @@ const Admin = ({
       <Col xs={12}>
         <h3>Admin</h3>
         <Form>
-          <Form.Group controlId='formBasicText'>
+          <Form.Group controlId='formSearch'>
             <Form.Control
               type='text'
               value={searchText}
@@ -40,16 +40,23 @@ const Admin = ({
             </Button>
             <Button
               variant='outline-dark'
-              onClick={() => history.push('/new')}
+              onClick={() => history.push(`/new?${searchText}`)}
               style={{ marginTop: 5 }}
             >
               New
             </Button>
           </Form.Group>
         </Form>
-        {isMobileDevice()
-          ? <AdminCard history={history} data={filteredData} />
-          : <AdminTable history={history} data={filteredData} />}
+        {filteredData.length
+          ? <AdminTable
+            history={history}
+            data={filteredData}
+            searchText={searchText}
+            />
+          : <AppMessage
+            type={ALERT_TYPES.INFO}
+            message={MESSAGES.NO_DATA}
+            />}
       </Col>
     </Row>
   </Container>

@@ -1,24 +1,30 @@
 import React from 'react';
 import { Table, Button } from 'react-bootstrap';
 import PropTypes from 'prop-types';
+import { ICONS } from '../constants';
 
-const AdminTableRow = ({ history, item }) => (
+const { CHECK } = ICONS;
+
+const AdminTableRow = ({ history, item, searchText }) => (
   <tr>
     <td>{item.artist}</td>
     <td>{item.title}</td>
     <td>{item.year}</td>
-    <td>{item.cd.toString()}</td>
-    <td>{item.aotd.toString()}</td>
+    <td>{item.cd && CHECK}</td>
+    <td>{item.aotd && CHECK}</td>
+    <td>{item.favorite && CHECK}</td>
     <td>
       <Button
         variant='outline-dark'
-        onClick={() => history.push(`/edit/${item.id}`)}
+        size='sm'
+        onClick={() => history.push(`/edit/${item.id}?${searchText}`)}
       >
         Edit
       </Button>
       <Button
         variant='outline-dark'
-        onClick={() => history.push(`/delete/${item.id}`)}
+        size='sm'
+        onClick={() => history.push(`/delete/${item.id}?${searchText}`)}
         style={{ marginLeft: 5 }}
       >
         Delete
@@ -30,10 +36,15 @@ const AdminTableRow = ({ history, item }) => (
 AdminTableRow.propTypes = {
   history: PropTypes.object.isRequired,
   item: PropTypes.object.isRequired,
+  searchText: PropTypes.string,
 };
 
-const AdminTable = ({ history, data }) => (
-  <Table striped hover>
+AdminTableRow.defaultProps = {
+  searchText: '',
+};
+
+const AdminTable = ({ history, data, searchText }) => (
+  <Table responsive striped hover size='sm'>
     <thead>
       <tr>
         <th>Artist</th>
@@ -41,6 +52,7 @@ const AdminTable = ({ history, data }) => (
         <th>Year</th>
         <th>CD</th>
         <th>AotD</th>
+        <th>Favorite</th>
         <th>Actions</th>
       </tr>
     </thead>
@@ -50,6 +62,7 @@ const AdminTable = ({ history, data }) => (
           key={item.id}
           history={history}
           item={item}
+          searchText={searchText}
         />
       ))}
     </tbody>
@@ -59,6 +72,11 @@ const AdminTable = ({ history, data }) => (
 AdminTable.propTypes = {
   history: PropTypes.object.isRequired,
   data: PropTypes.array.isRequired,
+  searchText: PropTypes.string,
+};
+
+AdminTable.defaultProps = {
+  searchText: '',
 };
 
 export default AdminTable;

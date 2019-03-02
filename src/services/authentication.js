@@ -3,7 +3,7 @@ const User = require('../models/UserModel');
 
 const jwtOptions = {
   secretOrKey: process.env.SECRET,
-  jwtFromRequest: ExtractJwt.fromHeader('authorization'),
+  jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken('authorization'),
 };
 
 const strategy = new Strategy(jwtOptions, (payload, done) => {

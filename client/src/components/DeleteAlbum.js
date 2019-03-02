@@ -1,43 +1,56 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
 import {
   Container,
-  Row,
   Col,
   Form,
   Button,
 } from 'react-bootstrap';
 import PropTypes from 'prop-types';
 
-const DeleteAlbum = ({ artist, title, handleSubmit }) => (
+const DeleteAlbum = ({
+  history,
+  artist,
+  title,
+  query,
+  handleSubmit,
+}) => (
   <Container>
     <h3>Delete Album</h3>
-    <Row>
-      <Col>
-        <Form onSubmit={handleSubmit}>
-          <Form.Group>
-            <Col>
-              {`Are you sure you want to delete ${artist} – ${title}?`}
-            </Col>
-          </Form.Group>
-          <Form.Group>
-            <Col>
-              <Link to='/admin'>
-                <Button variant='outline-dark'>Cancel</Button>
-              </Link>&nbsp;&nbsp;
-              <Button variant='outline-dark' type='submit'>Delete</Button>
-            </Col>
-          </Form.Group>
-        </Form>
-      </Col>
-    </Row>
+    <Form onSubmit={handleSubmit}>
+      <Form.Row>
+        <Form.Group as={Col} controlId='formConfirm'>
+          {`Are you sure you want to delete ${artist} – ${title}?`}
+        </Form.Group>
+      </Form.Row>
+      <Form.Row>
+        <Button
+          onClick={() => history.push(`/admin?${query}`)}
+          variant='outline-dark'
+          style={{ marginRight: 5 }}
+        >
+          Cancel
+        </Button>
+        <Button
+          type='submit'
+          variant='outline-dark'
+        >
+          Delete
+        </Button>
+      </Form.Row>
+    </Form>
   </Container>
 );
 
 DeleteAlbum.propTypes = {
+  history: PropTypes.object.isRequired,
   artist: PropTypes.string.isRequired,
   title: PropTypes.string.isRequired,
+  query: PropTypes.string,
   handleSubmit: PropTypes.func.isRequired,
+};
+
+DeleteAlbum.defaultProps = {
+  query: '',
 };
 
 export default DeleteAlbum;

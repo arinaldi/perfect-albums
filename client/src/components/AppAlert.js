@@ -13,7 +13,11 @@ const AppAlert = ({ alert }) => {
 };
 
 AppAlert.propTypes = {
-  alert: PropTypes.object.isRequired,
+  alert: PropTypes.shape({
+    isOpen: PropTypes.bool.isRequired,
+    type: PropTypes.string.isRequired,
+    message: PropTypes.string.isRequired,
+  }).isRequired,
 };
 
 export default AppAlert;

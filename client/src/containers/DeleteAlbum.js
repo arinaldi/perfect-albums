@@ -3,8 +3,9 @@ import PropTypes from 'prop-types';
 
 import DeleteAlbum from '../components/DeleteAlbum';
 import Loader from '../components/Loader';
-import ErrorMessage from '../components/ErrorMessage';
+import AppMessage from '../components/AppMessage';
 import Api from '../utils/api';
+import { getQuery } from '../utils';
 import { ALERT_TYPES, MESSAGES } from '../constants';
 
 class DeleteAlbumContainer extends Component {
@@ -12,37 +13,42 @@ class DeleteAlbumContainer extends Component {
     artist: '',
     title: '',
     isLoading: true,
-    error: ''
+    error: '',
+    query: '',
   };
 
   componentDidMount () {
-    const { id } = this.props.match.params;
+    const { location, match } = this.props;
+    const query = location.search ? getQuery(location.search) : '';
 
-    Api.get(`/api/albums/${id}`)
+    Api.get(`/api/albums/${match.params.id}`)
       .then(({ artist, title }) => {
         this.setState({
           artist,
           title,
           isLoading: false,
-          error: ''
+          error: '',
+          query,
         });
       })
       .catch(err => {
         this.setState({
           isLoading: false,
-          error: err.message
+          error: err.message,
+          query,
         });
       });
   }
 
   handleResponse (res) {
     const { history, showAlert, signOut } = this.props;
+    const { query } = this.state;
 
     if (res.status === 401) {
       signOut();
       showAlert(ALERT_TYPES.ERROR, MESSAGES.UNAUTHORIZED);
     } else {
-      history.push('/admin');
+      history.push(`/admin?${query}`);
       showAlert(ALERT_TYPES.SUCCESS, `${MESSAGES.PREFIX} deleted`);
     }
   }
@@ -61,15 +67,24 @@ class DeleteAlbumContainer extends Component {
   }
 
   render () {
-    const { artist, title, isLoading, error } = this.state;
+    const { history } = this.props;
+    const {
+      artist,
+      title,
+      isLoading,
+      error,
+      query,
+    } = this.state;
 
     if (isLoading) return <Loader />;
-    if (error) return <ErrorMessage />;
+    if (error) return <AppMessage />;
 
     return (
       <DeleteAlbum
+        history={history}
         artist={artist}
         title={title}
+        query={query}
         handleSubmit={this.handleSubmit}
       />
     );
@@ -78,6 +93,7 @@ class DeleteAlbumContainer extends Component {
 
 DeleteAlbumContainer.propTypes = {
   history: PropTypes.object.isRequired,
+  location: PropTypes.object.isRequired,
   match: PropTypes.object.isRequired,
   showAlert: PropTypes.func.isRequired,
   signOut: PropTypes.func.isRequired,

@@ -3,8 +3,8 @@ import PropTypes from 'prop-types';
 
 import Admin from '../components/Admin';
 import Loader from '../components/Loader';
-import ErrorMessage from '../components/ErrorMessage';
-import { formatData, filterData } from '../utils';
+import AppMessage from '../components/AppMessage';
+import { formatData, filterData, getQuery } from '../utils';
 import Api from '../utils/api';
 
 class AdminContainer extends Component {
@@ -17,11 +17,23 @@ class AdminContainer extends Component {
   };
 
   componentDidMount () {
+    const { search } = this.props.location;
+    const searchText = search ? getQuery(search) : '';
+
+    this.getData(searchText);
+    this.setState({ searchText });
+  }
+
+  getData (searchText) {
     Api.get('/api/albums')
       .then(data => {
+        const filteredData = searchText
+          ? formatData(filterData(data, searchText))
+          : formatData(data);
+
         this.setState({
           data,
-          filteredData: formatData(data),
+          filteredData,
           isLoading: false,
           error: ''
         });
@@ -35,8 +47,8 @@ class AdminContainer extends Component {
   }
 
   filterData (query) {
-    let filteredData = filterData(this.state.data, query);
-    filteredData = formatData(filteredData);
+    const { data } = this.state;
+    const filteredData = formatData(filterData(data, query));
 
     this.setState({ filteredData });
   }
@@ -58,7 +70,7 @@ class AdminContainer extends Component {
     const { searchText, filteredData, isLoading, error } = this.state;
 
     if (isLoading) return <Loader />;
-    if (error) return <ErrorMessage />;
+    if (error) return <AppMessage />;
 
     return (
       <Admin
@@ -74,6 +86,7 @@ class AdminContainer extends Component {
 
 AdminContainer.propTypes = {
   history: PropTypes.object.isRequired,
+  location: PropTypes.object.isRequired,
 };
 
 export default AdminContainer;

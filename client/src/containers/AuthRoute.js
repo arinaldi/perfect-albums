@@ -1,18 +1,18 @@
 import React from 'react';
 import { Route, Redirect } from 'react-router-dom';
-import PropTypes from 'prop-types';
 
-const AuthRoute = ({ isAuthenticated, ...props }) => (
-  isAuthenticated
-    ? <Route {...props} />
-    : <Redirect to={{
-      pathname: '/albums',
-      state: { from: props.location },
-    }} />
+import { MyConsumer } from '../containers/MyProvider';
+
+const AuthRoute = ({ ...props }) => (
+  <MyConsumer>
+    {({ state }) => state.isAuthenticated
+      ? <Route {...props} />
+      : <Redirect to={{
+        pathname: '/albums',
+        state: { from: props.location },
+      }} />
+    }
+  </MyConsumer>
 );
-
-AuthRoute.propTypes = {
-  isAuthenticated: PropTypes.bool.isRequired,
-};
 
 export default AuthRoute;

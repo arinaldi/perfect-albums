@@ -1,9 +1,11 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 
+import { MyConsumer } from './MyProvider';
 import CreateEditAlbum from '../components/CreateEditAlbum';
 import Loader from '../components/Loader';
 import AppMessage from '../components/AppMessage';
+
 import Api from '../utils/api';
 import { getQuery } from '../utils';
 import { ALERT_TYPES, MESSAGES } from '../constants';
@@ -74,8 +76,8 @@ class CreateEditAlbumContainer extends Component {
     });
   }
 
-  handleResponse (res) {
-    const { history, showAlert, signOut } = this.props;
+  handleResponse (res, showAlert, signOut) {
+    const { history } = this.props;
     const { isEditMode, query } = this.state;
     const action = isEditMode ? 'edited' : 'created';
 
@@ -88,7 +90,7 @@ class CreateEditAlbumContainer extends Component {
     }
   }
 
-  handleSubmit = (e) => {
+  handleSubmit = (e, showAlert, signOut) => {
     e.preventDefault();
     const { match } = this.props;
     const { album, isEditMode } = this.state;
@@ -96,7 +98,7 @@ class CreateEditAlbumContainer extends Component {
     if (isEditMode) {
       Api.put(`/api/albums/${match.params.id}`, album)
         .then(res => {
-          this.handleResponse(res);
+          this.handleResponse(res, showAlert, signOut);
         })
         .catch(err => {
           this.setState({ error: err.message });
@@ -104,7 +106,7 @@ class CreateEditAlbumContainer extends Component {
     } else {
       Api.post('/api/albums', album)
         .then(res => {
-          this.handleResponse(res);
+          this.handleResponse(res, showAlert, signOut);
         })
         .catch(err => {
           this.setState({ error: err.message });
@@ -127,14 +129,18 @@ class CreateEditAlbumContainer extends Component {
     if (error) return <AppMessage />;
 
     return (
-      <CreateEditAlbum
-        history={history}
-        album={album}
-        header={header}
-        query={query}
-        handleChange={this.handleChange}
-        handleSubmit={this.handleSubmit}
-      />
+      <MyConsumer>
+        {({ showAlert, signOut }) => (
+          <CreateEditAlbum
+            history={history}
+            album={album}
+            header={header}
+            query={query}
+            handleChange={this.handleChange}
+            handleSubmit={e => this.handleSubmit(e, showAlert, signOut)}
+          />
+        )}
+      </MyConsumer>
     );
   }
 }
@@ -143,8 +149,6 @@ CreateEditAlbumContainer.propTypes = {
   history: PropTypes.object.isRequired,
   location: PropTypes.object.isRequired,
   match: PropTypes.object.isRequired,
-  showAlert: PropTypes.func.isRequired,
-  signOut: PropTypes.func.isRequired,
 };
 
 export default CreateEditAlbumContainer;

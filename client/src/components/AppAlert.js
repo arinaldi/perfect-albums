@@ -1,23 +1,20 @@
 import React from 'react';
 import { Alert } from 'react-bootstrap';
-import PropTypes from 'prop-types';
 
-const AppAlert = ({ alert }) => {
-  const alertClass = alert.isOpen ? 'alert-show' : 'alert-hide';
+import { MyConsumer } from '../containers/MyProvider';
 
-  return (
-    <div className={`alert-container ${alertClass}`}>
-      <Alert variant={alert.type}>{alert.message}</Alert>
-    </div>
-  );
-};
+const AppAlert = () => (
+  <MyConsumer>
+    {({ state }) => {
+      const alertClass = state.alert.isOpen ? 'alert-show' : 'alert-hide';
 
-AppAlert.propTypes = {
-  alert: PropTypes.shape({
-    isOpen: PropTypes.bool.isRequired,
-    type: PropTypes.string.isRequired,
-    message: PropTypes.string.isRequired,
-  }).isRequired,
-};
+      return (
+        <div className={`alert-container ${alertClass}`}>
+          <Alert variant={state.alert.type}>{state.alert.message}</Alert>
+        </div>
+      );
+    }}
+  </MyConsumer>
+);
 
 export default AppAlert;

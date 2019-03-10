@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 
-import { MyConsumer } from './MyProvider';
+import { MyContext } from './MyProvider';
 import DeleteAlbum from '../components/DeleteAlbum';
 import Loader from '../components/Loader';
 import AppMessage from '../components/AppMessage';
@@ -42,7 +42,8 @@ class DeleteAlbumContainer extends Component {
       });
   }
 
-  handleResponse (res, showAlert, signOut) {
+  handleResponse (res) {
+    const { showAlert, signOut } = this.context;
     const { history } = this.props;
     const { query } = this.state;
 
@@ -55,13 +56,13 @@ class DeleteAlbumContainer extends Component {
     }
   }
 
-  handleSubmit = (e, showAlert, signOut) => {
+  handleSubmit = (e) => {
     e.preventDefault();
     const { match } = this.props;
 
     Api.delete(`/api/albums/${match.params.id}`)
       .then(res => {
-        this.handleResponse(res, showAlert, signOut);
+        this.handleResponse(res);
       })
       .catch(err => {
         this.setState({ error: err.message });
@@ -82,17 +83,13 @@ class DeleteAlbumContainer extends Component {
     if (error) return <AppMessage />;
 
     return (
-      <MyConsumer>
-        {({ showAlert, signOut }) => (
-          <DeleteAlbum
-            history={history}
-            artist={artist}
-            title={title}
-            query={query}
-            handleSubmit={e => this.handleSubmit(e, showAlert, signOut)}
-          />
-        )}
-      </MyConsumer>
+      <DeleteAlbum
+        history={history}
+        artist={artist}
+        title={title}
+        query={query}
+        handleSubmit={this.handleSubmit}
+      />
     );
   }
 }
@@ -102,5 +99,6 @@ DeleteAlbumContainer.propTypes = {
   location: PropTypes.object.isRequired,
   match: PropTypes.object.isRequired,
 };
+DeleteAlbumContainer.contextType = MyContext;
 
 export default DeleteAlbumContainer;

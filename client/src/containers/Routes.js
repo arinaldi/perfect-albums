@@ -8,8 +8,9 @@ import {
 
 import NavBar from '../components/NavBar';
 import AppAlert from '../components/AppAlert';
-import SignIn from '../components/SignIn';
 import Songs from '../components/Songs';
+
+import SignIn from './SignIn';
 import TopAlbums from './TopAlbums';
 import Admin from './Admin';
 import CreateEditAlbum from './CreateEditAlbum';
@@ -30,7 +31,7 @@ const Routes = () => (
         <AuthRoute path='/delete/:id' component={DeleteAlbum} />
         <Route path='/signin' component={SignIn} />
         <Route render={() => <Redirect to='/albums' />} />
-        </Switch>
+      </Switch>
     </Fragment>
   </Router>
 );

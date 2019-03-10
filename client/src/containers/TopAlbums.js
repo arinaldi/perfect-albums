@@ -3,6 +3,7 @@ import React, { Component } from 'react';
 import TopAlbums from '../components/TopAlbums';
 import Loader from '../components/Loader';
 import AppMessage from '../components/AppMessage';
+
 import Api from '../utils/api';
 
 class TopAlbumsContainer extends Component {
@@ -10,7 +11,7 @@ class TopAlbumsContainer extends Component {
     data: [],
     searchText: '',
     isLoading: true,
-    error: ''
+    error: '',
   };
 
   componentDidMount () {
@@ -36,9 +37,7 @@ class TopAlbumsContainer extends Component {
     if (isLoading) return <Loader />;
     if (error) return <AppMessage />;
 
-    return (
-      <TopAlbums data={data} />
-    );
+    return <TopAlbums data={data} />;
   }
 }
 

@@ -1,7 +1,6 @@
 import React, { Component, createContext } from 'react';
 
 import { ALERT_TIMEOUT } from '../constants';
-import Api from '../utils/api';
 import { setToken, getToken, removeToken } from '../utils/storage';
 
 const MyContext = createContext();
@@ -9,7 +8,6 @@ const MyConsumer = MyContext.Consumer;
 
 class MyProvider extends Component {
   state = {
-    error: '',
     isAuthenticated: !!getToken(),
     alert: {
       isOpen: false,
@@ -18,43 +16,14 @@ class MyProvider extends Component {
     },
   };
 
-  handleSignIn = (credentials) => {
-    const { username, password } = credentials;
-    if (!username.trim() || !password.trim() ) {
-      this.setState({
-        error: 'Must provide all fields'
-      });
-    } else {
-      Api.post('/api/signin', credentials)
-        .then(res => {
-          if (res.status === 401) {
-            return this.setState({
-              error: 'Invalid username or password',
-            });
-          }
-          return res.json();
-        })
-        .then(data => {
-          if (data) {
-            setToken(data.token);
-            this.setState({
-              error: '',
-              isAuthenticated: true,
-            });
-          }
-        });
-    }
+  handleSignIn = (token) => {
+    setToken(token);
+    this.setState({ isAuthenticated: true });
   }
 
   handleSignOut = () => {
     removeToken();
-    this.setState({
-      isAuthenticated: false
-    });
-  }
-
-  clearError = () => {
-    this.setState({ error: '' });
+    this.setState({ isAuthenticated: false });
   }
 
   showAlert = (type, message) => {
@@ -82,7 +51,6 @@ class MyProvider extends Component {
         state: this.state,
         signIn: this.handleSignIn,
         signOut: this.handleSignOut,
-        clearError: this.clearError,
         showAlert: this.showAlert,
       }}>
         {this.props.children}
@@ -91,5 +59,5 @@ class MyProvider extends Component {
   }
 }
 
-export { MyConsumer };
+export { MyContext, MyConsumer };
 export default MyProvider;

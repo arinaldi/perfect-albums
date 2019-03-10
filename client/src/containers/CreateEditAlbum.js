@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 
-import { MyConsumer } from './MyProvider';
+import { MyContext } from './MyProvider';
 import CreateEditAlbum from '../components/CreateEditAlbum';
 import Loader from '../components/Loader';
 import AppMessage from '../components/AppMessage';
@@ -76,7 +76,8 @@ class CreateEditAlbumContainer extends Component {
     });
   }
 
-  handleResponse (res, showAlert, signOut) {
+  handleResponse (res) {
+    const { showAlert, signOut } = this.context;
     const { history } = this.props;
     const { isEditMode, query } = this.state;
     const action = isEditMode ? 'edited' : 'created';
@@ -90,7 +91,7 @@ class CreateEditAlbumContainer extends Component {
     }
   }
 
-  handleSubmit = (e, showAlert, signOut) => {
+  handleSubmit = (e) => {
     e.preventDefault();
     const { match } = this.props;
     const { album, isEditMode } = this.state;
@@ -98,7 +99,7 @@ class CreateEditAlbumContainer extends Component {
     if (isEditMode) {
       Api.put(`/api/albums/${match.params.id}`, album)
         .then(res => {
-          this.handleResponse(res, showAlert, signOut);
+          this.handleResponse(res);
         })
         .catch(err => {
           this.setState({ error: err.message });
@@ -106,7 +107,7 @@ class CreateEditAlbumContainer extends Component {
     } else {
       Api.post('/api/albums', album)
         .then(res => {
-          this.handleResponse(res, showAlert, signOut);
+          this.handleResponse(res);
         })
         .catch(err => {
           this.setState({ error: err.message });
@@ -129,18 +130,14 @@ class CreateEditAlbumContainer extends Component {
     if (error) return <AppMessage />;
 
     return (
-      <MyConsumer>
-        {({ showAlert, signOut }) => (
-          <CreateEditAlbum
-            history={history}
-            album={album}
-            header={header}
-            query={query}
-            handleChange={this.handleChange}
-            handleSubmit={e => this.handleSubmit(e, showAlert, signOut)}
-          />
-        )}
-      </MyConsumer>
+      <CreateEditAlbum
+        history={history}
+        album={album}
+        header={header}
+        query={query}
+        handleChange={this.handleChange}
+        handleSubmit={this.handleSubmit}
+      />
     );
   }
 }
@@ -150,5 +147,6 @@ CreateEditAlbumContainer.propTypes = {
   location: PropTypes.object.isRequired,
   match: PropTypes.object.isRequired,
 };
+CreateEditAlbumContainer.contextType = MyContext;
 
 export default CreateEditAlbumContainer;

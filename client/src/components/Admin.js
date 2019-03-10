@@ -1,4 +1,4 @@
-import React, { Component, createRef } from 'react';
+import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import {
   Button,
@@ -14,17 +14,16 @@ import AppMessage from './AppMessage';
 import { ALERT_TYPES, MESSAGES } from '../constants';
 
 class Admin extends Component {
-  searchInput = createRef();
-
   componentDidMount () {
-    this.searchInput.current.focus();
+    this.props.searchInput.current.focus();
   }
 
   render () {
     const {
       history,
-      filteredData,
       searchText,
+      filteredData,
+      searchInput,
       handleChange,
       clearInput,
     } = this.props;
@@ -37,7 +36,7 @@ class Admin extends Component {
             <Form>
               <Form.Group controlId='formSearch'>
                 <Form.Control
-                  ref={this.searchInput}
+                  ref={searchInput}
                   type='text'
                   value={searchText}
                   placeholder='Search'
@@ -78,8 +77,9 @@ class Admin extends Component {
 
 Admin.propTypes = {
   history: PropTypes.object.isRequired,
-  filteredData: PropTypes.array.isRequired,
   searchText: PropTypes.string.isRequired,
+  filteredData: PropTypes.array.isRequired,
+  searchInput: PropTypes.object.isRequired,
   handleChange: PropTypes.func.isRequired,
   clearInput: PropTypes.func.isRequired,
 };

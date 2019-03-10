@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component, createRef } from 'react';
 import PropTypes from 'prop-types';
 
 import Admin from '../components/Admin';
@@ -16,6 +16,8 @@ class AdminContainer extends Component {
     isLoading: true,
     error: ''
   };
+
+  searchInput = createRef();
 
   componentDidMount () {
     const { search } = this.props.location;
@@ -64,6 +66,7 @@ class AdminContainer extends Component {
       filteredData: formatData(this.state.data),
       searchText: ''
     });
+    this.searchInput.current.focus();
   }
 
   render () {
@@ -78,6 +81,7 @@ class AdminContainer extends Component {
         history={history}
         searchText={searchText}
         filteredData={filteredData}
+        searchInput={this.searchInput}
         handleChange={this.handleChange}
         clearInput={this.clearInput}
       />

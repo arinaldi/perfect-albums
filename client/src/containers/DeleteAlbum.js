@@ -15,6 +15,7 @@ class DeleteAlbumContainer extends Component {
     artist: '',
     title: '',
     isLoading: true,
+    isDeleting: false,
     error: '',
     query: '',
   };
@@ -60,13 +61,20 @@ class DeleteAlbumContainer extends Component {
     e.preventDefault();
     const { match } = this.props;
 
-    Api.delete(`/api/albums/${match.params.id}`)
-      .then(res => {
-        this.handleResponse(res);
-      })
-      .catch(err => {
-        this.setState({ error: err.message });
-      });
+    this.setState({ isDeleting: true }, () => {
+      Api.delete(`/api/albums/${match.params.id}`)
+        .then(res => {
+          this.setState({ isDeleting: false }, () => {
+            this.handleResponse(res);
+          });
+        })
+        .catch(err => {
+          this.setState({
+            isDeleting: false,
+            error: err.message,
+          });
+        });
+    });
   }
 
   render () {
@@ -75,6 +83,7 @@ class DeleteAlbumContainer extends Component {
       artist,
       title,
       isLoading,
+      isDeleting,
       error,
       query,
     } = this.state;
@@ -87,6 +96,7 @@ class DeleteAlbumContainer extends Component {
         history={history}
         artist={artist}
         title={title}
+        isDeleting={isDeleting}
         query={query}
         handleSubmit={this.handleSubmit}
       />

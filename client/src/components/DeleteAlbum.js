@@ -11,6 +11,7 @@ const DeleteAlbum = ({
   history,
   artist,
   title,
+  isDeleting,
   query,
   handleSubmit,
 }) => (
@@ -33,8 +34,9 @@ const DeleteAlbum = ({
         <Button
           type='submit'
           variant='outline-dark'
+          disabled={isDeleting}
         >
-          Delete
+          {isDeleting ? 'Deleting...' : 'Delete'}
         </Button>
       </Form.Row>
     </Form>
@@ -45,11 +47,13 @@ DeleteAlbum.propTypes = {
   history: PropTypes.object.isRequired,
   artist: PropTypes.string.isRequired,
   title: PropTypes.string.isRequired,
+  isDeleting: PropTypes.bool,
   query: PropTypes.string,
   handleSubmit: PropTypes.func.isRequired,
 };
 
 DeleteAlbum.defaultProps = {
+  isDeleting: false,
   query: '',
 };
 

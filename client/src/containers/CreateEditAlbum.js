@@ -22,6 +22,7 @@ class CreateEditAlbumContainer extends Component {
     },
     isEditMode: false,
     isLoading: true,
+    isSaving: false,
     error: '',
     query: '',
   };
@@ -96,23 +97,25 @@ class CreateEditAlbumContainer extends Component {
     const { match } = this.props;
     const { album, isEditMode } = this.state;
 
-    if (isEditMode) {
-      Api.put(`/api/albums/${match.params.id}`, album)
+    const saveFunc = isEditMode
+      ? Api.put(`/api/albums/${match.params.id}`, album)
+      : Api.post('/api/albums', album);
+
+
+    this.setState({ isSaving: true }, () => {
+      saveFunc
         .then(res => {
-          this.handleResponse(res);
+          this.setState({ isSaving: false }, () => {
+            this.handleResponse(res);
+          });
         })
         .catch(err => {
-          this.setState({ error: err.message });
+          this.setState({
+            isSaving: false,
+            error: err.message,
+          });
         });
-    } else {
-      Api.post('/api/albums', album)
-        .then(res => {
-          this.handleResponse(res);
-        })
-        .catch(err => {
-          this.setState({ error: err.message });
-        });
-    }
+    });
   }
 
   render () {
@@ -121,6 +124,7 @@ class CreateEditAlbumContainer extends Component {
       album,
       isEditMode,
       isLoading,
+      isSaving,
       error,
       query,
     } = this.state;
@@ -133,8 +137,9 @@ class CreateEditAlbumContainer extends Component {
       <CreateEditAlbum
         history={history}
         album={album}
-        header={header}
+        isSaving={isSaving}
         query={query}
+        header={header}
         handleChange={this.handleChange}
         handleSubmit={this.handleSubmit}
       />

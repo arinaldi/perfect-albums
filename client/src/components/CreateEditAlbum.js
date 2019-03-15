@@ -10,8 +10,9 @@ import PropTypes from 'prop-types';
 const CreateEditAlbum = ({
   history,
   album,
-  header,
+  isSaving,
   query,
+  header,
   handleChange,
   handleSubmit,
 }) => (
@@ -122,8 +123,9 @@ const CreateEditAlbum = ({
         <Button
           type='submit'
           variant='outline-dark'
+          disabled={isSaving}
         >
-          Save
+          {isSaving ? 'Saving...' : 'Save'}
         </Button>
       </Form.Row>
     </Form>
@@ -140,13 +142,15 @@ CreateEditAlbum.propTypes = {
     aotd: PropTypes.bool.isRequired,
     favorite: PropTypes.bool.isRequired,
   }).isRequired,
-  header: PropTypes.string.isRequired,
+  isSaving: PropTypes.bool,
   query: PropTypes.string,
+  header: PropTypes.string.isRequired,
   handleChange: PropTypes.func.isRequired,
   handleSubmit: PropTypes.func.isRequired,
 };
 
 CreateEditAlbum.defaultProps = {
+  isSaving: false,
   query: '',
 };
 

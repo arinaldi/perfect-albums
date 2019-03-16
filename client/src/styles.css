@@ -54,10 +54,6 @@ a.dashed:hover {
   z-index: 99;
 }
 
-.error {
-  text-align: center;
-}
-
 .loader {
   margin: 100px auto;
   font-size: 15px;

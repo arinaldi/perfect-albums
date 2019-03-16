@@ -64,9 +64,7 @@ class CreateEditAlbumContainer extends Component {
   handleChange = ({ target: { name, value } }) => {
     let newValue = value;
 
-    if (['cd', 'aotd', 'favorite'].includes(name)) {
-      newValue = value === 'true';
-    } else if (name === 'year') {
+    if (name === 'year') {
       newValue = value.replace(/\D/, '');
     }
 
@@ -74,6 +72,15 @@ class CreateEditAlbumContainer extends Component {
       album: {
         ...this.state.album,
         [name]: newValue,
+      },
+    });
+  }
+
+  handleRadioChange = (value, e) => {
+    this.setState({
+      album: {
+        ...this.state.album,
+        [e.target.name]: value
       },
     });
   }
@@ -105,10 +112,7 @@ class CreateEditAlbumContainer extends Component {
       : '/api/albums';
 
     if (form.checkValidity()) {
-      this.setState({
-        isValidated: true,
-        isSaving: true,
-      }, () => {
+      this.setState({ isSaving: true }, () => {
         saveFunc(saveUrl, album)
           .then(res => {
             this.setState({ isSaving: false }, () => {
@@ -152,6 +156,7 @@ class CreateEditAlbumContainer extends Component {
         query={query}
         header={header}
         handleChange={this.handleChange}
+        handleRadioChange={this.handleRadioChange}
         handleSubmit={this.handleSubmit}
       />
     );

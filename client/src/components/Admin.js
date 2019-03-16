@@ -35,7 +35,7 @@ class Admin extends Component {
             <h3>Admin</h3>
             <Form>
               <Form.Group as={Row} controlId='formSearch'>
-                <Col xs={12} sm={8} md={9} lg={10}>
+                <Col>
                   <Form.Control
                     ref={searchInput}
                     type='text'
@@ -45,7 +45,7 @@ class Admin extends Component {
                     style={{ marginBottom: 5 }}
                   />
                 </Col>
-                <Col xs={12} sm={4} md={3} lg={2}>
+                <Col sm={12} md='auto'>
                   <Button
                     variant='outline-dark'
                     onClick={clearInput}

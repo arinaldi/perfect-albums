@@ -7,7 +7,7 @@
   },
   "scripts": {
     "start": "node src/index.js",
-    "dev": "nodemon --exec 'node src/index'",
+    "dev": "nodemon src/index.js",
     "lint": "eslint src/**/*.js",
     "heroku-postbuild": "cd client && npm install && npm run build"
   },

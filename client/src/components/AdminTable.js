@@ -4,6 +4,7 @@ import PropTypes from 'prop-types';
 import { ICONS } from '../constants';
 
 const { CHECK } = ICONS;
+const margin = 2;
 
 const AdminTableRow = ({ history, item, searchText }) => (
   <tr>
@@ -18,6 +19,7 @@ const AdminTableRow = ({ history, item, searchText }) => (
         variant='outline-dark'
         size='sm'
         onClick={() => history.push(`/edit/${item.id}?${searchText}`)}
+        style={{ margin }}
       >
         Edit
       </Button>
@@ -25,7 +27,7 @@ const AdminTableRow = ({ history, item, searchText }) => (
         variant='outline-dark'
         size='sm'
         onClick={() => history.push(`/delete/${item.id}?${searchText}`)}
-        style={{ marginLeft: 5 }}
+        style={{ margin }}
       >
         Delete
       </Button>

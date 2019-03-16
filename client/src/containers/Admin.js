@@ -62,11 +62,18 @@ class AdminContainer extends Component {
   }
 
   clearInput = () => {
+    const { history, location } = this.props;
+
     this.setState({
       filteredData: formatData(this.state.data),
       searchText: ''
     });
     this.searchInput.current.focus();
+
+    if (location.search) {
+      location.search = '';
+      history.push(location);
+    }
   }
 
   render () {

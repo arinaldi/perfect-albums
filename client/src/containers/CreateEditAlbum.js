@@ -22,6 +22,7 @@ class CreateEditAlbumContainer extends Component {
     },
     isEditMode: false,
     isLoading: true,
+    isValidated: false,
     isSaving: false,
     error: '',
     query: '',
@@ -94,28 +95,36 @@ class CreateEditAlbumContainer extends Component {
 
   handleSubmit = (e) => {
     e.preventDefault();
+    const form = e.currentTarget;
     const { match } = this.props;
     const { album, isEditMode } = this.state;
 
-    const saveFunc = isEditMode
-      ? Api.put(`/api/albums/${match.params.id}`, album)
-      : Api.post('/api/albums', album);
+    const saveFunc = isEditMode ? Api.put : Api.post;
+    const saveUrl = isEditMode
+      ? `/api/albums/${match.params.id}`
+      : '/api/albums';
 
-
-    this.setState({ isSaving: true }, () => {
-      saveFunc
-        .then(res => {
-          this.setState({ isSaving: false }, () => {
-            this.handleResponse(res);
+    if (form.checkValidity()) {
+      this.setState({
+        isValidated: true,
+        isSaving: true,
+      }, () => {
+        saveFunc(saveUrl, album)
+          .then(res => {
+            this.setState({ isSaving: false }, () => {
+              this.handleResponse(res);
+            });
+          })
+          .catch(err => {
+            this.setState({
+              isSaving: false,
+              error: err.message,
+            });
           });
-        })
-        .catch(err => {
-          this.setState({
-            isSaving: false,
-            error: err.message,
-          });
-        });
-    });
+      });
+    } else {
+      this.setState({ isValidated: true });
+    }
   }
 
   render () {
@@ -124,6 +133,7 @@ class CreateEditAlbumContainer extends Component {
       album,
       isEditMode,
       isLoading,
+      isValidated,
       isSaving,
       error,
       query,
@@ -137,6 +147,7 @@ class CreateEditAlbumContainer extends Component {
       <CreateEditAlbum
         history={history}
         album={album}
+        isValidated={isValidated}
         isSaving={isSaving}
         query={query}
         header={header}

@@ -10,6 +10,7 @@ import PropTypes from 'prop-types';
 const CreateEditAlbum = ({
   history,
   album,
+  isValidated,
   isSaving,
   query,
   header,
@@ -18,7 +19,11 @@ const CreateEditAlbum = ({
 }) => (
   <Container>
     <h3>{`${header} Album`}</h3>
-    <Form onSubmit={handleSubmit}>
+    <Form
+      noValidate
+      validated={isValidated}
+      onSubmit={handleSubmit}
+    >
       <Form.Row>
         <Form.Group as={Col} controlId='formArtist'>
           <Form.Label>Artist</Form.Label>
@@ -27,7 +32,11 @@ const CreateEditAlbum = ({
             name='artist'
             value={album.artist}
             onChange={handleChange}
+            required
           />
+          <Form.Control.Feedback type='invalid'>
+            Required
+          </Form.Control.Feedback>
         </Form.Group>
       </Form.Row>
       <Form.Row>
@@ -38,9 +47,14 @@ const CreateEditAlbum = ({
             name='title'
             value={album.title}
             onChange={handleChange}
+            required
           />
+          <Form.Control.Feedback type='invalid'>
+            Required
+          </Form.Control.Feedback>
         </Form.Group>
       </Form.Row>
+
       <Form.Row>
         <Form.Group as={Col} controlId='formYear'>
           <Form.Label>Year</Form.Label>
@@ -48,11 +62,16 @@ const CreateEditAlbum = ({
             type='text'
             name='year'
             value={album.year}
-            maxLength='4'
             onChange={handleChange}
+            required
+            maxLength='4'
           />
+          <Form.Control.Feedback type='invalid'>
+            Required
+          </Form.Control.Feedback>
         </Form.Group>
       </Form.Row>
+
       <Form.Row>
         <Form.Group as={Col} controlId='formCd'>
           <Form.Label>CD</Form.Label>
@@ -142,6 +161,7 @@ CreateEditAlbum.propTypes = {
     aotd: PropTypes.bool.isRequired,
     favorite: PropTypes.bool.isRequired,
   }).isRequired,
+  isValidated: PropTypes.bool,
   isSaving: PropTypes.bool,
   query: PropTypes.string,
   header: PropTypes.string.isRequired,
@@ -150,6 +170,7 @@ CreateEditAlbum.propTypes = {
 };
 
 CreateEditAlbum.defaultProps = {
+  isValidated: false,
   isSaving: false,
   query: '',
 };

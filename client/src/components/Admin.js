@@ -34,28 +34,32 @@ class Admin extends Component {
           <Col xs={12}>
             <h3>Admin</h3>
             <Form>
-              <Form.Group controlId='formSearch'>
-                <Form.Control
-                  ref={searchInput}
-                  type='text'
-                  value={searchText}
-                  placeholder='Search'
-                  onChange={handleChange}
-                />
-                <Button
-                  variant='outline-dark'
-                  onClick={clearInput}
-                  style={{ marginTop: 5, marginRight: 5 }}
-                >
-                  Clear
-                </Button>
-                <Button
-                  variant='outline-dark'
-                  onClick={() => history.push(`/new?${searchText}`)}
-                  style={{ marginTop: 5 }}
-                >
-                  New
-                </Button>
+              <Form.Group as={Row} controlId='formSearch'>
+                <Col xs={12} sm={8} md={9} lg={10}>
+                  <Form.Control
+                    ref={searchInput}
+                    type='text'
+                    value={searchText}
+                    placeholder='Search'
+                    onChange={handleChange}
+                    style={{ marginBottom: 5 }}
+                  />
+                </Col>
+                <Col xs={12} sm={4} md={3} lg={2}>
+                  <Button
+                    variant='outline-dark'
+                    onClick={clearInput}
+                    style={{ marginRight: 5 }}
+                  >
+                    Clear
+                  </Button>
+                  <Button
+                    variant='outline-dark'
+                    onClick={() => history.push(`/new?${searchText}`)}
+                  >
+                    New
+                  </Button>
+                </Col>
               </Form.Group>
             </Form>
             {filteredData.length

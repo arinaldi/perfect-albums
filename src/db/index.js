@@ -1,16 +1,15 @@
-const { Mockgoose } = require('mockgoose');
 const mongoose = require('mongoose');
-const LOCAL_DB = 'mongodb://localhost:27017/tester';
 
 function connect () {
   return new Promise((resolve, reject) => {
     if (process.env.NODE_ENV === 'test') {
+      const { Mockgoose } = require('mockgoose');
       const mockgoose = new Mockgoose(mongoose);
 
       mockgoose.prepareStorage()
         .then(() => {
           mongoose.connect(
-            LOCAL_DB,
+            'mongodb://localhost:27017/tester',
             { useNewUrlParser: true, useCreateIndex: true },
           );
           mongoose.connection.on('error', err => {

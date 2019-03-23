@@ -85,24 +85,20 @@ class CreateEditAlbumContainer extends Component {
     });
   }
 
-  handleResponse (res) {
-    const { showAlert, signOut } = this.context;
+  handleSuccess () {
+    const { showAlert } = this.context;
     const { history } = this.props;
     const { isEditMode, query } = this.state;
     const action = isEditMode ? 'edited' : 'created';
 
-    if (res.status === 401) {
-      signOut();
-      showAlert(ALERT_TYPES.ERROR, MESSAGES.UNAUTHORIZED);
-    } else {
-      history.push(`/admin?${query}`);
-      showAlert(ALERT_TYPES.SUCCESS, `${MESSAGES.PREFIX} ${action}`);
-    }
+    history.push(`/admin?${query}`);
+    showAlert(ALERT_TYPES.SUCCESS, `${MESSAGES.PREFIX} ${action}`);
   }
 
   handleSubmit = (e) => {
     e.preventDefault();
     const form = e.currentTarget;
+    const { signOut, showAlert } = this.context;
     const { match } = this.props;
     const { album, isEditMode } = this.state;
 
@@ -113,18 +109,17 @@ class CreateEditAlbumContainer extends Component {
 
     if (form.checkValidity()) {
       this.setState({ isSaving: true }, () => {
-        saveFunc(saveUrl, album)
+        saveFunc(saveUrl, album, signOut, showAlert)
           .then(res => {
-            this.setState({ isSaving: false }, () => {
-              this.handleResponse(res);
-            });
+            this.setState(
+              { isSaving: false },
+              () => this.handleSuccess(),
+            );
           })
-          .catch(err => {
-            this.setState({
-              isSaving: false,
-              error: err.message,
-            });
-          });
+          .catch(err => this.setState({
+            isSaving: false,
+            error: err.message,
+          }));
       });
     } else {
       this.setState({ isValidated: true });

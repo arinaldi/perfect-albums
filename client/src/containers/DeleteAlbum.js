@@ -43,37 +43,32 @@ class DeleteAlbumContainer extends Component {
       });
   }
 
-  handleResponse (res) {
-    const { showAlert, signOut } = this.context;
+  handleSuccess () {
+    const { showAlert } = this.context;
     const { history } = this.props;
     const { query } = this.state;
 
-    if (res.status === 401) {
-      signOut();
-      showAlert(ALERT_TYPES.ERROR, MESSAGES.UNAUTHORIZED);
-    } else {
-      history.push(`/admin?${query}`);
-      showAlert(ALERT_TYPES.SUCCESS, `${MESSAGES.PREFIX} deleted`);
-    }
+    history.push(`/admin?${query}`);
+    showAlert(ALERT_TYPES.SUCCESS, `${MESSAGES.PREFIX} deleted`);
   }
 
   handleSubmit = (e) => {
     e.preventDefault();
+    const { signOut, showAlert } = this.context;
     const { match } = this.props;
 
     this.setState({ isDeleting: true }, () => {
-      Api.delete(`/api/albums/${match.params.id}`)
+      Api.delete(`/api/albums/${match.params.id}`, signOut, showAlert)
         .then(res => {
-          this.setState({ isDeleting: false }, () => {
-            this.handleResponse(res);
-          });
+          this.setState(
+            { isDeleting: false },
+            () => this.handleSuccess(),
+          );
         })
-        .catch(err => {
-          this.setState({
-            isDeleting: false,
-            error: err.message,
-          });
-        });
+        .catch(err => this.setState({
+          isDeleting: false,
+          error: err.message,
+        }));
     });
   }
 

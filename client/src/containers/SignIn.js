@@ -40,20 +40,14 @@ class SignInContainer extends Component {
       });
     } else {
       Api.post('/api/signin', { username, password })
-        .then(res => {
-          if (res.status === 401) {
-            return this.setState({
-              error: 'Invalid username or password',
-            });
-          }
-          return res.json();
-        })
+        .then(res => res.json())
         .then(data => {
           if (data) {
             this.setState({ error: '' });
             signIn(data.token);
           }
-        });
+        })
+        .catch(err => this.setState({ error: err.message }));
     }
   }
 

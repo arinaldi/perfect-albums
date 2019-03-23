@@ -1,7 +1,7 @@
 require('dotenv').config();
 const bcrypt = require('bcrypt-nodejs');
 const jwt = require('jwt-simple');
-const User = require('../models/UserModel');
+const User = require('../db/models/UserModel');
 
 const makeToken = (user) => {
   const timestamp = new Date().getTime();

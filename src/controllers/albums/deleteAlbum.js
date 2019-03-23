@@ -1,4 +1,4 @@
-const AlbumModel = require('../../models/AlbumModel');
+const AlbumModel = require('../../db/models/AlbumModel');
 
 module.exports = (id, data) => (
   new Promise((resolve, reject) => {

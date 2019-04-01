@@ -17,6 +17,7 @@ const handleResponse = (res, signOut, showAlert) => {
       if (res.url.includes('signin')) {
         reject(new Error(MESSAGES.SIGNIN));
       } else {
+        reject(new Error(MESSAGES.UNAUTHORIZED));
         signOut();
         showAlert(ALERT_TYPES.ERROR, MESSAGES.UNAUTHORIZED);
       }

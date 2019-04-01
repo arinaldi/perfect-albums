@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useContext } from 'react';
+import React, { useState, useEffect, useContext, Fragment } from 'react';
 import PropTypes from 'prop-types';
 
 import DeleteAlbum from '../components/DeleteAlbum';
@@ -17,7 +17,7 @@ const DeleteAlbumContainer = ({ history, location, match }) => {
   const [query, setQuery] = useState('');
   const [isLoading, setIsLoading] = useState(true);
   const [isDeleting, setIsDeleting] = useState(false);
-  const [isError, setIsError] = useState(false);
+  const [error, setError] = useState('');
   const { signOut, showAlert } = useContext(MyContext);
 
   useEffect(() => {
@@ -28,7 +28,7 @@ const DeleteAlbumContainer = ({ history, location, match }) => {
         setArtist(artist);
         setTitle(title);
       } catch (err) {
-        setIsError(true);
+        setError(err.message);
       }
 
       setIsLoading(false);
@@ -48,23 +48,27 @@ const DeleteAlbumContainer = ({ history, location, match }) => {
       history.push(`/admin?${query}`);
       showAlert(ALERT_TYPES.SUCCESS, `${MESSAGES.PREFIX} deleted`);
     } catch (err) {
-      setIsDeleting(false);
-      setIsError(true);
+      if (err.message !== MESSAGES.UNAUTHORIZED) {
+        setIsDeleting(false);
+        setError(err.message);
+      }
     }
   };
 
   if (isLoading) return <Loader />;
-  if (isError) return <AppMessage />;
 
   return (
-    <DeleteAlbum
-      history={history}
-      artist={artist}
-      title={title}
-      isDeleting={isDeleting}
-      query={query}
-      handleSubmit={handleSubmit}
-    />
+    <Fragment>
+      {error && <AppMessage message={error} />}
+      <DeleteAlbum
+        history={history}
+        artist={artist}
+        title={title}
+        isDeleting={isDeleting}
+        query={query}
+        handleSubmit={handleSubmit}
+      />
+    </Fragment>
   );
 }
 

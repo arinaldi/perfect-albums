@@ -1,4 +1,4 @@
-import React, { Component, createContext } from 'react';
+import React, { useState, createContext } from 'react';
 
 import { ALERT_TIMEOUT } from '../constants';
 import { setToken, getToken, removeToken } from '../utils/storage';
@@ -6,57 +6,53 @@ import { setToken, getToken, removeToken } from '../utils/storage';
 const MyContext = createContext();
 const MyConsumer = MyContext.Consumer;
 
-class MyProvider extends Component {
-  state = {
-    isAuthenticated: !!getToken(),
-    alert: {
-      isOpen: false,
-      type: '',
-      message: '',
-    },
+const MyProvider = (props) => {
+  const [isAuthenticated, setIsAuthenticated] = useState(!!getToken());
+  const [alert, setAlert] = useState({
+    isOpen: false,
+    type: '',
+    message: '',
+  });
+
+  const handleSignIn = (token) => {
+    setToken(token);
+    setIsAuthenticated(true);
   };
 
-  handleSignIn = (token) => {
-    setToken(token);
-    this.setState({ isAuthenticated: true });
-  }
-
-  handleSignOut = () => {
+  const handleSignOut = () => {
     removeToken();
-    this.setState({ isAuthenticated: false });
-  }
+    setIsAuthenticated(false);
+  };
 
-  showAlert = (type, message) => {
-    this.setState({ alert: {
+  const showAlert = (type, message) => {
+    setAlert({
       isOpen: true,
       type,
       message,
-    }});
-    this.hideAlert();
-  }
+    });
+    hideAlert();
+  };
 
-  hideAlert = () => {
+  const hideAlert = () => {
     setTimeout(() => {
-      this.setState({ alert: {
+      setAlert({
         isOpen: false,
         type: '',
         message: '',
-      }});
+      });
     }, ALERT_TIMEOUT);
-  }
+  };
 
-  render () {
-    return (
-      <MyContext.Provider value={{
-        state: this.state,
-        signIn: this.handleSignIn,
-        signOut: this.handleSignOut,
-        showAlert: this.showAlert,
-      }}>
-        {this.props.children}
-      </MyContext.Provider>
-    );
-  }
+  return (
+    <MyContext.Provider value={{
+      state: { isAuthenticated, alert },
+      signIn: handleSignIn,
+      signOut: handleSignOut,
+      showAlert,
+    }}>
+      {props.children}
+    </MyContext.Provider>
+  );
 }
 
 export { MyContext, MyConsumer };

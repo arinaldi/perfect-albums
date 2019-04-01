@@ -22,6 +22,7 @@ const SignIn = ({
           <Form.Control
             type='text'
             name='username'
+            autoComplete='username'
             value={username}
             onChange={handleChange}
           />
@@ -33,6 +34,7 @@ const SignIn = ({
           <Form.Control
             type='password'
             name='password'
+            autoComplete='current-password'
             value={password}
             onChange={handleChange}
           />

@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useContext } from 'react';
+import React, { useState, useEffect, useContext, Fragment } from 'react';
 import PropTypes from 'prop-types';
 
 import CreateEditAlbum from '../components/CreateEditAlbum';
@@ -25,7 +25,7 @@ const CreateEditAlbumContainer = ({ history, location, match }) => {
   const [isLoading, setIsLoading] = useState(true);
   const [isValidated, setIsValidated] = useState(false);
   const [isSaving, setIsSaving] = useState(false);
-  const [isError, setIsError] = useState(false);
+  const [error, setError] = useState('');
   const { signOut, showAlert } = useContext(MyContext);
 
   useEffect(() => {
@@ -36,7 +36,7 @@ const CreateEditAlbumContainer = ({ history, location, match }) => {
         const { id, ...album } = await Api.get(`/api/albums/${match.params.id}`);
         setAlbum(album);
       } catch (err) {
-        setIsError(true);
+        setError(err.message);
       }
 
       setIsLoading(false);
@@ -90,8 +90,10 @@ const CreateEditAlbumContainer = ({ history, location, match }) => {
         history.push(`/admin?${query}`);
         showAlert(ALERT_TYPES.SUCCESS, `${MESSAGES.PREFIX} ${action}`);
       } catch (err) {
-        setIsSaving(false);
-        setIsError(true);
+        if (err.message !== MESSAGES.UNAUTHORIZED) {
+          setIsSaving(false);
+          setError(err.message);
+        }
       }
     } else {
       setIsValidated(true)
@@ -99,20 +101,22 @@ const CreateEditAlbumContainer = ({ history, location, match }) => {
   };
 
   if (isLoading) return <Loader />;
-  if (isError) return <AppMessage />;
 
   return (
-    <CreateEditAlbum
-      history={history}
-      album={album}
-      isValidated={isValidated}
-      isSaving={isSaving}
-      query={query}
-      header={isEditMode ? 'Edit' : 'Create'}
-      handleChange={handleChange}
-      handleRadioChange={handleRadioChange}
-      handleSubmit={handleSubmit}
-    />
+    <Fragment>
+      {error && <AppMessage message={error} />}
+      <CreateEditAlbum
+        history={history}
+        album={album}
+        isValidated={isValidated}
+        isSaving={isSaving}
+        query={query}
+        header={isEditMode ? 'Edit' : 'Create'}
+        handleChange={handleChange}
+        handleRadioChange={handleRadioChange}
+        handleSubmit={handleSubmit}
+      />
+    </Fragment>
   );
 }
 

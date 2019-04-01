@@ -1,91 +1,57 @@
-import React, { Component, Fragment } from 'react';
+import React, { useState, useContext, Fragment } from 'react';
 import { Redirect } from 'react-router-dom';
-import {
-  Container,
-  Row,
-  Col,
-} from 'react-bootstrap';
 
-import { MyContext, MyConsumer } from './MyProvider';
+import { MyContext } from './MyProvider';
 import SignIn from '../components/SignIn';
 import AppMessage from '../components/AppMessage';
 
 import Api from '../utils/api';
 
-class SignInContainer extends Component {
-  state = {
+const SignInContainer = () => {
+  const [credentials, setCredentials] = useState({
     username: '',
     password: '',
-    error: '',
+  });
+  const [error, setError] = useState('');
+  const { state, signIn } = useContext(MyContext);
+
+  const handleChange = ({ target: { name, value } }) => {
+    if (error) setError('');
+
+    setCredentials({
+      ...credentials,
+      [name]: value,
+    });
   };
 
-  handleChange = (e) => {
-    const { name, value } = e.target;
-    const { error } = this.state;
-
-    this.setState({ [name]: value });
-    if (error) {
-      this.setState({ error: '' });
-    }
-  }
-
-  handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    const { signIn } = this.context;
-    const { username, password } = this.state;
 
-    if (!username.trim() || !password.trim() ) {
-      this.setState({
-        error: 'Must provide all fields'
-      });
-    } else {
-      Api.post('/api/signin', { username, password })
-        .then(res => res.json())
-        .then(data => {
-          if (data) {
-            this.setState({ error: '' });
-            signIn(data.token);
-          }
-        })
-        .catch(err => this.setState({ error: err.message }));
+    try {
+      const res = await Api.post('/api/signin', credentials);
+      const data = await res.json();
+
+      signIn(data.token);
+    } catch (err) {
+      setError(err.message);
     }
+  };
+
+  if (state.isAuthenticated) {
+    return <Redirect to='/admin' />;
   }
 
-  render () {
-    const { username, password, error } = this.state;
-
-    return (
-      <MyConsumer>
-      {({ state }) => {
-        if (state.isAuthenticated) {
-          return <Redirect to='/admin' />
-        }
-
-        return (
-          <Fragment>
-            <SignIn
-              username={username}
-              password={password}
-              handleChange={this.handleChange}
-              handleSubmit={this.handleSubmit}
-            />
-            {error && (
-              <Container>
-                <Row className='justify-content-center'>
-                  <Col xs={12} sm={9} md={6}>
-                    <AppMessage message={error} />
-                  </Col>
-                </Row>
-              </Container>
-            )}
-          </Fragment>
-        );
-      }}
-      </MyConsumer>
-    );
-  }
-}
-
-SignInContainer.contextType = MyContext;
+  return (
+    <Fragment>
+      {error && <AppMessage message={error} />}
+      <SignIn
+        username={credentials.username}
+        password={credentials.password}
+        handleChange={handleChange}
+        handleSubmit={handleSubmit}
+      />
+    </Fragment>
+  );
+};
 
 export default SignInContainer;

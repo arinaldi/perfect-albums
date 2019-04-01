@@ -1,161 +1,119 @@
-import React, { Component } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import PropTypes from 'prop-types';
 
-import { MyContext } from './MyProvider';
 import CreateEditAlbum from '../components/CreateEditAlbum';
 import Loader from '../components/Loader';
 import AppMessage from '../components/AppMessage';
 
-import Api from '../utils/api';
 import { getQuery } from '../utils';
+import Api from '../utils/api';
 import { ALERT_TYPES, MESSAGES } from '../constants';
 
-class CreateEditAlbumContainer extends Component {
-  state = {
-    album: {
-      artist: '',
-      title: '',
-      year: '',
-      cd: false,
-      aotd: false,
-      favorite: false,
-    },
-    isEditMode: false,
-    isLoading: true,
-    isValidated: false,
-    isSaving: false,
-    error: '',
-    query: '',
-  };
+import { MyContext } from './MyProvider';
 
-  componentDidMount () {
-    const { location, match } = this.props;
-    const isEditMode = match.path.includes('edit');
+const CreateEditAlbumContainer = ({ history, location, match }) => {
+  const [album, setAlbum] = useState({
+    artist: '',
+    title: '',
+    year: '',
+    cd: false,
+    aotd: false,
+    favorite: false,
+  });
+  const [isEditMode, setIsEditMode] = useState(false);
+  const [query, setQuery] = useState('');
+  const [isLoading, setIsLoading] = useState(true);
+  const [isValidated, setIsValidated] = useState(false);
+  const [isSaving, setIsSaving] = useState(false);
+  const [isError, setIsError] = useState(false);
+  const { signOut, showAlert } = useContext(MyContext);
+
+  useEffect(() => {
     const query = location.search ? getQuery(location.search) : '';
+    const isEditMode = match.path.includes('edit');
+    const fetchData = async () => {
+      try {
+        const { id, ...album } = await Api.get(`/api/albums/${match.params.id}`);
+        setAlbum(album);
+      } catch (err) {
+        setIsError(true);
+      }
+
+      setIsLoading(false);
+    };
+
+    setQuery(query);
+    setIsEditMode(isEditMode);
 
     if (isEditMode) {
-      Api.get(`/api/albums/${match.params.id}`)
-        .then(({ id, ...album }) => {
-          this.setState({
-            album,
-            isEditMode,
-            isLoading: false,
-            error: '',
-            query,
-          });
-        })
-        .catch(err => {
-          this.setState({
-            isEditMode,
-            isLoading: false,
-            error: err.message,
-            query,
-          });
-        });
+      fetchData();
     } else {
-      this.setState({
-        isEditMode,
-        isLoading: false,
-        query,
-      });
+      setIsLoading(false);
     }
-  }
+  }, []);
 
-  handleChange = ({ target: { name, value } }) => {
+  const handleChange = ({ target: { name, value } }) => {
     let newValue = value;
 
     if (name === 'year') {
       newValue = value.replace(/\D/, '');
     }
 
-    this.setState({
-      album: {
-        ...this.state.album,
-        [name]: newValue,
-      },
+    setAlbum({
+      ...album,
+      [name]: newValue,
     });
-  }
+  };
 
-  handleRadioChange = (value, e) => {
-    this.setState({
-      album: {
-        ...this.state.album,
-        [e.target.name]: value
-      },
+  const handleRadioChange = (value, e) => {
+    setAlbum({
+      ...album,
+      [e.target.name]: value,
     });
-  }
+  };
 
-  handleSuccess () {
-    const { showAlert } = this.context;
-    const { history } = this.props;
-    const { isEditMode, query } = this.state;
-    const action = isEditMode ? 'edited' : 'created';
-
-    history.push(`/admin?${query}`);
-    showAlert(ALERT_TYPES.SUCCESS, `${MESSAGES.PREFIX} ${action}`);
-  }
-
-  handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     const form = e.currentTarget;
-    const { signOut, showAlert } = this.context;
-    const { match } = this.props;
-    const { album, isEditMode } = this.state;
-
     const saveFunc = isEditMode ? Api.put : Api.post;
     const saveUrl = isEditMode
       ? `/api/albums/${match.params.id}`
       : '/api/albums';
+    const action = isEditMode ? 'edited' : 'created';
 
     if (form.checkValidity()) {
-      this.setState({ isSaving: true }, () => {
-        saveFunc(saveUrl, album, signOut, showAlert)
-          .then(res => {
-            this.setState(
-              { isSaving: false },
-              () => this.handleSuccess(),
-            );
-          })
-          .catch(err => this.setState({
-            isSaving: false,
-            error: err.message,
-          }));
-      });
+      setIsSaving(true);
+
+      try {
+        await saveFunc(saveUrl, album, signOut, showAlert);
+        setIsSaving(false);
+        history.push(`/admin?${query}`);
+        showAlert(ALERT_TYPES.SUCCESS, `${MESSAGES.PREFIX} ${action}`);
+      } catch (err) {
+        setIsSaving(false);
+        setIsError(true);
+      }
     } else {
-      this.setState({ isValidated: true });
+      setIsValidated(true)
     }
-  }
+  };
 
-  render () {
-    const { history } = this.props;
-    const {
-      album,
-      isEditMode,
-      isLoading,
-      isValidated,
-      isSaving,
-      error,
-      query,
-    } = this.state;
-    const header = isEditMode ? 'Edit' : 'Create';
+  if (isLoading) return <Loader />;
+  if (isError) return <AppMessage />;
 
-    if (isLoading) return <Loader />;
-    if (error) return <AppMessage />;
-
-    return (
-      <CreateEditAlbum
-        history={history}
-        album={album}
-        isValidated={isValidated}
-        isSaving={isSaving}
-        query={query}
-        header={header}
-        handleChange={this.handleChange}
-        handleRadioChange={this.handleRadioChange}
-        handleSubmit={this.handleSubmit}
-      />
-    );
-  }
+  return (
+    <CreateEditAlbum
+      history={history}
+      album={album}
+      isValidated={isValidated}
+      isSaving={isSaving}
+      query={query}
+      header={isEditMode ? 'Edit' : 'Create'}
+      handleChange={handleChange}
+      handleRadioChange={handleRadioChange}
+      handleSubmit={handleSubmit}
+    />
+  );
 }
 
 CreateEditAlbumContainer.propTypes = {
@@ -163,6 +121,5 @@ CreateEditAlbumContainer.propTypes = {
   location: PropTypes.object.isRequired,
   match: PropTypes.object.isRequired,
 };
-CreateEditAlbumContainer.contextType = MyContext;
 
 export default CreateEditAlbumContainer;

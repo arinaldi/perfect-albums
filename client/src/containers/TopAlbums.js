@@ -13,8 +13,6 @@ const TopAlbumsContainer = () => {
 
   useEffect(() => {
     const fetchData = async () => {
-      setIsLoading(true);
-
       try {
         const data = await Api.get('/api/favorites');
         setData(data);

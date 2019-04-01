@@ -1,4 +1,4 @@
-import React, { Component, createRef } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import PropTypes from 'prop-types';
 
 import Admin from '../components/Admin';
@@ -8,67 +8,45 @@ import AppMessage from '../components/AppMessage';
 import { formatData, filterData, getQuery } from '../utils';
 import Api from '../utils/api';
 
-class AdminContainer extends Component {
-  state = {
-    data: [],
-    filteredData: [],
-    searchText: '',
-    isLoading: true,
-    error: ''
+const AdminContainer = ({ history, location }) => {
+  const [data, setData] = useState([]);
+  const [filteredData, setFilteredData] = useState([]);
+  const [searchText, setSearchText] = useState('');
+  const [isLoading, setIsLoading] = useState(true);
+  const [isError, setIsError] = useState(false);
+  const searchInput = useRef(null);
+
+  useEffect(() => {
+    const searchText = location.search ? getQuery(location.search) : '';
+    const fetchData = async (searchText) => {
+      try {
+        const albums = await Api.get('/api/albums');
+        const filteredAlbums = searchText
+          ? formatData(filterData(albums, searchText))
+          : formatData(albums);
+        
+        setData(albums);
+        setFilteredData(filteredAlbums);
+      } catch (err) {
+        setIsError(true);
+      }
+
+      setIsLoading(false);
+    };
+
+    setSearchText(searchText);
+    fetchData(searchText);
+  }, []);
+
+  const handleChange = ({ target: { value } }) => {
+    setSearchText(value);
+    setFilteredData(formatData(filterData(data, value)));
   };
 
-  searchInput = createRef();
-
-  componentDidMount () {
-    const { search } = this.props.location;
-    const searchText = search ? getQuery(search) : '';
-
-    this.getData(searchText);
-    this.setState({ searchText });
-  }
-
-  getData (searchText) {
-    Api.get('/api/albums')
-      .then(data => {
-        const filteredData = searchText
-          ? formatData(filterData(data, searchText))
-          : formatData(data);
-
-        this.setState({
-          data,
-          filteredData,
-          isLoading: false,
-          error: ''
-        });
-      })
-      .catch(err => {
-        this.setState({
-          isLoading: false,
-          error: err.message
-        });
-      });
-  }
-
-  filterData (query) {
-    const { data } = this.state;
-    const filteredData = formatData(filterData(data, query));
-
-    this.setState({ filteredData });
-  }
-
-  handleChange = ({ target: { value } }) => {
-    this.setState({ searchText: value });
-    this.filterData(value);
-  }
-
-  clearInput = () => {
-    const { history, location } = this.props;
-
-    this.setState({
-      filteredData: formatData(this.state.data),
-      searchText: ''
-    });
-    this.searchInput.current.focus();
+  const clearInput = () => {
+    setFilteredData(formatData(data));
+    setSearchText('');
+    searchInput.current.focus();
 
     if (location.search) {
       location.search = '';
@@ -76,24 +54,19 @@ class AdminContainer extends Component {
     }
   }
 
-  render () {
-    const { history } = this.props;
-    const { searchText, filteredData, isLoading, error } = this.state;
+  if (isLoading) return <Loader />;
+  if (isError) return <AppMessage />;
 
-    if (isLoading) return <Loader />;
-    if (error) return <AppMessage />;
-
-    return (
-      <Admin
-        history={history}
-        searchText={searchText}
-        filteredData={filteredData}
-        searchInput={this.searchInput}
-        handleChange={this.handleChange}
-        clearInput={this.clearInput}
-      />
-    );
-  }
+  return (
+    <Admin
+      history={history}
+      searchText={searchText}
+      filteredData={filteredData}
+      searchInput={searchInput}
+      handleChange={handleChange}
+      clearInput={clearInput}
+    />
+  );
 }
 
 AdminContainer.propTypes = {

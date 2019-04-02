@@ -13,7 +13,7 @@
     "test": "jest",
     "test:watch": "jest --watch"
   },
-  "author": "Tony",
+  "author": "Tony Rinaldi",
   "cacheDirectories": [
     "node_modules",
     "client/node_modules"

@@ -30,6 +30,6 @@ const TopAlbumsContainer = () => {
   if (isError) return <AppMessage />;
 
   return <TopAlbums data={data} />;
-}
+};
 
 export default TopAlbumsContainer;

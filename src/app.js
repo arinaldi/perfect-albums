@@ -12,7 +12,7 @@ const authenticationRoutes = require('./routes/AuthenticationRoutes');
 
 const app = express();
 app
-  .use(express.static(path.resolve(__dirname, '../client/build')))
+  .use(express.static(path.resolve(__dirname, '../client/dist')))
   .use(cors())
   .use(bodyParser.json())
   .use(publicRoutes)
@@ -20,7 +20,7 @@ app
   .use(authenticationRoutes);
 
 app.get('*', (req, res) => {
-  res.sendFile(path.resolve(__dirname, '../client/build', 'index.html'));
+  res.sendFile(path.resolve(__dirname, '../client/dist', 'index.html'));
 });
 
 const authStrategy = passport.authenticate('authStrategy', { session: false });

@@ -24,7 +24,7 @@ const AdminContainer = ({ history, location }) => {
         const filteredAlbums = searchText
           ? formatData(filterData(albums, searchText))
           : formatData(albums);
-        
+
         setData(albums);
         setFilteredData(filteredAlbums);
       } catch (err) {
@@ -52,7 +52,7 @@ const AdminContainer = ({ history, location }) => {
       location.search = '';
       history.push(location);
     }
-  }
+  };
 
   if (isLoading) return <Loader />;
   if (isError) return <AppMessage />;
@@ -67,7 +67,7 @@ const AdminContainer = ({ history, location }) => {
       clearInput={clearInput}
     />
   );
-}
+};
 
 AdminContainer.propTypes = {
   history: PropTypes.object.isRequired,

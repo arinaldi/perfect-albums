@@ -1,20 +1,17 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { Alert } from 'react-bootstrap';
 
-import { MyConsumer } from '../containers/MyProvider';
+import { MyContext } from '../containers/MyProvider';
 
-const AppAlert = () => (
-  <MyConsumer>
-    {({ state }) => {
-      const alertClass = state.alert.isOpen ? 'alert-show' : 'alert-hide';
+const AppAlert = () => {
+  const { state } = useContext(MyContext);
+  const alertClass = state.alert.isOpen ? 'alert-show' : 'alert-hide';
 
-      return (
-        <div className={`alert-container ${alertClass}`}>
-          <Alert variant={state.alert.type}>{state.alert.message}</Alert>
-        </div>
-      );
-    }}
-  </MyConsumer>
-);
+  return (
+    <div className={`alert-container ${alertClass}`}>
+      <Alert variant={state.alert.type}>{state.alert.message}</Alert>
+    </div>
+  );
+};
 
 export default AppAlert;

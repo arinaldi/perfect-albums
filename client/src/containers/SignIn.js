@@ -1,11 +1,12 @@
 import React, { useState, useContext, Fragment } from 'react';
 import { Redirect } from 'react-router-dom';
 
-import { MyContext } from './MyProvider';
 import SignIn from '../components/SignIn';
 import AppMessage from '../components/AppMessage';
 
 import Api from '../utils/api';
+
+import { MyContext } from './MyProvider';
 
 const SignInContainer = () => {
   const [credentials, setCredentials] = useState({

@@ -1,10 +1,10 @@
 import React, { useState, createContext } from 'react';
+import PropTypes from 'prop-types';
 
 import { ALERT_TIMEOUT } from '../constants';
 import { setToken, getToken, removeToken } from '../utils/storage';
 
 const MyContext = createContext();
-const MyConsumer = MyContext.Consumer;
 
 const MyProvider = (props) => {
   const [isAuthenticated, setIsAuthenticated] = useState(!!getToken());
@@ -53,7 +53,11 @@ const MyProvider = (props) => {
       {props.children}
     </MyContext.Provider>
   );
-}
+};
 
-export { MyContext, MyConsumer };
+MyProvider.propTypes = {
+  children: PropTypes.node.isRequired,
+};
+
+export { MyContext };
 export default MyProvider;

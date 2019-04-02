@@ -96,7 +96,7 @@ const CreateEditAlbumContainer = ({ history, location, match }) => {
         }
       }
     } else {
-      setIsValidated(true)
+      setIsValidated(true);
     }
   };
 
@@ -118,7 +118,7 @@ const CreateEditAlbumContainer = ({ history, location, match }) => {
       />
     </Fragment>
   );
-}
+};
 
 CreateEditAlbumContainer.propTypes = {
   history: PropTypes.object.isRequired,

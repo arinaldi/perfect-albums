@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 import {
   Button,
@@ -8,76 +8,72 @@ import {
   Row,
 } from 'react-bootstrap';
 
+import { ALERT_TYPES, MESSAGES } from '../constants';
+
 import AdminTable from './AdminTable';
 import AppMessage from './AppMessage';
 
-import { ALERT_TYPES, MESSAGES } from '../constants';
+const Admin = ({
+  history,
+  searchText,
+  filteredData,
+  searchInput,
+  handleChange,
+  clearInput,
+}) => {
+  useEffect(() => {
+    searchInput.current.focus();
+  }, []);
 
-class Admin extends Component {
-  componentDidMount () {
-    this.props.searchInput.current.focus();
-  }
-
-  render () {
-    const {
-      history,
-      searchText,
-      filteredData,
-      searchInput,
-      handleChange,
-      clearInput,
-    } = this.props;
-
-    return (
-      <Container>
-        <Row>
-          <Col xs={12}>
-            <h3>Admin</h3>
-            <Form>
-              <Form.Group as={Row} controlId='formSearch'>
-                <Col>
-                  <Form.Control
-                    ref={searchInput}
-                    type='text'
-                    value={searchText}
-                    placeholder='Search'
-                    onChange={handleChange}
-                    style={{ marginBottom: 5 }}
-                  />
-                </Col>
-                <Col sm={12} md='auto'>
-                  <Button
-                    variant='outline-dark'
-                    onClick={clearInput}
-                    style={{ marginRight: 5 }}
-                  >
-                    Clear
-                  </Button>
-                  <Button
-                    variant='outline-dark'
-                    onClick={() => history.push(`/new?${searchText}`)}
-                  >
-                    New
-                  </Button>
-                </Col>
-              </Form.Group>
-            </Form>
-            {filteredData.length
-              ? <AdminTable
-                history={history}
-                data={filteredData}
-                searchText={searchText}
+  return (
+    <Container>
+      <Row>
+        <Col xs={12}>
+          <h3>Admin</h3>
+          <Form>
+            <Form.Group as={Row} controlId='formSearch'>
+              <Col>
+                <Form.Control
+                  ref={searchInput}
+                  type='text'
+                  value={searchText}
+                  placeholder='Search'
+                  onChange={handleChange}
+                  style={{ marginBottom: 5 }}
                 />
-              : <AppMessage
-                type={ALERT_TYPES.INFO}
-                message={MESSAGES.NO_DATA}
-                />}
-          </Col>
-        </Row>
-      </Container>
-    );
-  }
-}
+              </Col>
+              <Col sm={12} md='auto'>
+                <Button
+                  variant='outline-dark'
+                  onClick={clearInput}
+                  style={{ marginRight: 5 }}
+                >
+                  Clear
+                </Button>
+                <Button
+                  variant='outline-dark'
+                  onClick={() => history.push(`/new?${searchText}`)}
+                >
+                  New
+                </Button>
+              </Col>
+            </Form.Group>
+          </Form>
+          {filteredData.length
+            ? <AdminTable
+              history={history}
+              data={filteredData}
+              searchText={searchText}
+            />
+            : <AppMessage
+              type={ALERT_TYPES.INFO}
+              message={MESSAGES.NO_DATA}
+            />}
+        </Col>
+      </Row>
+    </Container>
+  );
+};
 
 Admin.propTypes = {
   history: PropTypes.object.isRequired,

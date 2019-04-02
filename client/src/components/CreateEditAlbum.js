@@ -76,7 +76,7 @@ const CreateEditAlbum = ({
             onChange={handleRadioChange}
           />
         </Col>
-      </Row>  
+      </Row>
       <Row>
         <Col>
           <Button

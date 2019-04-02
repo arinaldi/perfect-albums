@@ -1,6 +1,10 @@
 import { ALERT_TYPES, MESSAGES } from '../constants';
 import { getToken } from './storage';
 
+const BASE_URL = process.env.NODE_ENV === 'production'
+  ? 'https://perfectalbums.herokuapp.com'
+  : 'http://localhost:3001';
+
 const getHeaders = (withAuth = false) => {
   const headers = { 'Content-Type': 'application/json' };
 
@@ -9,7 +13,7 @@ const getHeaders = (withAuth = false) => {
   }
 
   return headers;
-}
+};
 
 const handleResponse = (res, signOut, showAlert) => {
   return new Promise((resolve, reject) => {
@@ -30,31 +34,31 @@ const handleResponse = (res, signOut, showAlert) => {
 
 const Api = {
   get: (endpoint) => (
-    fetch(endpoint, {
+    fetch(`${BASE_URL}${endpoint}`, {
       method: 'GET',
       headers: getHeaders(),
     }).then(res => res.json())
   ),
   post: (endpoint, payload, signOut, showAlert) => (
-    fetch(endpoint, {
+    fetch(`${BASE_URL}${endpoint}`, {
       method: 'POST',
       headers: getHeaders(true),
       body: JSON.stringify(payload),
     }).then(res => handleResponse(res, signOut))
   ),
   put: (endpoint, payload, signOut, showAlert) => (
-    fetch(endpoint, {
+    fetch(`${BASE_URL}${endpoint}`, {
       method: 'PUT',
       headers: getHeaders(true),
       body: JSON.stringify(payload),
     }).then(res => handleResponse(res, signOut, showAlert))
   ),
   delete: (endpoint, signOut, showAlert) => (
-    fetch(endpoint, {
+    fetch(`${BASE_URL}${endpoint}`, {
       method: 'DELETE',
       headers: getHeaders(true),
     }).then(res => handleResponse(res, signOut, showAlert))
-  )
+  ),
 };
 
 export default Api;

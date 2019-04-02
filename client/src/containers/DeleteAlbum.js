@@ -70,7 +70,7 @@ const DeleteAlbumContainer = ({ history, location, match }) => {
       />
     </Fragment>
   );
-}
+};
 
 DeleteAlbumContainer.propTypes = {
   history: PropTypes.object.isRequired,

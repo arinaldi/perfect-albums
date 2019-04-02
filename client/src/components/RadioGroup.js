@@ -50,6 +50,6 @@ RadioGroup.propTypes = {
   name: PropTypes.string.isRequired,
   value: PropTypes.bool.isRequired,
   onChange: PropTypes.func.isRequired,
-}
+};
 
 export default RadioGroup;

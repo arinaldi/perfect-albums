@@ -12,13 +12,13 @@ import { ALERT_TYPES, MESSAGES } from '../constants';
 import { MyContext } from './MyProvider';
 
 const DeleteAlbumContainer = ({ history, location, match }) => {
+  const { signOut, showAlert } = useContext(MyContext);
   const [artist, setArtist] = useState('');
   const [title, setTitle] = useState('');
   const [query, setQuery] = useState('');
   const [isLoading, setIsLoading] = useState(true);
   const [isDeleting, setIsDeleting] = useState(false);
   const [error, setError] = useState('');
-  const { signOut, showAlert } = useContext(MyContext);
 
   useEffect(() => {
     const query = location.search ? getQuery(location.search) : '';

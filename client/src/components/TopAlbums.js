@@ -8,7 +8,7 @@ const AlbumCol = ({ data, year }) => (
   <Col xs={12} md={6} lg={4}>
     <h4>{year}</h4>
     <ul>
-      {data[year].sort(sortByAlbum).map((album, index) => (
+      {data.sort(sortByAlbum).map((album, index) => (
         <li key={index}>
           {album.artist} &ndash; {album.title}
         </li>
@@ -18,7 +18,7 @@ const AlbumCol = ({ data, year }) => (
 );
 
 AlbumCol.propTypes = {
-  data: PropTypes.object.isRequired,
+  data: PropTypes.array.isRequired,
   year: PropTypes.string.isRequired,
 };
 
@@ -29,7 +29,7 @@ const TopAlbums = ({ data }) => (
       {Object.keys(data).sort(sortDesc).map(year => (
         <AlbumCol
           key={year}
-          data={data}
+          data={data[year]}
           year={year}
         />
       ))}

@@ -9,12 +9,12 @@ import Api from '../utils/api';
 import { MyContext } from './MyProvider';
 
 const SignInContainer = () => {
+  const { state, signIn } = useContext(MyContext);
   const [credentials, setCredentials] = useState({
     username: '',
     password: '',
   });
   const [error, setError] = useState('');
-  const { state, signIn } = useContext(MyContext);
 
   const handleChange = ({ target: { name, value } }) => {
     if (error) setError('');

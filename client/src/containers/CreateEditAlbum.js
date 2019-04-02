@@ -12,6 +12,7 @@ import { ALERT_TYPES, MESSAGES } from '../constants';
 import { MyContext } from './MyProvider';
 
 const CreateEditAlbumContainer = ({ history, location, match }) => {
+  const { signOut, showAlert } = useContext(MyContext);
   const [album, setAlbum] = useState({
     artist: '',
     title: '',
@@ -26,7 +27,6 @@ const CreateEditAlbumContainer = ({ history, location, match }) => {
   const [isValidated, setIsValidated] = useState(false);
   const [isSaving, setIsSaving] = useState(false);
   const [error, setError] = useState('');
-  const { signOut, showAlert } = useContext(MyContext);
 
   useEffect(() => {
     const query = location.search ? getQuery(location.search) : '';

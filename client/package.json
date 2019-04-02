@@ -11,13 +11,6 @@
   "author": "Tony Rinaldi",
   "license": "ISC",
   "dependencies": {
-    "bootstrap": "^4.3.1",
-    "react": "^16.8.6",
-    "react-bootstrap": "^1.0.0-beta.6",
-    "react-dom": "^16.8.6",
-    "react-router-dom": "^5.0.0"
-  },
-  "devDependencies": {
     "babel-core": "^6.26.3",
     "babel-plugin-transform-object-rest-spread": "^6.26.0",
     "babel-plugin-transform-runtime": "^6.23.0",
@@ -25,7 +18,12 @@
     "babel-preset-react": "^6.24.1",
     "babel-preset-stage-0": "^6.24.1",
     "babel-runtime": "^6.26.0",
-    "parcel-bundler": "^1.12.3"
+    "bootstrap": "^4.3.1",
+    "parcel-bundler": "^1.12.3",
+    "react": "^16.8.6",
+    "react-bootstrap": "^1.0.0-beta.6",
+    "react-dom": "^16.8.6",
+    "react-router-dom": "^5.0.0"
   },
   "browserslist": [
     "last 1 Chrome version"

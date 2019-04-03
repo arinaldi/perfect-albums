@@ -34,7 +34,7 @@ const RadioGroup = ({
           </ToggleButton>
           <ToggleButton
             variant='outline-dark'
-            value={true}
+            value
           >
             true
           </ToggleButton>

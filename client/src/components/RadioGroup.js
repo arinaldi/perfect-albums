@@ -2,8 +2,8 @@ import React from 'react';
 import {
   Col,
   Form,
-  ToggleButtonGroup,
   ToggleButton,
+  ToggleButtonGroup,
 } from 'react-bootstrap';
 import PropTypes from 'prop-types';
 

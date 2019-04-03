@@ -36,7 +36,7 @@ const AdminContainer = ({ history, location }) => {
 
     setSearchText(searchText);
     fetchData(searchText);
-  }, []);
+  }, [location]);
 
   const handleChange = ({ target: { value } }) => {
     setSearchText(value);
@@ -61,6 +61,7 @@ const AdminContainer = ({ history, location }) => {
     <Admin
       history={history}
       searchText={searchText}
+      total={data.length}
       filteredData={filteredData}
       searchInput={searchInput}
       handleChange={handleChange}

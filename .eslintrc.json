@@ -18,6 +18,7 @@
     "node",
     "promise",
     "react",
+    "react-hooks",
     "standard"
   ],
   "rules": {
@@ -31,6 +32,8 @@
     "jsx-quotes": "error",
     "no-console": "warn",
     "quotes": ["error", "single"],
+    "react-hooks/rules-of-hooks": "error",
+    "react-hooks/exhaustive-deps": "warn",
     "semi": ["error", "always"],
     "space-before-function-paren": "error",
     "spaced-comment": "error"

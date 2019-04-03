@@ -36,7 +36,7 @@ const DeleteAlbumContainer = ({ history, location, match }) => {
 
     setQuery(query);
     fetchData();
-  }, []);
+  }, [location, match]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();

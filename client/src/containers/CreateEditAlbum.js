@@ -50,7 +50,7 @@ const CreateEditAlbumContainer = ({ history, location, match }) => {
     } else {
       setIsLoading(false);
     }
-  }, []);
+  }, [location, match]);
 
   const handleChange = ({ target: { name, value } }) => {
     let newValue = value;

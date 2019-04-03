@@ -1,10 +1,11 @@
 import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 import {
+  Badge,
   Button,
   Col,
-  Form,
   Container,
+  Form,
   Row,
 } from 'react-bootstrap';
 
@@ -16,6 +17,7 @@ import AppMessage from './AppMessage';
 const Admin = ({
   history,
   searchText,
+  total,
   filteredData,
   searchInput,
   handleChange,
@@ -23,24 +25,42 @@ const Admin = ({
 }) => {
   useEffect(() => {
     searchInput.current.focus();
-  }, []);
+  }, [searchInput]);
 
   return (
     <Container>
       <Row>
         <Col xs={12}>
-          <h3>Admin</h3>
+          <Row>
+            <Col>
+              <h3>Admin</h3>
+            </Col>
+            <Col xs='auto'>
+              <h3>
+                <Badge variant='light'>{total.toLocaleString()}</Badge>
+              </h3>
+            </Col>
+          </Row>
           <Form>
             <Form.Group as={Row} controlId='formSearch'>
               <Col>
-                <Form.Control
-                  ref={searchInput}
-                  type='text'
-                  value={searchText}
-                  placeholder='Search'
-                  onChange={handleChange}
-                  style={{ marginBottom: 5 }}
-                />
+                <Row>
+                  <Col>
+                    <Form.Control
+                      ref={searchInput}
+                      type='text'
+                      value={searchText}
+                      placeholder='Search'
+                      onChange={handleChange}
+                      style={{ marginBottom: 5 }}
+                    />
+                  </Col>
+                  <Col xs='auto'>
+                    <h3>
+                      <Badge variant='light'>{filteredData.length}</Badge>
+                    </h3>
+                  </Col>
+                </Row>
               </Col>
               <Col sm={12} md='auto'>
                 <Button
@@ -78,6 +98,7 @@ const Admin = ({
 Admin.propTypes = {
   history: PropTypes.object.isRequired,
   searchText: PropTypes.string.isRequired,
+  total: PropTypes.number.isRequired,
   filteredData: PropTypes.array.isRequired,
   searchInput: PropTypes.object.isRequired,
   handleChange: PropTypes.func.isRequired,

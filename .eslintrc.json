@@ -10,6 +10,7 @@
   "env": {
     "browser": true,
     "es6": true,
+    "mocha": true,
     "node": true
   },
   "parser": "babel-eslint",
@@ -31,6 +32,10 @@
     ],
     "jsx-quotes": "error",
     "no-console": "warn",
+    "no-unused-vars": [
+      "error",
+      { "varsIgnorePattern": "should|expect" }
+    ],
     "quotes": ["error", "single"],
     "react-hooks/rules-of-hooks": "error",
     "react-hooks/exhaustive-deps": "warn",
@@ -50,10 +55,7 @@
     "beforeEach": false,
     "context": false,
     "describe": false,
-    "expect": false,
-    "fetchMock": false,
     "it": false,
-    "jest": false,
     "test": false
   }
 }

@@ -24,8 +24,7 @@ const checkUser = (req, res) => {
   const token = req.headers.authorization;
   const { userId } = decodeToken(token);
 
-  User
-    .findById(userId)
+  User.findById(userId)
     .exec()
     .then(user => {
       if (user) {
@@ -44,8 +43,7 @@ const saveUser = (username, password) => (
       bcrypt.hash(password, salt, null, (err, hashedPassword) => {
         if (err) reject(err);
         const user = new User({ username, password: hashedPassword });
-        user.save()
-          .then(user => resolve(user));
+        user.save().then(user => resolve(user));
       });
     });
   })
@@ -59,6 +57,7 @@ const signUp = (req, res, next) => {
       .status(422)
       .json({ error: 'You must provide an username and password' });
   }
+
   User
     .findOne({ username })
     .exec()
@@ -69,9 +68,7 @@ const signUp = (req, res, next) => {
           .json({ error: 'Username is in use' });
       }
       saveUser(username, password)
-        .then(user => {
-          res.json({ token: makeToken(user.id) });
-        });
+        .then(user => res.json({ token: makeToken(user.id) }));
     })
     .catch(err => next(err));
 };

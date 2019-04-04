@@ -33,9 +33,11 @@ const albums = [
   },
 ];
 
+const invalidId = '5939ed45e97818dae5385493';
+
 const user = {
-  username: 'tony',
+  username: 'user',
   password: '1234',
 };
 
-module.exports = { albums, user };
+module.exports = { albums, invalidId, user };

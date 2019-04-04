@@ -6,9 +6,8 @@ const bodyParser = require('body-parser');
 const passport = require('passport');
 
 const publicRoutes = require('./routes/publicRoutes');
-const publicAlbumRoutes = require('./routes/publicAlbumRoutes');
-const privateAlbumRoutes = require('./routes/privateAlbumRoutes');
-const authenticationRoutes = require('./routes/AuthenticationRoutes');
+const privateRoutes = require('./routes/privateRoutes');
+const authRoutes = require('./routes/authRoutes');
 
 const app = express();
 app
@@ -16,8 +15,7 @@ app
   .use(cors())
   .use(bodyParser.json())
   .use(publicRoutes)
-  .use(publicAlbumRoutes)
-  .use(authenticationRoutes);
+  .use(authRoutes);
 
 app.get('*', (req, res) => {
   res.sendFile(path.resolve(__dirname, '../client/dist', 'index.html'));
@@ -26,6 +24,6 @@ app.get('*', (req, res) => {
 const authStrategy = passport.authenticate('authStrategy', { session: false });
 app.use(authStrategy);
 
-app.use(privateAlbumRoutes);
+app.use(privateRoutes);
 
 module.exports = app;

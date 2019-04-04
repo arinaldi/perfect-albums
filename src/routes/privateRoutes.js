@@ -1,9 +1,8 @@
-const express = require('express');
+const router = require('express').Router();
+
 const createAlbum = require('../controllers/albums/createAlbum');
 const editAlbum = require('../controllers/albums/editAlbum');
 const deleteAlbum = require('../controllers/albums/deleteAlbum');
-
-const router = express.Router();
 
 router.post('/api/albums', async (req, res) => {
   try {
@@ -17,7 +16,11 @@ router.post('/api/albums', async (req, res) => {
 router.put('/api/albums/:id', async (req, res) => {
   try {
     const updatedAlbum = await editAlbum(req.params.id, req.body);
-    res.send(updatedAlbum);
+    if (!updatedAlbum) {
+      res.status(404).send('Album not found');
+    } else {
+      res.send(updatedAlbum);
+    }
   } catch (err) {
     res.status(500).send(err.message);
   }
@@ -29,7 +32,8 @@ router.delete('/api/albums/:id', async (req, res) => {
     await deleteAlbum(id);
     res.send(`Album successfully deleted: ${id}`);
   } catch (err) {
-    res.status(500).send(err.message);
+    const status = err.message === 'Album not found' ? 404 : 500;
+    res.status(status).send(err.message);
   }
 });
 

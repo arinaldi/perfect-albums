@@ -5,14 +5,14 @@ const chaiHttp = require('chai-http');
 
 const app = require('../src/app');
 const db = require('../src/db');
-const { saveUser } = require('../src/controllers/AuthenticationController');
-const { albums, user } = require('./data');
+const { saveUser } = require('../src/controllers/authController');
+const { albums, invalidId, user } = require('./data');
 
 const should = chai.should();
 chai.use(chaiHttp);
 
-const badAlbum = { ...albums[0] };
-delete badAlbum.artist;
+const invalidAlbum = { ...albums[0] };
+delete invalidAlbum.artist;
 const validAlbum = { ...albums[3] };
 let token = null;
 let newAlbum = {};
@@ -49,19 +49,6 @@ describe('Private routes', () => {
   });
 
   describe('POST /api/albums', () => {
-    it('does not create an album without the artist field', done => {
-      chai.request(app)
-        .post('/api/albums')
-        .set('Content-Type', 'application/json')
-        .set('authorization', `Bearer ${token}`)
-        .send(badAlbum)
-        .end((_, res) => {
-          res.should.have.status(500);
-          res.text.should.be.eql('Album validation failed: artist: Path `artist` is required.');
-          done();
-        });
-    });
-
     it('creates an album', done => {
       chai.request(app)
         .post('/api/albums')
@@ -83,24 +70,16 @@ describe('Private routes', () => {
           done();
         });
     });
-  });
 
-  describe('GET /api/albums/:id', () => {
-    it('gets an album', done => {
+    it('does not create an album without the artist field', done => {
       chai.request(app)
-        .get(`/api/albums/${newAlbum.id}`)
+        .post('/api/albums')
         .set('Content-Type', 'application/json')
         .set('authorization', `Bearer ${token}`)
+        .send(invalidAlbum)
         .end((_, res) => {
-          res.should.have.status(200);
-          res.body.should.be.a('object');
-          res.body.id.should.be.eql(newAlbum.id);
-          res.body.artist.should.be.eql(newAlbum.artist);
-          res.body.title.should.be.eql(newAlbum.title);
-          res.body.year.should.be.eql(newAlbum.year);
-          res.body.cd.should.be.eql(newAlbum.cd);
-          res.body.aotd.should.be.eql(newAlbum.aotd);
-          res.body.favorite.should.be.eql(newAlbum.favorite);
+          res.should.have.status(500);
+          res.text.should.be.eql('Album validation failed: artist: Path `artist` is required.');
           done();
         });
     });
@@ -120,6 +99,19 @@ describe('Private routes', () => {
           done();
         });
     });
+
+    it('does not update an album with an invalid ID', done => {
+      chai.request(app)
+        .put(`/api/albums/${invalidId}`)
+        .set('Content-Type', 'application/json')
+        .set('authorization', `Bearer ${token}`)
+        .send({ cd: true })
+        .end((_, res) => {
+          res.should.have.status(404);
+          res.text.should.be.eql('Album not found');
+          done();
+        });
+    });
   });
 
   describe('DELETE /api/albums/:id', () => {
@@ -132,6 +124,18 @@ describe('Private routes', () => {
           res.should.have.status(200);
           res.body.should.be.a('object');
           res.body.should.be.eql({});
+          done();
+        });
+    });
+
+    it('does not delete an album with an invalid ID', done => {
+      chai.request(app)
+        .delete(`/api/albums/${invalidId}`)
+        .set('Content-Type', 'application/json')
+        .set('authorization', `Bearer ${token}`)
+        .end((_, res) => {
+          res.should.have.status(404);
+          res.text.should.be.eql('Album not found');
           done();
         });
     });

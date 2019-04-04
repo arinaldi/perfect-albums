@@ -3,9 +3,9 @@ const bcrypt = require('bcrypt-nodejs');
 const jwt = require('jwt-simple');
 const User = require('../db/models/UserModel');
 
-const makeToken = (user) => {
+const makeToken = (userId) => {
   const timestamp = new Date().getTime();
-  return jwt.encode({ userId: user.id, iat: timestamp }, process.env.SECRET);
+  return jwt.encode({ userId, iat: timestamp }, process.env.SECRET);
 };
 
 const decodeToken = (token) => {
@@ -20,7 +20,7 @@ const signIn = (req, res) => {
   res.json({ token: makeToken(req.user) });
 };
 
-const checkUser = (req, res, next) => {
+const checkUser = (req, res) => {
   const token = req.headers.authorization;
   const { userId } = decodeToken(token);
 
@@ -37,18 +37,19 @@ const checkUser = (req, res, next) => {
     .catch(() => res.status(500).send('Something went wrong'));
 };
 
-const saveUser = (username, password, res, next) => {
-  bcrypt.genSalt(10, (err, salt) => {
-    if (err) return next(err);
-    bcrypt.hash(password, salt, null, (error, hashedPassword) => {
-      if (error) return next(error);
-      const user = new User({ username, password: hashedPassword });
-      user
-        .save()
-        .then(newUser => res.json({ token: makeToken(newUser) }));
+const saveUser = (username, password) => (
+  new Promise((resolve, reject) => {
+    bcrypt.genSalt(10, (err, salt) => {
+      if (err) reject(err);
+      bcrypt.hash(password, salt, null, (err, hashedPassword) => {
+        if (err) reject(err);
+        const user = new User({ username, password: hashedPassword });
+        user.save()
+          .then(user => resolve(user));
+      });
     });
-  });
-};
+  })
+);
 
 const signUp = (req, res, next) => {
   const { username, password } = req.body;
@@ -67,9 +68,12 @@ const signUp = (req, res, next) => {
           .status(422)
           .json({ error: 'Username is in use' });
       }
-      saveUser(username, password, res, next);
+      saveUser(username, password)
+        .then(user => {
+          res.json({ token: makeToken(user.id) });
+        });
     })
     .catch(err => next(err));
 };
 
-module.exports = { signIn, checkUser, signUp };
+module.exports = { signIn, checkUser, signUp, saveUser };

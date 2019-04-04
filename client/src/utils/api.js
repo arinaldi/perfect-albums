@@ -39,7 +39,7 @@ const Api = {
       headers: getHeaders(),
     }).then(res => res.json())
   ),
-  post: (endpoint, payload, signOut, showAlert) => (
+  post: (endpoint, payload, signOut) => (
     fetch(`${BASE_URL}${endpoint}`, {
       method: 'POST',
       headers: getHeaders(true),

@@ -55,6 +55,7 @@
     "beforeEach": false,
     "context": false,
     "describe": false,
+    "expect": false,
     "it": false,
     "test": false
   }

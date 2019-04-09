@@ -15,7 +15,7 @@ const mockData = {
   ],
 };
 
-test.only('TopAlbums ', async () => {
+test('TopAlbums renders with data by year', () => {
   const { getByText, getByTestId } = render(<TopAlbums data={mockData} />);
 
   const titleHeader = getByText('Top Albums');

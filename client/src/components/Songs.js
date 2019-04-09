@@ -30,7 +30,7 @@ const Songs = () => (
           <th>YouTube</th>
         </tr>
       </thead>
-      <tbody>
+      <tbody data-testid='table-body'>
         {songRows}
       </tbody>
     </Table>

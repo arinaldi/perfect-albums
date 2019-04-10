@@ -6,7 +6,7 @@ import { setToken, getToken, removeToken } from '../utils/storage';
 
 const MyContext = createContext();
 
-const MyProvider = (props) => {
+const MyProvider = ({ children }) => {
   const [isAuthenticated, setIsAuthenticated] = useState(!!getToken());
   const [alert, setAlert] = useState({
     isOpen: false,
@@ -50,7 +50,7 @@ const MyProvider = (props) => {
       signOut: handleSignOut,
       showAlert,
     }}>
-      {props.children}
+      {children}
     </MyContext.Provider>
   );
 };

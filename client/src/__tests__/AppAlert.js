@@ -3,6 +3,7 @@ import { render, cleanup, act } from 'react-testing-library';
 
 import MyProvider, { MyContext } from '../containers/MyProvider';
 import AppAlert from '../components/AppAlert';
+import { ALERT_TYPES, MESSAGES } from '../constants';
 
 afterEach(cleanup);
 
@@ -20,7 +21,7 @@ test('AppAlert renders as hidden', () => {
 
 test('AppAlert renders as visible', () => {
   let changeAlert;
-  const message = 'OK';
+  const message = `${MESSAGES.PREFIX} edited`;
   const { container, getByText } = render(
     <MyProvider>
       <MyContext.Consumer>
@@ -33,7 +34,7 @@ test('AppAlert renders as visible', () => {
   );
 
   act(() => {
-    changeAlert('success', message);
+    changeAlert(ALERT_TYPES.SUCCESS, message);
   });
 
   const containerDiv = container.querySelector('.alert-container');

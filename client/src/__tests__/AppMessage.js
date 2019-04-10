@@ -1,11 +1,14 @@
 import React from 'react';
 import { render } from 'react-testing-library';
+
 import AppMessage from '../components/AppMessage';
+import { ALERT_TYPES, MESSAGES } from '../constants';
 
 test('AppMessage renders error message', () => {
-  const message = 'Something went wrong';
-  const { getByText } = render(<AppMessage type='danger' message={message} />);
-  const div = getByText(message);
+  const { getByText } = render(
+    <AppMessage type={ALERT_TYPES.ERROR} message={MESSAGES.ERROR} />
+  );
+  const div = getByText(MESSAGES.ERROR);
 
   expect(div).toBeInTheDocument();
   expect(div).toHaveClass('alert-danger');
@@ -14,7 +17,9 @@ test('AppMessage renders error message', () => {
 
 test('AppMessage renders success message', () => {
   const message = 'OK';
-  const { getByText } = render(<AppMessage type='success' message={message} />);
+  const { getByText } = render(
+    <AppMessage type={ALERT_TYPES.SUCCESS} message={message} />
+  );
   const div = getByText(message);
 
   expect(div).toBeInTheDocument();

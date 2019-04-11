@@ -1,19 +1,11 @@
 import React from 'react';
 import { render } from 'react-testing-library';
-import TopAlbums from '../components/TopAlbums';
 
-const mockData = {
-  '1991': [
-    { artist: 'Nirvana', title: 'Nevermind' },
-    { artist: 'Pearl Jam', title: 'Ten' },
-  ],
-  '1999': [
-    { artist: 'HIM', title: 'Razorblade Romance' },
-  ],
-};
+import TopAlbums from '../components/TopAlbums';
+import { mockTopAlbumsData } from '../__mocks__';
 
 test('TopAlbums renders with data by year', () => {
-  const { getByText, getByTestId } = render(<TopAlbums data={mockData} />);
+  const { getByText, getByTestId } = render(<TopAlbums data={mockTopAlbumsData} />);
   const titleHeader = getByText('Top Albums');
   const year91Header = getByText('1991');
   const year99Header = getByText('1999');

@@ -7,7 +7,7 @@ const { CHECK } = ICONS;
 const margin = 2;
 
 const AdminTableRow = ({ history, item, searchText }) => (
-  <tr>
+  <tr data-testid={item.id}>
     <td>{item.artist}</td>
     <td>{item.title}</td>
     <td>{item.year}</td>

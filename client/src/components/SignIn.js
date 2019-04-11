@@ -10,6 +10,7 @@ import PropTypes from 'prop-types';
 const SignIn = ({
   username,
   password,
+  isSubmitting,
   handleChange,
   handleSubmit,
 }) => (
@@ -45,9 +46,9 @@ const SignIn = ({
           <Button
             variant='outline-dark'
             type='submit'
-            disabled={!(username && password)}
+            disabled={!(username && password) || isSubmitting}
           >
-           Sign In
+            {isSubmitting ? 'Submitting...' : 'Submit'}
           </Button>
         </Form.Group>
       </Form.Row>
@@ -58,8 +59,13 @@ const SignIn = ({
 SignIn.propTypes = {
   username: PropTypes.string.isRequired,
   password: PropTypes.string.isRequired,
+  isSubmitting: PropTypes.bool,
   handleChange: PropTypes.func.isRequired,
   handleSubmit: PropTypes.func.isRequired,
+};
+
+SignIn.defaultProps = {
+  isSubmitting: false,
 };
 
 export default SignIn;

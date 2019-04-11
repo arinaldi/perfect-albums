@@ -14,6 +14,7 @@ const SignInContainer = () => {
     username: '',
     password: '',
   });
+  const [isSubmitting, setIsSubmitting] = useState(false);
   const [error, setError] = useState('');
 
   const handleChange = ({ target: { name, value } }) => {
@@ -27,13 +28,16 @@ const SignInContainer = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setIsSubmitting(true);
 
     try {
       const res = await Api.post('/api/signin', credentials);
       const data = await res.json();
 
+      setIsSubmitting(false);
       signIn(data.token);
     } catch (err) {
+      setIsSubmitting(false);
       setError(err.message);
     }
   };
@@ -48,6 +52,7 @@ const SignInContainer = () => {
       <SignIn
         username={credentials.username}
         password={credentials.password}
+        isSubmitting={isSubmitting}
         handleChange={handleChange}
         handleSubmit={handleSubmit}
       />

@@ -1,5 +1,6 @@
 import React from 'react';
 import { render } from 'react-testing-library';
+
 import SignIn from '../components/SignIn';
 
 test('SignIn renders with username and password inputs', () => {
@@ -11,7 +12,6 @@ test('SignIn renders with username and password inputs', () => {
       handleSubmit={() => {}}
     />
   );
-
   const usernameInput = getByLabelText(/username/i);
   const passwordInput = getByLabelText(/password/i);
 

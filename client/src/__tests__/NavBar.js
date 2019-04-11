@@ -15,7 +15,6 @@ test('NavBar renders when not authenticated', () => {
       </MemoryRouter>
     </MyProvider>
   );
-
   const appHeader = getByText('Perfect Albums');
   const albumsLink = getByText('Top Albums');
   const songsLink = getByText('Perfect Songs');

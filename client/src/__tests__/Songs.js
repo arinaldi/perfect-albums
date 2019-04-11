@@ -5,7 +5,6 @@ import data from '../data/songs';
 
 test('Songs renders with all data', () => {
   const { getByText, getByTestId } = render(<Songs />);
-
   const titleHeader = getByText('Perfect Songs');
   const tableBody = getByTestId('table-body');
 

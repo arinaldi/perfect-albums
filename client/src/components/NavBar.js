@@ -1,22 +1,38 @@
 import React, { useContext, Fragment } from 'react';
 import { Nav, Navbar } from 'react-bootstrap';
-import { Link } from 'react-router-dom';
+import { NavLink } from 'react-router-dom';
 
 import { MyContext } from '../containers/MyProvider';
+
+const activeStyle = {
+  color: 'rgba(255,255,255,.75)',
+};
 
 const AuthLinks = () => {
   const { signOut } = useContext(MyContext);
 
   return (
     <Fragment>
-      <Link className='nav-link' to='/admin'>Admin</Link>
+      <NavLink
+        className='nav-link'
+        activeStyle={activeStyle}
+        to='/admin'
+      >
+        Admin
+      </NavLink>
       <Nav.Link onClick={signOut}>Sign Out</Nav.Link>
     </Fragment>
   );
 };
 
 const SignInLink = () => (
-  <Link className='nav-link' to='/signin'>Sign In</Link>
+  <NavLink
+    className='nav-link'
+    activeStyle={activeStyle}
+    to='/signin'
+  >
+    Sign In
+  </NavLink>
 );
 
 const NavBar = () => {
@@ -28,8 +44,20 @@ const NavBar = () => {
       <Navbar.Toggle aria-controls='basic-navbar-nav' />
       <Navbar.Collapse id='basic-navbar-nav'>
         <Nav className='mr-auto'>
-          <Link className='nav-link' to='/albums'>Top Albums</Link>
-          <Link className='nav-link' to='/songs'>Perfect Songs</Link>
+          <NavLink
+            className='nav-link'
+            activeStyle={activeStyle}
+            to='/albums'
+          >
+            Top Albums
+          </NavLink>
+          <NavLink
+            className='nav-link'
+            activeStyle={activeStyle}
+            to='/songs'
+          >
+            Perfect Songs
+          </NavLink>
           {state.isAuthenticated
             ? <AuthLinks />
             : <SignInLink />}

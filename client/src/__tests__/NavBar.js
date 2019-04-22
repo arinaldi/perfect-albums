@@ -26,7 +26,6 @@ test('NavBar renders when not authenticated', () => {
   expect(signinLink).toBeInTheDocument();
 });
 
-// test when authenticated
 test('NavBar renders when authenticated', () => {
   let handleSignIn;
   const { getByText } = render(

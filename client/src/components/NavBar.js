@@ -54,9 +54,16 @@ const NavBar = () => {
           <NavLink
             className='nav-link'
             activeStyle={activeStyle}
-            to='/songs'
+            to='/perfect-songs'
           >
             Perfect Songs
+          </NavLink>
+          <NavLink
+            className='nav-link'
+            activeStyle={activeStyle}
+            to='/featured-songs'
+          >
+            Featured Songs
           </NavLink>
           {state.isAuthenticated
             ? <AuthLinks />

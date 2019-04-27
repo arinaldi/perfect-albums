@@ -6,27 +6,6 @@
   margin-bottom: 10px;
 }
 
-a {
-  color: black;
-  cursor: pointer;
-  text-decoration: none;
-}
-
-a:hover {
-  color: gray;
-  text-decoration: none;
-}
-
-a.dashed {
-  color: gray;
-  text-decoration: none;
-  border-bottom: 1px gray dashed;
-}
-
-a.dashed:hover {
-  color: black;
-}
-
 .album-title {
   font-weight: 500;
   font-size: 1.25rem;

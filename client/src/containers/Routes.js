@@ -9,6 +9,7 @@ import {
 import NavBar from '../components/NavBar';
 import AppAlert from '../components/AppAlert';
 import Songs from '../components/Songs';
+import FeaturedSongs from '../components/FeaturedSongs';
 
 import SignIn from './SignIn';
 import TopAlbums from './TopAlbums';
@@ -24,7 +25,8 @@ const Routes = () => (
       <AppAlert />
       <Switch>
         <Route path='/albums' component={TopAlbums} />
-        <Route path='/songs' component={Songs} />
+        <Route path='/perfect-songs' component={Songs} />
+        <Route path='/featured-songs' component={FeaturedSongs} />
         <AuthRoute path='/admin' component={Admin} />
         <AuthRoute path='/new' component={CreateEditAlbum} />
         <AuthRoute path='/edit/:id' component={CreateEditAlbum} />

@@ -3,7 +3,7 @@ export default [
     id: 4,
     artist: 'HIM',
     title: 'In Joy and Sorrow',
-    link: 'https://www.youtube.com/watch?v=Ah2a-Rj5kbQ',
+    link: 'https://www.youtube.com/watch?v=4Sib8YlcWDw',
   },
   {
     id: 3,

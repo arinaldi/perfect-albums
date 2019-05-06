@@ -1,5 +1,11 @@
 export default [
   {
+    id: 5,
+    artist: 'Camp Lo',
+    title: 'Black Connection',
+    link: 'https://www.youtube.com/watch?v=pf-1LYFETyM',
+  },
+  {
     id: 4,
     artist: 'HIM',
     title: 'In Joy and Sorrow',

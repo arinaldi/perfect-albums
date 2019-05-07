@@ -1,5 +1,11 @@
 export default [
   {
+    id: 6,
+    artist: 'Placebo',
+    title: 'Twnety Years',
+    link: 'https://www.youtube.com/watch?v=3hTFcwdyWX4',
+  },
+  {
     id: 5,
     artist: 'Camp Lo',
     title: 'Black Connection',

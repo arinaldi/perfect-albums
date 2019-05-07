@@ -33,6 +33,24 @@ const albums = [
   },
 ];
 
+const songs = [
+  {
+    artist: 'Nirvana',
+    title: 'Smells Like Teen Spirit',
+    link: 'youtube.com',
+  },
+  {
+    artist: 'Pearl Jam',
+    title: 'Even Flow',
+    link: 'youtube.com',
+  },
+  {
+    artist: 'HIM',
+    title: 'I Love You (Prelude to Tragedy)',
+    link: 'youtube.com',
+  },
+];
+
 const invalidId = '5939ed45e97818dae5385493';
 
 const user = {
@@ -40,4 +58,4 @@ const user = {
   password: '1234',
 };
 
-module.exports = { albums, invalidId, user };
+module.exports = { albums, songs, invalidId, user };

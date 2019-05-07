@@ -1,12 +1,12 @@
-const AlbumModel = require('../../db/models/AlbumModel');
+const SongModel = require('../../db/models/SongModel');
 
 module.exports = (id) => (
   new Promise((resolve, reject) => {
-    AlbumModel
+    SongModel
       .findByIdAndDelete(id, err => {
         if (err) reject(err);
         resolve();
       })
-      .orFail(() => reject(new Error('Album not found')));
+      .orFail(() => reject(new Error('Song not found')));
   })
 );

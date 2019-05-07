@@ -6,7 +6,8 @@ const chaiHttp = require('chai-http');
 const app = require('../src/app');
 const db = require('../src/db');
 const Album = require('../src/db/models/AlbumModel');
-const { albums, invalidId } = require('./data');
+const Song = require('../src/db/models/SongModel');
+const { albums, songs, invalidId } = require('./data');
 
 const should = chai.should();
 chai.use(chaiHttp);
@@ -24,6 +25,14 @@ describe('Public routes', () => {
             if (i === 0) newAlbum = album;
           });
         }
+
+        for (let j = 0; j < songs.length; j++) {
+          const song = new Song(songs[j]);
+          song.save(err => {
+            if (err) throw new Error(err);
+          });
+        }
+
         done();
       })
       .catch((err) => done(err));
@@ -42,6 +51,7 @@ describe('Public routes', () => {
         .end((_, res) => {
           res.should.have.status(200);
           res.body.should.be.eql({});
+
           done();
         });
     });
@@ -55,6 +65,7 @@ describe('Public routes', () => {
           res.should.have.status(200);
           res.body.should.be.a('array');
           res.body.length.should.be.eql(albums.length);
+
           done();
         });
     });
@@ -71,6 +82,21 @@ describe('Public routes', () => {
           res.body.should.have.property('1999');
           res.body['1991'].length.should.be.eql(2);
           res.body['1999'].length.should.be.eql(1);
+
+          done();
+        });
+    });
+  });
+
+  describe('GET /api/songs', () => {
+    it('gets an array of all songs', done => {
+      chai.request(app)
+        .get('/api/songs')
+        .end((_, res) => {
+          res.should.have.status(200);
+          res.body.should.be.a('array');
+          res.body.length.should.be.eql(songs.length);
+
           done();
         });
     });
@@ -90,6 +116,7 @@ describe('Public routes', () => {
           res.body.cd.should.be.eql(newAlbum.cd);
           res.body.aotd.should.be.eql(newAlbum.aotd);
           res.body.favorite.should.be.eql(newAlbum.favorite);
+
           done();
         });
     });
@@ -100,6 +127,7 @@ describe('Public routes', () => {
         .end((_, res) => {
           res.should.have.status(404);
           res.text.should.be.eql('Album not found');
+
           done();
         });
     });

@@ -9,10 +9,10 @@ import {
 import NavBar from '../components/NavBar';
 import AppAlert from '../components/AppAlert';
 import Songs from '../components/Songs';
-import FeaturedSongs from '../components/FeaturedSongs';
 
 import SignIn from './SignIn';
 import TopAlbums from './TopAlbums';
+import FeaturedSongs from './FeaturedSongs';
 import Admin from './Admin';
 import CreateEditAlbum from './CreateEditAlbum';
 import DeleteAlbum from './DeleteAlbum';

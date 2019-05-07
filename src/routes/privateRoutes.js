@@ -4,6 +4,8 @@ const createAlbum = require('../controllers/albums/createAlbum');
 const editAlbum = require('../controllers/albums/editAlbum');
 const deleteAlbum = require('../controllers/albums/deleteAlbum');
 
+const createSong = require('../controllers/songs/createSong');
+
 router.post('/api/albums', async (req, res) => {
   try {
     const newAlbum = await createAlbum(req.body);
@@ -34,6 +36,15 @@ router.delete('/api/albums/:id', async (req, res) => {
   } catch (err) {
     const status = err.message === 'Album not found' ? 404 : 500;
     res.status(status).send(err.message);
+  }
+});
+
+router.post('/api/songs', async (req, res) => {
+  try {
+    const newSong = await createSong(req.body);
+    res.send(newSong);
+  } catch (err) {
+    res.status(500).send(err.message);
   }
 });
 

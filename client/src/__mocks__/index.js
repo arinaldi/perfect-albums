@@ -8,6 +8,27 @@ export const mockTopAlbumsData = {
   ],
 };
 
+export const mockFeaturedSongsData = [
+  {
+    id: '1',
+    artist: 'Nirvana',
+    title: 'Smells Like Teen Spirit',
+    link: '',
+  },
+  {
+    id: '2',
+    artist: 'Pearl Jam',
+    title: 'Even Flow',
+    link: '',
+  },
+  {
+    id: '3',
+    artist: 'HIM',
+    title: 'I Love You (Prelude to Tragedy)',
+    link: '',
+  },
+];
+
 export const mockAdminData = [
   {
     id: '1',

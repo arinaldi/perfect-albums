@@ -1,7 +1,6 @@
 import React from 'react';
 import { Container, Row, Col, Card } from 'react-bootstrap';
 import PropTypes from 'prop-types';
-import songs from '../data/featuredSongs';
 
 const CardWrapper = ({ song }) => (
   <Col xs={12} md={6} lg={3} style={{
@@ -28,13 +27,17 @@ CardWrapper.propTypes = {
   song: PropTypes.object.isRequired,
 };
 
-const FeaturedSongs = () => (
+const FeaturedSongs = ({ data }) => (
   <Container>
     <h3>Featured Songs</h3>
-    <Row>
-      {songs.map(song => <CardWrapper key={song.id} song={song} />)}
+    <Row data-testid='card-row'>
+      {data.map(song => <CardWrapper key={song.id} song={song} />)}
     </Row>
   </Container>
 );
+
+FeaturedSongs.propTypes = {
+  data: PropTypes.array.isRequired,
+};
 
 export default FeaturedSongs;

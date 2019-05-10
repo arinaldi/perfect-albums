@@ -35,11 +35,7 @@ const MyProvider = ({ children }) => {
 
   const hideAlert = () => {
     setTimeout(() => {
-      setAlert({
-        isOpen: false,
-        type: '',
-        message: '',
-      });
+      setAlert({ isOpen: false });
     }, ALERT_TIMEOUT);
   };
 

@@ -1,5 +1,6 @@
 import React, { useContext, Fragment } from 'react';
-import { Nav, Navbar } from 'react-bootstrap';
+import Nav from 'react-bootstrap/Nav';
+import Navbar from 'react-bootstrap/Navbar';
 import { NavLink } from 'react-router-dom';
 
 import { MyContext } from '../containers/MyProvider';

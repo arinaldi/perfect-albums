@@ -1,13 +1,11 @@
 import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
-import {
-  Badge,
-  Button,
-  Col,
-  Container,
-  Form,
-  Row,
-} from 'react-bootstrap';
+import Badge from 'react-bootstrap/Badge';
+import Button from 'react-bootstrap/Button';
+import Col from 'react-bootstrap/Col';
+import Container from 'react-bootstrap/Container';
+import Form from 'react-bootstrap/Form';
+import Row from 'react-bootstrap/Row';
 
 import { ALERT_TYPES, MESSAGES } from '../constants';
 

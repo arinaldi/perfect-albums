@@ -1,5 +1,6 @@
 import React from 'react';
-import { Button, Table } from 'react-bootstrap';
+import Button from 'react-bootstrap/Button';
+import Table from 'react-bootstrap/Table';
 import PropTypes from 'prop-types';
 import { ICONS } from '../constants';
 

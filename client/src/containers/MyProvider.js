@@ -13,6 +13,10 @@ const MyProvider = ({ children }) => {
     type: '',
     message: '',
   });
+  const [toast, setToast] = useState({
+    isOpen: false,
+    message: '',
+  });
 
   const handleSignIn = (token) => {
     setToken(token);
@@ -39,12 +43,28 @@ const MyProvider = ({ children }) => {
     }, ALERT_TIMEOUT);
   };
 
+  const showToast = (message) => {
+    setToast({
+      isOpen: true,
+      message,
+    });
+  };
+
+  const closeToast = () => {
+    setToast({
+      ...toast,
+      isOpen: false,
+    });
+  };
+
   return (
     <MyContext.Provider value={{
-      state: { isAuthenticated, alert },
+      state: { isAuthenticated, alert, toast },
       signIn: handleSignIn,
       signOut: handleSignOut,
       showAlert,
+      showToast,
+      closeToast,
     }}>
       {children}
     </MyContext.Provider>

@@ -1,5 +1,5 @@
 import React, { useContext, useEffect } from 'react';
-import { Alert } from 'react-bootstrap';
+import Alert from 'react-bootstrap/Alert';
 
 import { MyContext } from '../containers/MyProvider';
 

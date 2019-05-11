@@ -1,10 +1,8 @@
 import React from 'react';
-import {
-  Col,
-  Form,
-  ToggleButton,
-  ToggleButtonGroup,
-} from 'react-bootstrap';
+import Col from 'react-bootstrap/Col';
+import Form from 'react-bootstrap/Form';
+import ToggleButton from 'react-bootstrap/ToggleButton';
+import ToggleButtonGroup from 'react-bootstrap/ToggleButtonGroup';
 import PropTypes from 'prop-types';
 
 const RadioGroup = ({

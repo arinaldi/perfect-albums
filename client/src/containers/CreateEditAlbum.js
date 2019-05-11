@@ -12,7 +12,7 @@ import { ALERT_TYPES, MESSAGES } from '../constants';
 import { MyContext } from './MyProvider';
 
 const CreateEditAlbumContainer = ({ history, location, match }) => {
-  const { signOut, showAlert } = useContext(MyContext);
+  const { signOut, showAlert, showToast } = useContext(MyContext);
   const [album, setAlbum] = useState({
     artist: '',
     title: '',
@@ -89,6 +89,7 @@ const CreateEditAlbumContainer = ({ history, location, match }) => {
         setIsSaving(false);
         history.push(`/admin?${query}`);
         showAlert(ALERT_TYPES.SUCCESS, `${MESSAGES.PREFIX} ${action}`);
+        // showToast(`${MESSAGES.PREFIX} ${action}`);
       } catch (err) {
         if (err.message !== MESSAGES.UNAUTHORIZED) {
           setIsSaving(false);

@@ -1,11 +1,9 @@
 import React from 'react';
-import {
-  Button,
-  Col,
-  Container,
-  Form,
-  Row,
-} from 'react-bootstrap';
+import Button from 'react-bootstrap/Button';
+import Col from 'react-bootstrap/Col';
+import Container from 'react-bootstrap/Container';
+import Form from 'react-bootstrap/Form';
+import Row from 'react-bootstrap/Row';
 import PropTypes from 'prop-types';
 
 import InputFeedback from './InputFeedback';
@@ -78,7 +76,7 @@ const CreateEditAlbum = ({
         </Col>
       </Row>
       <Row>
-        <Col>
+        <Col style={{ paddingBottom: 15 }}>
           <Button
             onClick={() => history.push(`/admin?${query}`)}
             variant='outline-dark'

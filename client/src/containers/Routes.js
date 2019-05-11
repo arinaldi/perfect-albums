@@ -8,6 +8,7 @@ import {
 
 import NavBar from '../components/NavBar';
 import AppAlert from '../components/AppAlert';
+import ToastAlert from '../components/ToastAlert';
 import Songs from '../components/Songs';
 
 import SignIn from './SignIn';
@@ -23,6 +24,7 @@ const Routes = () => (
     <Fragment>
       <NavBar />
       <AppAlert />
+      <ToastAlert />
       <Switch>
         <Route path='/albums' component={TopAlbums} />
         <Route path='/perfect-songs' component={Songs} />

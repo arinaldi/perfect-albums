@@ -7,7 +7,8 @@ export const ALERT_TYPES = {
 };
 
 export const MESSAGES = {
-  PREFIX: 'Album successfully',
+  ALBUM_PREFIX: 'Album successfully',
+  SONG_PREFIX: 'Song successfully',
   UNAUTHORIZED: 'You are unauthorized to perform this operation',
   SIGNIN: 'Invalid username or password',
   ERROR: 'Something went wrong',

@@ -39,12 +39,12 @@ const Api = {
       headers: getHeaders(),
     }).then(res => res.json())
   ),
-  post: (endpoint, payload, signOut) => (
+  post: (endpoint, payload, signOut, showAlert) => (
     fetch(`${BASE_URL}${endpoint}`, {
       method: 'POST',
       headers: getHeaders(true),
       body: JSON.stringify(payload),
-    }).then(res => handleResponse(res, signOut))
+    }).then(res => handleResponse(res, signOut, showAlert))
   ),
   put: (endpoint, payload, signOut, showAlert) => (
     fetch(`${BASE_URL}${endpoint}`, {

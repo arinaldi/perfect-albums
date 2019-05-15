@@ -4,8 +4,13 @@ const jwt = require('jwt-simple');
 const User = require('../db/models/UserModel');
 
 const makeToken = (userId) => {
-  const timestamp = new Date().getTime();
-  return jwt.encode({ userId, iat: timestamp }, process.env.SECRET);
+  const timestamp = Math.round(Date.now() / 1000);
+  const expiry = 60 * 60 * 24 * 7; // one week
+  return jwt.encode({
+    userId,
+    iat: timestamp,
+    exp: timestamp + expiry,
+  }, process.env.SECRET);
 };
 
 const decodeToken = (token) => {

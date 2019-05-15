@@ -46,7 +46,7 @@ const DeleteAlbumContainer = ({ history, location, match }) => {
       await Api.delete(`/api/albums/${match.params.id}`, signOut, showAlert);
       setIsDeleting(false);
       history.push(`/admin?${query}`);
-      showAlert(ALERT_TYPES.SUCCESS, `${MESSAGES.PREFIX} deleted`);
+      showAlert(ALERT_TYPES.SUCCESS, `${MESSAGES.ALBUM_PREFIX} deleted`);
     } catch (err) {
       if (err.message !== MESSAGES.UNAUTHORIZED) {
         setIsDeleting(false);

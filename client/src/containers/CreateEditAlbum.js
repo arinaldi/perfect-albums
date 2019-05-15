@@ -88,8 +88,8 @@ const CreateEditAlbumContainer = ({ history, location, match }) => {
         await saveFunc(saveUrl, album, signOut, showAlert);
         setIsSaving(false);
         history.push(`/admin?${query}`);
-        showAlert(ALERT_TYPES.SUCCESS, `${MESSAGES.PREFIX} ${action}`);
-        // showToast(`${MESSAGES.PREFIX} ${action}`);
+        showAlert(ALERT_TYPES.SUCCESS, `${MESSAGES.ALBUM_PREFIX} ${action}`);
+        // showToast(`${MESSAGES.ALBUM_PREFIX} ${action}`);
       } catch (err) {
         if (err.message !== MESSAGES.UNAUTHORIZED) {
           setIsSaving(false);

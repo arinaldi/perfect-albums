@@ -21,7 +21,7 @@ test('AppAlert renders as hidden', () => {
 
 test('AppAlert renders as visible', () => {
   let changeAlert;
-  const message = `${MESSAGES.PREFIX} edited`;
+  const message = `${MESSAGES.ALBUM_PREFIX} edited`;
   const { container, getByText } = render(
     <MyProvider>
       <MyContext.Consumer>

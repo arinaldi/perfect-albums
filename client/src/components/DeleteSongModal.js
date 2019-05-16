@@ -16,7 +16,6 @@ const DeleteSongModal = ({
     <Modal.Header closeButton>
       <Modal.Title>Delete Song</Modal.Title>
     </Modal.Header>
-
     <Modal.Body>
       <p>{`Are you sure you want to delete ${artist} – ${title}?`}</p>
       {error && (

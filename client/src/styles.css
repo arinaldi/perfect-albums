@@ -44,3 +44,9 @@
 .btn-group-toggle > .btn {
   cursor: pointer;
 }
+
+.sign-out {
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+}

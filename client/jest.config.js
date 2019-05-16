@@ -1,3 +1,6 @@
 module.exports = {
-  setupTestFrameworkScriptFile: '<rootDir>/rtl.setup.js',
+  setupFilesAfterEnv: [
+    'jest-dom/extend-expect',
+    'react-testing-library/cleanup-after-each',
+  ],
 };

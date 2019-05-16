@@ -1,6 +1,7 @@
 import React from 'react';
 import { render, wait } from 'react-testing-library';
 
+import MyProvider from '../containers/MyProvider';
 import FeaturedSongsContainer from '../containers/FeaturedSongs';
 
 import { mockFeaturedSongsData } from '../__mocks__';
@@ -31,7 +32,11 @@ afterAll(() => {
 test('FeaturedSongsContainer handles successful data fetching', async () => {
   mockApi.get.mockImplementation(() => Promise.resolve(mockFeaturedSongsData));
 
-  const { getByText, getByTestId } = render(<FeaturedSongsContainer />);
+  const { getByText, getByTestId } = render(
+    <MyProvider>
+      <FeaturedSongsContainer />
+    </MyProvider>
+  );
   const loader = getByText('Loading...');
 
   expect(loader).toBeInTheDocument();
@@ -42,7 +47,11 @@ test('FeaturedSongsContainer handles successful data fetching', async () => {
 test('FeaturedSongsContainer handles error from data fetching', async () => {
   mockApi.get.mockImplementation(() => Promise.reject(new Error('error message')));
 
-  const { getByText } = render(<FeaturedSongsContainer />);
+  const { getByText } = render(
+    <MyProvider>
+      <FeaturedSongsContainer />
+    </MyProvider>
+  );
   const loader = getByText('Loading...');
 
   expect(loader).toBeInTheDocument();

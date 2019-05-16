@@ -14,13 +14,9 @@
   "author": "Tony Rinaldi",
   "license": "ISC",
   "dependencies": {
-    "babel-core": "^6.26.3",
-    "babel-plugin-transform-object-rest-spread": "^6.26.0",
-    "babel-plugin-transform-runtime": "^6.23.0",
-    "babel-preset-env": "^1.7.0",
-    "babel-preset-react": "^6.24.1",
-    "babel-preset-stage-0": "^6.24.1",
-    "babel-runtime": "^6.26.0",
+    "@babel/core": "^7.4.4",
+    "@babel/preset-env": "^7.4.4",
+    "@babel/preset-react": "^7.0.0",
     "bootstrap": "^4.3.1",
     "parcel-bundler": "^1.12.3",
     "react": "^16.8.6",
@@ -33,8 +29,8 @@
   ],
   "devDependencies": {
     "history": "^4.9.0",
-    "jest": "^23",
-    "jest-dom": "^3.1.3",
-    "react-testing-library": "^6.1.2"
+    "jest": "^24.8.0",
+    "jest-dom": "^3.2.2",
+    "react-testing-library": "^7.0.0"
   }
 }

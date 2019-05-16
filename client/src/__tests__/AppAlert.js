@@ -13,10 +13,9 @@ test('AppAlert renders as hidden', () => {
       <AppAlert />
     </MyProvider>
   );
-  const div = container.querySelector('.alert-container');
+  const div = container.querySelector('.alert-hide');
 
   expect(div).toBeInTheDocument();
-  expect(div).toHaveClass('alert-hide');
 });
 
 test('AppAlert renders as visible', () => {
@@ -37,10 +36,9 @@ test('AppAlert renders as visible', () => {
     changeAlert(ALERT_TYPES.SUCCESS, message);
   });
 
-  const containerDiv = container.querySelector('.alert-container');
-  const messageDiv = getByText(message);
+  const div = container.querySelector('.alert-show');
+  const text = getByText(message);
 
-  expect(containerDiv).toBeInTheDocument();
-  expect(containerDiv).toHaveClass('alert-show');
-  expect(messageDiv).toBeInTheDocument();
+  expect(div).toBeInTheDocument();
+  expect(text).toBeInTheDocument();
 });

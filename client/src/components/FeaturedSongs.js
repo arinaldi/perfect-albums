@@ -29,7 +29,7 @@ const CardWrapper = ({ song, handleDeleteOpen }) => {
           </Card.Link>
           {state.isAuthenticated && (
             <Card.Link
-              style={{ color: 'red', cursor: 'pointer' }}
+              style={{ color: '#007bff', cursor: 'pointer' }}
               onClick={() => handleDeleteOpen(song)}
             >
               Delete

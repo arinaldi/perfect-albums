@@ -13,7 +13,7 @@ const activeStyle = {
 const LinkWrapper = ({ to, label }) => (
   <Nav.Link eventKey={to} active={false} as='span'>
     <NavLink
-      className='nav-link'
+      className='link'
       activeStyle={activeStyle}
       to={to}
     >

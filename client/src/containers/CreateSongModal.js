@@ -4,12 +4,12 @@ import PropTypes from 'prop-types';
 import CreateSongModal from '../components/CreateSongModal';
 
 import Api from '../utils/api';
-import { ALERT_TYPES, MESSAGES } from '../constants';
+import { TOAST_TYPES, MESSAGES } from '../constants';
 
 import { MyContext } from './MyProvider';
 
 const CreateSongContainer = ({ isOpen, setIsOpen, refresh }) => {
-  const { signOut, showAlert } = useContext(MyContext);
+  const { signOut, showToast } = useContext(MyContext);
   const [song, setSong] = useState({
     artist: '',
     title: '',
@@ -44,11 +44,14 @@ const CreateSongContainer = ({ isOpen, setIsOpen, refresh }) => {
       setIsSaving(true);
 
       try {
-        await Api.post('/api/songs', song, signOut, showAlert);
+        await Api.post('/api/songs', song, signOut, showToast);
         setIsSaving(false);
         handleClose();
         refresh(Date.now());
-        showAlert(ALERT_TYPES.SUCCESS, `${MESSAGES.SONG_PREFIX} created`);
+        showToast({
+          type: TOAST_TYPES.SUCCESS,
+          message: `${MESSAGES.SONG_PREFIX} created`,
+        });
       } catch (err) {
         if (err.message === MESSAGES.UNAUTHORIZED) {
           handleClose();

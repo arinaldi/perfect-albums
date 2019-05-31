@@ -7,12 +7,12 @@ import AppMessage from '../components/AppMessage';
 
 import { getQuery } from '../utils';
 import Api from '../utils/api';
-import { ALERT_TYPES, MESSAGES } from '../constants';
+import { TOAST_TYPES, MESSAGES } from '../constants';
 
 import { MyContext } from './MyProvider';
 
 const CreateEditAlbumContainer = ({ history, location, match }) => {
-  const { signOut, showAlert, showToast } = useContext(MyContext);
+  const { signOut, showToast } = useContext(MyContext);
   const [album, setAlbum] = useState({
     artist: '',
     title: '',
@@ -85,15 +85,20 @@ const CreateEditAlbumContainer = ({ history, location, match }) => {
       setIsSaving(true);
 
       try {
-        await saveFunc(saveUrl, album, signOut, showAlert);
+        await saveFunc(saveUrl, album, signOut, showToast);
         setIsSaving(false);
         history.push(`/admin?${query}`);
-        showAlert(ALERT_TYPES.SUCCESS, `${MESSAGES.ALBUM_PREFIX} ${action}`);
-        // showToast(`${MESSAGES.ALBUM_PREFIX} ${action}`);
+        showToast({
+          type: TOAST_TYPES.SUCCESS,
+          message: `${MESSAGES.ALBUM_PREFIX} ${action}`,
+        });
       } catch (err) {
         if (err.message !== MESSAGES.UNAUTHORIZED) {
           setIsSaving(false);
-          setError(err.message);
+          showToast({
+            type: TOAST_TYPES.ERROR,
+            message: err.message || MESSAGES.ERROR,
+          });
         }
       }
     } else {

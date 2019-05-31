@@ -4,12 +4,12 @@ import PropTypes from 'prop-types';
 import DeleteSongModal from '../components/DeleteSongModal';
 
 import Api from '../utils/api';
-import { ALERT_TYPES, MESSAGES } from '../constants';
+import { TOAST_TYPES, MESSAGES } from '../constants';
 
 import { MyContext } from './MyProvider';
 
 const DeleteSongContainer = ({ isOpen, setIsOpen, activeSong, refresh }) => {
-  const { signOut, showAlert } = useContext(MyContext);
+  const { signOut, showToast } = useContext(MyContext);
   const [isDeleting, setIsDeleting] = useState(false);
   const [error, setError] = useState('');
 
@@ -22,11 +22,14 @@ const DeleteSongContainer = ({ isOpen, setIsOpen, activeSong, refresh }) => {
     setIsDeleting(true);
 
     try {
-      await Api.delete(`/api/songs/${activeSong.id}`, signOut, showAlert);
+      await Api.delete(`/api/songs/${activeSong.id}`, signOut, showToast);
       setIsDeleting(false);
       handleClose();
       refresh(Date.now());
-      showAlert(ALERT_TYPES.SUCCESS, `${MESSAGES.SONG_PREFIX} deleted`);
+      showToast({
+        type: TOAST_TYPES.SUCCESS,
+        message: `${MESSAGES.SONG_PREFIX} deleted`,
+      });
     } catch (err) {
       if (err.message === MESSAGES.UNAUTHORIZED) {
         handleClose();

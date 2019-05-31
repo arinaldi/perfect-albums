@@ -1,4 +1,4 @@
-import { ALERT_TYPES, MESSAGES } from '../constants';
+import { TOAST_TYPES, MESSAGES } from '../constants';
 import { getToken } from './storage';
 
 const BASE_URL = process.env.NODE_ENV === 'production'
@@ -15,7 +15,7 @@ const getHeaders = (withAuth = false) => {
   return headers;
 };
 
-const handleResponse = (res, signOut, showAlert) => {
+const handleResponse = (res, signOut, showToast) => {
   return new Promise((resolve, reject) => {
     if (res.status === 401) {
       if (res.url.includes('signin')) {
@@ -23,7 +23,10 @@ const handleResponse = (res, signOut, showAlert) => {
       } else {
         reject(new Error(MESSAGES.UNAUTHORIZED));
         signOut();
-        showAlert(ALERT_TYPES.ERROR, MESSAGES.UNAUTHORIZED);
+        showToast({
+          type: TOAST_TYPES.ERROR,
+          message: MESSAGES.UNAUTHORIZED,
+        });
       }
     } else if (!res.ok) {
       reject(new Error(MESSAGES.ERROR));
@@ -39,25 +42,25 @@ const Api = {
       headers: getHeaders(),
     }).then(res => res.json())
   ),
-  post: (endpoint, payload, signOut, showAlert) => (
+  post: (endpoint, payload, signOut, showToast) => (
     fetch(`${BASE_URL}${endpoint}`, {
       method: 'POST',
       headers: getHeaders(true),
       body: JSON.stringify(payload),
-    }).then(res => handleResponse(res, signOut, showAlert))
+    }).then(res => handleResponse(res, signOut, showToast))
   ),
-  put: (endpoint, payload, signOut, showAlert) => (
+  put: (endpoint, payload, signOut, showToast) => (
     fetch(`${BASE_URL}${endpoint}`, {
       method: 'PUT',
       headers: getHeaders(true),
       body: JSON.stringify(payload),
-    }).then(res => handleResponse(res, signOut, showAlert))
+    }).then(res => handleResponse(res, signOut, showToast))
   ),
-  delete: (endpoint, signOut, showAlert) => (
+  delete: (endpoint, signOut, showToast) => (
     fetch(`${BASE_URL}${endpoint}`, {
       method: 'DELETE',
       headers: getHeaders(true),
-    }).then(res => handleResponse(res, signOut, showAlert))
+    }).then(res => handleResponse(res, signOut, showToast))
   ),
 };
 

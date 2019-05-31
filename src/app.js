@@ -17,8 +17,11 @@ app
   .use(publicRoutes)
   .use(authRoutes);
 
+// app.get('*', (req, res) => {
+//   res.sendFile(path.resolve(__dirname, '../client/dist', 'index.html'));
+// });
 app.get('*', (req, res) => {
-  res.sendFile(path.resolve(__dirname, '../client/dist', 'index.html'));
+  res.status(404).json({ message: 'Not found' });
 });
 
 const authStrategy = passport.authenticate('authStrategy', { session: false });

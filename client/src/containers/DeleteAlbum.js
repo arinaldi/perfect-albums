@@ -7,12 +7,12 @@ import AppMessage from '../components/AppMessage';
 
 import { getQuery } from '../utils';
 import Api from '../utils/api';
-import { ALERT_TYPES, MESSAGES } from '../constants';
+import { TOAST_TYPES, MESSAGES } from '../constants';
 
 import { MyContext } from './MyProvider';
 
 const DeleteAlbumContainer = ({ history, location, match }) => {
-  const { signOut, showAlert } = useContext(MyContext);
+  const { signOut, showToast } = useContext(MyContext);
   const [artist, setArtist] = useState('');
   const [title, setTitle] = useState('');
   const [query, setQuery] = useState('');
@@ -43,10 +43,13 @@ const DeleteAlbumContainer = ({ history, location, match }) => {
     setIsDeleting(true);
 
     try {
-      await Api.delete(`/api/albums/${match.params.id}`, signOut, showAlert);
+      await Api.delete(`/api/albums/${match.params.id}`, signOut, showToast);
       setIsDeleting(false);
       history.push(`/admin?${query}`);
-      showAlert(ALERT_TYPES.SUCCESS, `${MESSAGES.ALBUM_PREFIX} deleted`);
+      showToast({
+        type: TOAST_TYPES.SUCCESS,
+        message: `${MESSAGES.ALBUM_PREFIX} deleted`,
+      });
     } catch (err) {
       if (err.message !== MESSAGES.UNAUTHORIZED) {
         setIsDeleting(false);

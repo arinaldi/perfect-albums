@@ -1,9 +1,15 @@
 export const ALERT_TIMEOUT = 3000;
+export const TOAST_TIMEOUT = 4000;
 
 export const ALERT_TYPES = {
   SUCCESS: 'success',
   ERROR: 'danger',
   INFO: 'dark',
+};
+
+export const TOAST_TYPES = {
+  SUCCESS: 'success',
+  ERROR: 'error',
 };
 
 export const MESSAGES = {

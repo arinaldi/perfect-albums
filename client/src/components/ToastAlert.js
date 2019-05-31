@@ -1,25 +1,11 @@
-import React from 'react';
-
-const ToastAlert = () => <div />;
-
-export default ToastAlert;
-
-/*
-import React, { useContext, useEffect } from 'react';
+import React, { useContext } from 'react';
 import Toast from 'react-bootstrap/Toast';
 
 import { MyContext } from '../containers/MyProvider';
-
-// let type = '';
-// let message = '';
+import { TOAST_TIMEOUT } from '../constants';
 
 const ToastAlert = () => {
   const { state: { toast }, closeToast } = useContext(MyContext);
-
-  // useEffect(() => {
-  //   type = alert.type;
-  //   message = alert.message;
-  // }, [alert]);
 
   return (
     <div
@@ -27,39 +13,28 @@ const ToastAlert = () => {
       aria-atomic='true'
       style={{
         position: 'relative',
-        minHeight: '100px',
+        zIndex: 99,
       }}
     >
       <Toast
         onClose={closeToast}
         show={toast.isOpen}
-        delay={3000}
+        delay={TOAST_TIMEOUT}
         autohide
         style={{
           position: 'absolute',
           top: 0,
-          right: 0,
+          right: 10,
+          minWidth: '300px',
         }}
       >
-        <Toast.Header>
-          <strong className='mr-auto'>Alert</strong>
+        <Toast.Header className={toast.type}>
+          <strong className='mr-auto capitalize'>{toast.type}</strong>
         </Toast.Header>
-        <Toast.Body>{toast.message}</Toast.Body>
+        <Toast.Body style={{ backgroundColor: 'white' }}>{toast.message}</Toast.Body>
       </Toast>
     </div>
   );
-
-  // return (
-  //   <div className='alert-container'>
-  //     <Alert
-  //       className={alertClass}
-  //       variant={alert.type || type}
-  //     >
-  //       {alert.message || message}
-  //     </Alert>
-  //   </div>
-  // );
 };
 
 export default ToastAlert;
-*/

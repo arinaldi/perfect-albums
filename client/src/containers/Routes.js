@@ -7,7 +7,6 @@ import {
 } from 'react-router-dom';
 
 import NavBar from '../components/NavBar';
-import AppAlert from '../components/AppAlert';
 import ToastAlert from '../components/ToastAlert';
 import Songs from '../components/Songs';
 
@@ -23,7 +22,6 @@ const Routes = () => (
   <Router>
     <Fragment>
       <NavBar />
-      <AppAlert />
       <ToastAlert />
       <Switch>
         <Route path='/albums' component={TopAlbums} />

@@ -1,20 +1,15 @@
 import React, { useState, createContext } from 'react';
 import PropTypes from 'prop-types';
 
-import { ALERT_TIMEOUT } from '../constants';
 import { setToken, getToken, removeToken } from '../utils/storage';
 
 const MyContext = createContext();
 
 const MyProvider = ({ children }) => {
   const [isAuthenticated, setIsAuthenticated] = useState(!!getToken());
-  const [alert, setAlert] = useState({
-    isOpen: false,
-    type: '',
-    message: '',
-  });
   const [toast, setToast] = useState({
     isOpen: false,
+    type: '',
     message: '',
   });
 
@@ -28,24 +23,10 @@ const MyProvider = ({ children }) => {
     setIsAuthenticated(false);
   };
 
-  const showAlert = (type, message) => {
-    setAlert({
-      isOpen: true,
-      type,
-      message,
-    });
-    hideAlert();
-  };
-
-  const hideAlert = () => {
-    setTimeout(() => {
-      setAlert({ isOpen: false });
-    }, ALERT_TIMEOUT);
-  };
-
-  const showToast = (message) => {
+  const showToast = ({ type, message }) => {
     setToast({
       isOpen: true,
+      type,
       message,
     });
   };
@@ -59,10 +40,9 @@ const MyProvider = ({ children }) => {
 
   return (
     <MyContext.Provider value={{
-      state: { isAuthenticated, alert, toast },
+      state: { isAuthenticated, toast },
       signIn: handleSignIn,
       signOut: handleSignOut,
-      showAlert,
       showToast,
       closeToast,
     }}>

@@ -1,4 +1,4 @@
-import React, { useContext, Fragment } from 'react';
+import React, { useContext } from 'react';
 import Nav from 'react-bootstrap/Nav';
 import Navbar from 'react-bootstrap/Navbar';
 import { NavLink } from 'react-router-dom';
@@ -27,26 +27,23 @@ LinkWrapper.propTypes = {
   label: PropTypes.string.isRequired,
 };
 
-const AuthLinks = () => {
+const SignOut = () => {
   const { signOut } = useContext(MyContext);
 
   return (
-    <Fragment>
-      <LinkWrapper to='/admin' label='Admin' />
-      <Nav.Link
-        className='sign-out'
-        eventKey='signout'
-        active={false}
-        as='div'
-      >
-        <span onClick={signOut}>Sign Out</span>
-      </Nav.Link>
-    </Fragment>
+    <Nav.Link
+      className='sign-out'
+      eventKey='signout'
+      active={false}
+      as='div'
+    >
+      <span onClick={signOut}>Sign Out</span>
+    </Nav.Link>
   );
 };
 
 const NavBar = () => {
-  const { state } = useContext(MyContext);
+  const { state: { isAuthenticated } } = useContext(MyContext);
 
   return (
     <Navbar collapseOnSelect bg='dark' variant='dark' expand='md'>
@@ -57,8 +54,11 @@ const NavBar = () => {
           <LinkWrapper to='/albums' label='Top Albums' />
           <LinkWrapper to='/perfect-songs' label='Perfect Songs' />
           <LinkWrapper to='/featured-songs' label='Featured Songs' />
-          {state.isAuthenticated
-            ? <AuthLinks />
+          {isAuthenticated && <LinkWrapper to='/admin' label='Admin' />}
+        </Nav>
+        <Nav>
+          {isAuthenticated
+            ? <SignOut />
             : <LinkWrapper to='/signin' label='Sign In' />}
         </Nav>
       </Navbar.Collapse>

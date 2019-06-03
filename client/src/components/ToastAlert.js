@@ -6,6 +6,7 @@ import { TOAST_TIMEOUT } from '../constants';
 
 const ToastAlert = () => {
   const { state: { toast }, closeToast } = useContext(MyContext);
+  const zIndex = toast.isOpen ? 99 : 0;
 
   return (
     <div
@@ -13,7 +14,7 @@ const ToastAlert = () => {
       aria-atomic='true'
       style={{
         position: 'relative',
-        zIndex: 99,
+        zIndex,
       }}
     >
       <Toast

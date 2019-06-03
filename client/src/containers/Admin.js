@@ -20,7 +20,8 @@ const AdminContainer = ({ history, location }) => {
     const searchText = location.search ? getQuery(location.search) : '';
     const fetchData = async (searchText) => {
       try {
-        const albums = await Api.get('/api/albums');
+        const res = await Api.get('/api/albums');
+        const albums = await res.json();
         const filteredAlbums = searchText
           ? formatData(filterData(albums, searchText))
           : formatData(albums);

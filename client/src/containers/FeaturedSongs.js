@@ -25,7 +25,8 @@ const FeaturedSongsContainer = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const data = await Api.get('/api/songs');
+        const res = await Api.get('/api/songs');
+        const data = await res.json();
         setData(data);
       } catch (err) {
         setIsError(true);

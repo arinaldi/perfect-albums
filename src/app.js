@@ -25,8 +25,8 @@ app.get('*', (req, res) => {
 });
 
 const authStrategy = passport.authenticate('authStrategy', { session: false });
-app.use(authStrategy);
-
-app.use(privateRoutes);
+app
+  .use(authStrategy)
+  .use(privateRoutes);
 
 module.exports = app;

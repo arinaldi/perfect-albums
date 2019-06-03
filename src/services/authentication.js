@@ -6,15 +6,17 @@ const jwtOptions = {
   jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken('authorization'),
 };
 
-const strategy = new Strategy(jwtOptions, (payload, done) => {
-  User.findById(payload.userId, (err, user) => {
-    if (err) return done(err, false);
+const strategy = new Strategy(jwtOptions, async (payload, done) => {
+  try {
+    const user = await User.findById(payload.user._id);
     if (user) {
       done(null, user);
     } else {
       done(null, false);
     }
-  });
+  } catch (err) {
+    done(err, false);
+  }
 });
 
 module.exports = strategy;

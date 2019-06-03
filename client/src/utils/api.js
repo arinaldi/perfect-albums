@@ -36,11 +36,11 @@ const handleResponse = (res, signOut, showToast) => {
 };
 
 const Api = {
-  get: (endpoint) => (
+  get: (endpoint, withAuth = false) => (
     fetch(`${BASE_URL}${endpoint}`, {
       method: 'GET',
-      headers: getHeaders(),
-    }).then(res => res.json())
+      headers: getHeaders(withAuth),
+    })
   ),
   post: (endpoint, payload, signOut, showToast) => (
     fetch(`${BASE_URL}${endpoint}`, {

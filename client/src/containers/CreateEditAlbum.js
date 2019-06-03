@@ -33,7 +33,8 @@ const CreateEditAlbumContainer = ({ history, location, match }) => {
     const isEditMode = match.path.includes('edit');
     const fetchData = async () => {
       try {
-        const { id, ...album } = await Api.get(`/api/albums/${match.params.id}`);
+        const res = await Api.get(`/api/albums/${match.params.id}`);
+        const album = await res.json();
         setAlbum(album);
       } catch (err) {
         setError(err.message);

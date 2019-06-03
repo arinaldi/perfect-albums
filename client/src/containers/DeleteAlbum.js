@@ -24,7 +24,8 @@ const DeleteAlbumContainer = ({ history, location, match }) => {
     const query = location.search ? getQuery(location.search) : '';
     const fetchData = async () => {
       try {
-        const { artist, title } = await Api.get(`/api/albums/${match.params.id}`);
+        const res = await Api.get(`/api/albums/${match.params.id}`);
+        const { artist, title } = await res.json();
         setArtist(artist);
         setTitle(title);
       } catch (err) {

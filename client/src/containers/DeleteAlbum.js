@@ -26,8 +26,13 @@ const DeleteAlbumContainer = ({ history, location, match }) => {
       try {
         const res = await Api.get(`/api/albums/${match.params.id}`);
         const { artist, title } = await res.json();
-        setArtist(artist);
-        setTitle(title);
+
+        if (res.status === 200) {
+          setArtist(artist);
+          setTitle(title);
+        } else {
+          throw new Error(MESSAGES.ERROR);
+        }
       } catch (err) {
         setError(err.message);
       }
@@ -54,7 +59,10 @@ const DeleteAlbumContainer = ({ history, location, match }) => {
     } catch (err) {
       if (err.message !== MESSAGES.UNAUTHORIZED) {
         setIsDeleting(false);
-        setError(err.message);
+        showToast({
+          type: TOAST_TYPES.ERROR,
+          message: err.message || MESSAGES.ERROR,
+        });
       }
     }
   };

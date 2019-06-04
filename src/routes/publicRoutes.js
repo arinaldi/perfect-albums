@@ -50,4 +50,8 @@ router.get('/api/albums/:id', async (req, res) => {
   }
 });
 
+router.get('/api/*', (req, res) => {
+  res.status(404).json({ message: 'Not found' });
+});
+
 module.exports = router;

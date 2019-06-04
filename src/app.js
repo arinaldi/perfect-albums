@@ -14,15 +14,12 @@ app
   .use(express.static(path.resolve(__dirname, '../client/dist')))
   .use(cors())
   .use(bodyParser.json())
-  .use(publicRoutes)
-  .use(authRoutes);
+  .use(authRoutes)
+  .use(publicRoutes);
 
 app.get('*', (req, res) => {
   res.sendFile(path.resolve(__dirname, '../client/dist', 'index.html'));
 });
-// app.get('*', (req, res) => {
-//   res.status(404).json({ message: 'Not found' });
-// });
 
 const authStrategy = passport.authenticate('authStrategy', { session: false });
 app

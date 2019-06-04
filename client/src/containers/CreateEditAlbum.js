@@ -35,7 +35,12 @@ const CreateEditAlbumContainer = ({ history, location, match }) => {
       try {
         const res = await Api.get(`/api/albums/${match.params.id}`);
         const album = await res.json();
-        setAlbum(album);
+
+        if (res.status === 200) {
+          setAlbum(album);
+        } else {
+          throw new Error(MESSAGES.ERROR);
+        }
       } catch (err) {
         setError(err.message);
       }

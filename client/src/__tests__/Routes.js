@@ -11,7 +11,9 @@ import mockApi from '../utils/api';
 
 jest.mock('../utils/api', () => {
   return {
-    get: jest.fn(() => Promise.resolve(mockTopAlbumsData)),
+    get: jest.fn(() => Promise.resolve({
+      json: () => Promise.resolve(mockTopAlbumsData),
+    })),
   };
 });
 

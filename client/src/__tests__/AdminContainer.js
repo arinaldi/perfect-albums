@@ -35,7 +35,9 @@ const history = createMemoryHistory({
 const location = { search: '' };
 
 test('AdminContainer handles successful data fetching', async () => {
-  mockApi.get.mockImplementation(() => Promise.resolve(mockAdminData));
+  mockApi.get.mockImplementation(() => Promise.resolve({
+    json: () => Promise.resolve(mockAdminData),
+  }));
 
   const { getByText, getAllByText } = render(
     <AdminContainer history={history} location={location} />

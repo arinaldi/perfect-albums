@@ -38,7 +38,10 @@ const match = { params: { id: '1' } };
 const { artist, title } = mockAdminData[0];
 
 test('DeleteAlbumContainer handles successful data fetching', async () => {
-  mockApi.get.mockImplementation(() => Promise.resolve(mockAdminData[0]));
+  mockApi.get.mockImplementation(() => Promise.resolve({
+    status: 200,
+    json: () => Promise.resolve(mockAdminData[0]),
+  }));
 
   const { getByText } = render(
     <MyProvider>

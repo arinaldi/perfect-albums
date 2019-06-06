@@ -29,7 +29,9 @@ afterAll(() => {
 });
 
 test('TopAlbumsContainer handles successful data fetching', async () => {
-  mockApi.get.mockImplementation(() => Promise.resolve(mockTopAlbumsData));
+  mockApi.get.mockImplementation(() => Promise.resolve({
+    json: () => Promise.resolve(mockTopAlbumsData),
+  }));
 
   const { getByText, getByTestId } = render(<TopAlbumsContainer />);
   const loader = getByText('Loading...');

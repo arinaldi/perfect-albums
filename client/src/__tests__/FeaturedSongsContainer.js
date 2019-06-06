@@ -30,7 +30,9 @@ afterAll(() => {
 });
 
 test('FeaturedSongsContainer handles successful data fetching', async () => {
-  mockApi.get.mockImplementation(() => Promise.resolve(mockFeaturedSongsData));
+  mockApi.get.mockImplementation(() => Promise.resolve({
+    json: () => Promise.resolve(mockFeaturedSongsData),
+  }));
 
   const { getByText, getByTestId } = render(
     <MyProvider>

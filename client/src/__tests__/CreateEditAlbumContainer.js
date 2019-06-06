@@ -41,7 +41,10 @@ const match = {
 const { artist, title, year, cd, aotd, favorite } = mockAdminData[0];
 
 test('CreateEditAlbumContainer handles successful data fetching', async () => {
-  mockApi.get.mockImplementation(() => Promise.resolve(mockAdminData[0]));
+  mockApi.get.mockImplementation(() => Promise.resolve({
+    status: 200,
+    json: () => Promise.resolve(mockAdminData[0]),
+  }));
 
   const { getByText, getByLabelText, container } = render(
     <MyProvider>

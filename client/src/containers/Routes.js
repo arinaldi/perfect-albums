@@ -1,4 +1,4 @@
-import React, { Fragment, useContext } from 'react';
+import React, { useContext } from 'react';
 import {
   BrowserRouter as Router,
   Route,
@@ -19,6 +19,7 @@ import Admin from './Admin';
 import CreateEditAlbum from './CreateEditAlbum';
 import DeleteAlbum from './DeleteAlbum';
 import AuthRoute from './AuthRoute';
+import ErrorBoundary from './ErrorBoundary';
 
 const AppRoutes = () => (
   <Switch>
@@ -39,11 +40,11 @@ const Routes = () => {
 
   return (
     <Router>
-      <Fragment>
+      <ErrorBoundary>
         <NavBar />
         <ToastAlert />
         {isLoading ? <Loader /> : <AppRoutes />}
-      </Fragment>
+      </ErrorBoundary>
     </Router>
   );
 };

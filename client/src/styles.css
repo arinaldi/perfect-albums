@@ -73,3 +73,7 @@
 .capitalize {
   text-transform: capitalize;
 }
+
+.container {
+  padding-bottom: 15px;
+}

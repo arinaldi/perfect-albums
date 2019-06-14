@@ -5,6 +5,7 @@ import Form from 'react-bootstrap/Form';
 import Modal from 'react-bootstrap/Modal';
 
 import InputFeedback from './InputFeedback';
+import SubmitButton from './SubmitButton';
 
 const CreateSongModal = ({
   isOpen,
@@ -64,13 +65,12 @@ const CreateSongModal = ({
         >
           Close
         </Button>
-        <Button
-          type='submit'
-          variant='outline-dark'
-          disabled={isSaving}
-        >
-          {isSaving ? 'Saving...' : 'Save'}
-        </Button>
+        <SubmitButton
+          isDisabled={isSaving}
+          isLoading={isSaving}
+          text='Save'
+          loadingText='Saving...'
+        />
       </Modal.Footer>
     </Form>
   </Modal>

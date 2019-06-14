@@ -5,6 +5,8 @@ import Container from 'react-bootstrap/Container';
 import Form from 'react-bootstrap/Form';
 import PropTypes from 'prop-types';
 
+import SubmitButton from './SubmitButton';
+
 const DeleteAlbum = ({
   history,
   artist,
@@ -29,13 +31,12 @@ const DeleteAlbum = ({
         >
           Cancel
         </Button>
-        <Button
-          type='submit'
-          variant='outline-dark'
-          disabled={isDeleting}
-        >
-          {isDeleting ? 'Deleting...' : 'Delete'}
-        </Button>
+        <SubmitButton
+          isDisabled={isDeleting}
+          isLoading={isDeleting}
+          text='Delete'
+          loadingText='Deleting...'
+        />
       </Form.Row>
     </Form>
   </Container>

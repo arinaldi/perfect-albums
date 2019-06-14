@@ -8,6 +8,7 @@ import PropTypes from 'prop-types';
 
 import InputFeedback from './InputFeedback';
 import RadioGroup from './RadioGroup';
+import SubmitButton from './SubmitButton';
 
 const CreateEditAlbum = ({
   history,
@@ -84,13 +85,12 @@ const CreateEditAlbum = ({
           >
             Cancel
           </Button>
-          <Button
-            type='submit'
-            variant='outline-dark'
-            disabled={isSaving}
-          >
-            {isSaving ? 'Saving...' : 'Save'}
-          </Button>
+          <SubmitButton
+            isDisabled={isSaving}
+            isLoading={isSaving}
+            text='Save'
+            loadingText='Saving...'
+          />
         </Col>
       </Row>
     </Form>

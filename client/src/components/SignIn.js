@@ -1,9 +1,10 @@
 import React from 'react';
-import Button from 'react-bootstrap/Button';
 import Col from 'react-bootstrap/Col';
 import Container from 'react-bootstrap/Container';
 import Form from 'react-bootstrap/Form';
 import PropTypes from 'prop-types';
+
+import SubmitButton from './SubmitButton';
 
 const SignIn = ({
   username,
@@ -41,13 +42,12 @@ const SignIn = ({
       </Form.Row>
       <Form.Row>
         <Form.Group as={Col}>
-          <Button
-            variant='outline-dark'
-            type='submit'
-            disabled={!(username && password) || isSubmitting}
-          >
-            {isSubmitting ? 'Submitting...' : 'Submit'}
-          </Button>
+          <SubmitButton
+            isDisabled={!(username && password) || isSubmitting}
+            isLoading={isSubmitting}
+            text='Submit'
+            loadingText='Submitting...'
+          />
         </Form.Group>
       </Form.Row>
     </Form>

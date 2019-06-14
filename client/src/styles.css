@@ -77,3 +77,7 @@
 .container {
   padding-bottom: 15px;
 }
+
+button[type='submit'] {
+  min-width: 5rem;
+}

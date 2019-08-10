@@ -1,18 +1,15 @@
-import React, { useState, useEffect, Fragment } from 'react';
+import React, { useState, Fragment } from 'react';
 
 import FeaturedSongs from '../components/FeaturedSongs';
 import Loader from '../components/Loader';
 import AppMessage from '../components/AppMessage';
 
-import Api from '../utils/api';
+import { useApiGet } from '../utils/customHooks';
 
 import CreateSongModal from './CreateSongModal';
 import DeleteSongModal from './DeleteSongModal';
 
 const FeaturedSongsContainer = () => {
-  const [data, setData] = useState([]);
-  const [isLoading, setIsLoading] = useState(true);
-  const [isError, setIsError] = useState(false);
   const [shouldRefresh, setShouldRefresh] = useState(Date.now());
   const [isCreateOpen, setIsCreateOpen] = useState(false);
   const [isDeleteOpen, setIsDeleteOpen] = useState(false);
@@ -21,22 +18,11 @@ const FeaturedSongsContainer = () => {
     artist: '',
     title: '',
   });
-
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const res = await Api.get('/api/songs');
-        const data = await res.json();
-        setData(data);
-      } catch (err) {
-        setIsError(true);
-      }
-
-      setIsLoading(false);
-    };
-
-    fetchData();
-  }, [shouldRefresh]);
+  const { data, isLoading, isError } = useApiGet({
+    initialState: [],
+    pathname: 'songs',
+    dependency: shouldRefresh,
+  });
 
   const handleCreateOpen = () => {
     setIsCreateOpen(true);

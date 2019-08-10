@@ -13,7 +13,7 @@ const makeToken = (user) => {
   }, process.env.SECRET);
 };
 
-const getToken = (authHeader) => {
+const getToken = (authHeader = '') => {
   const headers = authHeader.split(' ');
   const tokenIndex = headers.indexOf('Bearer');
   return tokenIndex === -1 ? '' : headers[tokenIndex + 1];

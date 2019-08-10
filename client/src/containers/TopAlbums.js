@@ -1,31 +1,16 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 
 import TopAlbums from '../components/TopAlbums';
 import Loader from '../components/Loader';
 import AppMessage from '../components/AppMessage';
 
-import Api from '../utils/api';
+import { useApiGet } from '../utils/customHooks';
 
 const TopAlbumsContainer = () => {
-  const [data, setData] = useState({});
-  const [isLoading, setIsLoading] = useState(true);
-  const [isError, setIsError] = useState(false);
-
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const res = await Api.get('/api/favorites');
-        const data = await res.json();
-        setData(data);
-      } catch (err) {
-        setIsError(true);
-      }
-
-      setIsLoading(false);
-    };
-
-    fetchData();
-  }, []);
+  const { data, isLoading, isError } = useApiGet({
+    initialState: {},
+    pathname: 'favorites',
+  });
 
   if (isLoading) return <Loader />;
   if (isError) return <AppMessage />;

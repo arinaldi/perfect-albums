@@ -18,7 +18,8 @@ const DeleteSongContainer = ({ isOpen, setIsOpen, activeSong, refresh }) => {
     setError('');
   };
 
-  const handleDelete = async () => {
+  const handleDelete = async (e) => {
+    e.preventDefault();
     setIsDeleting(true);
 
     try {

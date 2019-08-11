@@ -8,7 +8,7 @@ import { TOAST_TYPES, MESSAGES } from '../constants';
 
 import { MyContext } from './MyProvider';
 
-const CreateSongContainer = ({ isOpen, setIsOpen, refresh }) => {
+const CreateSongContainer = ({ isOpen, closeModal, refresh }) => {
   const { signOut, showToast } = useContext(MyContext);
   const [song, setSong] = useState({
     artist: '',
@@ -27,7 +27,7 @@ const CreateSongContainer = ({ isOpen, setIsOpen, refresh }) => {
   };
 
   const handleClose = () => {
-    setIsOpen(false);
+    closeModal();
     setSong({
       artist: '',
       title: '',
@@ -81,7 +81,7 @@ const CreateSongContainer = ({ isOpen, setIsOpen, refresh }) => {
 
 CreateSongContainer.propTypes = {
   isOpen: PropTypes.bool.isRequired,
-  setIsOpen: PropTypes.func.isRequired,
+  closeModal: PropTypes.func.isRequired,
   refresh: PropTypes.func.isRequired,
 };
 

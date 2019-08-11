@@ -9,7 +9,7 @@ test('CreateSongModalContainer renders', async () => {
     <MyProvider>
       <CreateSongModalContainer
         isOpen
-        setIsOpen={() => {}}
+        closeModal={() => {}}
         refresh={() => {}}
       />
     </MyProvider>
@@ -35,7 +35,7 @@ test('CreateSongModalContainer does not render when closed', async () => {
     <MyProvider>
       <CreateSongModalContainer
         isOpen={false}
-        setIsOpen={() => {}}
+        closeModal={() => {}}
         refresh={() => {}}
       />
     </MyProvider>

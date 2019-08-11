@@ -4,7 +4,7 @@ import TopAlbums from '../components/TopAlbums';
 import Loader from '../components/Loader';
 import AppMessage from '../components/AppMessage';
 
-import { useApiGet } from '../utils/customHooks';
+import { useApiGet } from '../utils/hooks';
 
 const TopAlbumsContainer = () => {
   const { data, isLoading, isError } = useApiGet({

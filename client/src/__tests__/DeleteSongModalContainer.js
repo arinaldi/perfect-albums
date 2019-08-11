@@ -13,7 +13,7 @@ test('DeleteSongModalContainer renders with data', async () => {
     <MyProvider>
       <DeleteSongModalContainer
         isOpen
-        setIsOpen={() => {}}
+        closeModal={() => {}}
         activeSong={mockFeaturedSongsData[0]}
         refresh={() => {}}
       />
@@ -31,7 +31,7 @@ test('DeleteSongModalContainer does not render when closed', async () => {
     <MyProvider>
       <DeleteSongModalContainer
         isOpen={false}
-        setIsOpen={() => {}}
+        closeModal={() => {}}
         activeSong={mockFeaturedSongsData[0]}
         refresh={() => {}}
       />

@@ -1,37 +1,65 @@
-import React, { useState, Fragment } from 'react';
+import React, { useState, useReducer, Fragment } from 'react';
 
 import FeaturedSongs from '../components/FeaturedSongs';
 import Loader from '../components/Loader';
 import AppMessage from '../components/AppMessage';
 
-import { useApiGet } from '../utils/customHooks';
+import { useApiGet } from '../utils/hooks';
 
 import CreateSongModal from './CreateSongModal';
 import DeleteSongModal from './DeleteSongModal';
 
+const songReducer = (state, action) => {
+  const { type, payload } = action;
+
+  switch (type) {
+  case 'OPEN_CREATE':
+    return {
+      ...state,
+      isCreateOpen: true,
+    };
+  case 'CLOSE_CREATE':
+    return {
+      ...state,
+      isCreateOpen: false,
+    };
+  case 'OPEN_DELETE':
+    return {
+      ...state,
+      isDeleteOpen: true,
+      id: payload.id,
+      artist: payload.artist,
+      title: payload.title,
+    };
+  case 'CLOSE_DELETE':
+    return {
+      ...state,
+      isDeleteOpen: false,
+      id: '',
+      artist: '',
+      title: '',
+    };
+  default:
+    return state;
+  }
+};
+
+const initialState = {
+  isCreateOpen: false,
+  isDeleteOpen: false,
+  id: '',
+  artist: '',
+  title: '',
+};
+
 const FeaturedSongsContainer = () => {
   const [shouldRefresh, setShouldRefresh] = useState(Date.now());
-  const [isCreateOpen, setIsCreateOpen] = useState(false);
-  const [isDeleteOpen, setIsDeleteOpen] = useState(false);
-  const [activeSong, setActiveSong] = useState({
-    id: '',
-    artist: '',
-    title: '',
-  });
+  const [state, dispatch] = useReducer(songReducer, initialState);
   const { data, isLoading, isError } = useApiGet({
     initialState: [],
     pathname: 'songs',
     dependency: shouldRefresh,
   });
-
-  const handleCreateOpen = () => {
-    setIsCreateOpen(true);
-  };
-
-  const handleDeleteOpen = ({ id, artist, title }) => {
-    setIsDeleteOpen(true);
-    setActiveSong({ id, artist, title });
-  };
 
   if (isLoading) return <Loader />;
   if (isError) return <AppMessage />;
@@ -40,18 +68,25 @@ const FeaturedSongsContainer = () => {
     <Fragment>
       <FeaturedSongs
         data={data}
-        handleCreateOpen={handleCreateOpen}
-        handleDeleteOpen={handleDeleteOpen}
+        handleCreateOpen={() => dispatch({ type: 'OPEN_CREATE' })}
+        handleDeleteOpen={({ id, artist, title }) => dispatch({
+          type: 'OPEN_DELETE',
+          payload: { id, artist, title },
+        })}
       />
       <CreateSongModal
-        isOpen={isCreateOpen}
-        setIsOpen={setIsCreateOpen}
+        isOpen={state.isCreateOpen}
+        closeModal={() => dispatch({ type: 'CLOSE_CREATE' })}
         refresh={setShouldRefresh}
       />
       <DeleteSongModal
-        isOpen={isDeleteOpen}
-        setIsOpen={setIsDeleteOpen}
-        activeSong={activeSong}
+        isOpen={state.isDeleteOpen}
+        closeModal={() => dispatch({ type: 'CLOSE_DELETE' })}
+        activeSong={{
+          id: state.id,
+          artist: state.artist,
+          title: state.title,
+        }}
         refresh={setShouldRefresh}
       />
     </Fragment>

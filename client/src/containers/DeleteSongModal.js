@@ -8,13 +8,13 @@ import { TOAST_TYPES, MESSAGES } from '../constants';
 
 import { MyContext } from './MyProvider';
 
-const DeleteSongContainer = ({ isOpen, setIsOpen, activeSong, refresh }) => {
+const DeleteSongContainer = ({ isOpen, closeModal, activeSong, refresh }) => {
   const { signOut, showToast } = useContext(MyContext);
   const [isDeleting, setIsDeleting] = useState(false);
   const [error, setError] = useState('');
 
   const handleClose = () => {
-    setIsOpen(false);
+    closeModal();
     setError('');
   };
 
@@ -56,7 +56,7 @@ const DeleteSongContainer = ({ isOpen, setIsOpen, activeSong, refresh }) => {
 
 DeleteSongContainer.propTypes = {
   isOpen: PropTypes.bool.isRequired,
-  setIsOpen: PropTypes.func.isRequired,
+  closeModal: PropTypes.func.isRequired,
   activeSong: PropTypes.shape({
     id: PropTypes.string.isRequired,
     artist: PropTypes.string.isRequired,

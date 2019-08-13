@@ -20,18 +20,18 @@
     "@babel/preset-react": "^7.0.0",
     "bootstrap": "^4.3.1",
     "parcel-bundler": "^1.12.3",
-    "react": "^16.8.6",
-    "react-bootstrap": "^1.0.0-beta.9",
-    "react-dom": "^16.8.6",
-    "react-router-dom": "^5.0.0"
+    "react": "^16.9.0",
+    "react-bootstrap": "^1.0.0-beta.11",
+    "react-dom": "^16.9.0",
+    "react-router-dom": "^5.0.1"
   },
   "browserslist": [
     "last 1 Chrome version"
   ],
   "devDependencies": {
+    "@testing-library/react": "^9.1.1",
     "history": "^4.9.0",
     "jest": "^24.8.0",
-    "jest-dom": "^3.2.2",
-    "react-testing-library": "^7.0.0"
+    "jest-dom": "^3.2.2"
   }
 }

@@ -1,5 +1,6 @@
 import React from 'react';
-import { render } from 'react-testing-library';
+import { render } from '@testing-library/react';
+
 import Songs from '../components/Songs';
 import data from '../data/songs';
 

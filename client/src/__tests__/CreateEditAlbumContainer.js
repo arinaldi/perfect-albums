@@ -1,5 +1,5 @@
 import React from 'react';
-import { render, wait } from 'react-testing-library';
+import { render, wait } from '@testing-library/react';
 import { createMemoryHistory } from 'history';
 
 import CreateEditAlbumContainer from '../containers/CreateEditAlbum';
@@ -15,18 +15,7 @@ jest.mock('../utils/api', () => {
   };
 });
 
-const originalError = console.error;
-beforeAll(() => {
-  console.error = (...args) => {
-    if (/Warning.*not wrapped in act/.test(args[0])) {
-      return;
-    }
-    originalError.call(console, ...args);
-  };
-});
-
 afterAll(() => {
-  console.error = originalError;
   mockApi.get.mockClear();
 });
 

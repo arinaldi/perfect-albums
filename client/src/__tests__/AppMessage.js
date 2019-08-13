@@ -1,5 +1,5 @@
 import React from 'react';
-import { render } from 'react-testing-library';
+import { render } from '@testing-library/react';
 
 import AppMessage from '../components/AppMessage';
 import { ALERT_TYPES, MESSAGES } from '../constants';

@@ -1,5 +1,5 @@
 import React from 'react';
-import { render, cleanup, act } from 'react-testing-library';
+import { render, cleanup, act } from '@testing-library/react';
 import { MemoryRouter } from 'react-router-dom';
 
 import MyProvider, { MyContext } from '../containers/MyProvider';

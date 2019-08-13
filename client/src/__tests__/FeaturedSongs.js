@@ -1,5 +1,5 @@
 import React from 'react';
-import { render } from 'react-testing-library';
+import { render } from '@testing-library/react';
 
 import MyProvider from '../containers/MyProvider';
 import FeaturedSongs from '../components/FeaturedSongs';

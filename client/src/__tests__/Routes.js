@@ -1,6 +1,6 @@
 import React from 'react';
 import { Router } from 'react-router-dom';
-import { render, wait } from 'react-testing-library';
+import { render, wait } from '@testing-library/react';
 import { createMemoryHistory } from 'history';
 
 import MyProvider from '../containers/MyProvider';
@@ -17,18 +17,7 @@ jest.mock('../utils/api', () => {
   };
 });
 
-const originalError = console.error;
-beforeAll(() => {
-  console.error = (...args) => {
-    if (/Warning.*not wrapped in act/.test(args[0])) {
-      return;
-    }
-    originalError.call(console, ...args);
-  };
-});
-
 afterAll(() => {
-  console.error = originalError;
   mockApi.get.mockClear();
 });
 

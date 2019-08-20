@@ -1,7 +1,7 @@
 import React from 'react';
 import { render, wait } from '@testing-library/react';
 
-import TopAlbumsContainer from '../containers/TopAlbums';
+import TopAlbumsContainer from '../components/TopAlbums';
 
 import { mockTopAlbumsData } from '../__mocks__';
 import mockApi from '../utils/api';

@@ -1,7 +1,7 @@
 import React from 'react';
 import { render } from '@testing-library/react';
 
-import AdminTable from '../components/AdminTable';
+import AdminTable from '../components/AdminTable/presenter';
 import { mockAdminData } from '../__mocks__';
 
 test('AdminTable renders with data', () => {

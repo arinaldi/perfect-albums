@@ -1,7 +1,7 @@
 import React from 'react';
 import { render } from '@testing-library/react';
 
-import DeleteAlbum from '../components/DeleteAlbum';
+import DeleteAlbum from '../components/DeleteAlbum/presenter';
 import { mockAdminData } from '../__mocks__';
 
 const { artist, title } = mockAdminData[0];

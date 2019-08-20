@@ -1,18 +1,18 @@
 import React from 'react';
 import { render } from '@testing-library/react';
 
-import CreateSongModalContainer from '../containers/CreateSongModal';
-import MyProvider from '../containers/MyProvider';
+import CreateSongModalContainer from '../components/CreateSongModal';
+import Provider from '../components/Provider';
 
 test('CreateSongModalContainer renders', async () => {
   const { getByText, getByLabelText, getAllByText } = render(
-    <MyProvider>
+    <Provider>
       <CreateSongModalContainer
         isOpen
         closeModal={() => {}}
         refresh={() => {}}
       />
-    </MyProvider>
+    </Provider>
   );
   const titleHeader = getByText('Create Song');
   const artistInput = getByLabelText('Artist');
@@ -32,13 +32,13 @@ test('CreateSongModalContainer renders', async () => {
 
 test('CreateSongModalContainer does not render when closed', async () => {
   const { queryByText } = render(
-    <MyProvider>
+    <Provider>
       <CreateSongModalContainer
         isOpen={false}
         closeModal={() => {}}
         refresh={() => {}}
       />
-    </MyProvider>
+    </Provider>
   );
   const titleHeader = queryByText('Delete Song');
 

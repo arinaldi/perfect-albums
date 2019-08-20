@@ -3,8 +3,8 @@ import { Router } from 'react-router-dom';
 import { render, wait } from '@testing-library/react';
 import { createMemoryHistory } from 'history';
 
-import MyProvider from '../containers/MyProvider';
-import Routes from '../containers/Routes';
+import Provider from '../components/Provider';
+import Routes from '../components/Routes';
 
 import { mockTopAlbumsData } from '../__mocks__';
 import mockApi from '../utils/api';
@@ -26,11 +26,11 @@ test('Landing on a bad page redirects to albums', async () => {
     initialEntries: ['/something-that-does-not-match'],
   });
   const { getByTestId } = render(
-    <MyProvider>
+    <Provider>
       <Router history={history}>
         <Routes />
       </Router>
-    </MyProvider>
+    </Provider>
   );
 
   await wait(() => expect(getByTestId('list-1991')).toBeInTheDocument());

@@ -1,20 +1,20 @@
 import React from 'react';
 import { render } from '@testing-library/react';
 
-import MyProvider from '../containers/MyProvider';
-import FeaturedSongs from '../components/FeaturedSongs';
+import Provider from '../components/Provider';
+import FeaturedSongs from '../components/FeaturedSongs/presenter';
 
 import { mockFeaturedSongsData } from '../__mocks__';
 
 test('FeaturedSongs renders with data', () => {
   const { getByText, getByTestId } = render(
-    <MyProvider>
+    <Provider>
       <FeaturedSongs
         data={mockFeaturedSongsData}
         handleCreateOpen={() => {}}
         handleDeleteOpen={() => {}}
       />
-    </MyProvider>
+    </Provider>
   );
   const titleHeader = getByText('Featured Songs');
   const nirvanaCard = getByText('Smells Like Teen Spirit');

@@ -1,7 +1,7 @@
 import React from 'react';
 import { render } from '@testing-library/react';
 
-import Songs from '../components/Songs';
+import Songs from '../components/Songs/presenter';
 import data from '../data/songs';
 
 test('Songs renders with all data', () => {

@@ -1,17 +1,17 @@
 import React from 'react';
 import { render, cleanup, act } from '@testing-library/react';
 
-import MyProvider, { MyContext } from '../containers/MyProvider';
-import ToastAlert from '../components/ToastAlert';
+import Provider, { Context } from '../components/Provider';
+import ToastAlert from '../components/ToastAlert/presenter';
 import { TOAST_TYPES, MESSAGES } from '../constants';
 
 afterEach(cleanup);
 
 test('ToastAlert renders as hidden', () => {
   const { container } = render(
-    <MyProvider>
+    <Provider>
       <ToastAlert />
-    </MyProvider>
+    </Provider>
   );
   const div = container.querySelector('.toast-body');
 
@@ -22,14 +22,14 @@ test('ToastAlert renders as visible', () => {
   let changeToast;
   const message = `${MESSAGES.ALBUM_PREFIX} edited`;
   const { container, getByText } = render(
-    <MyProvider>
-      <MyContext.Consumer>
+    <Provider>
+      <Context.Consumer>
         {({ showToast }) => {
           changeToast = showToast;
           return <ToastAlert />;
         }}
-      </MyContext.Consumer>
-    </MyProvider>
+      </Context.Consumer>
+    </Provider>
   );
 
   act(() => {

@@ -1,8 +1,8 @@
 import React from 'react';
 import { render } from '@testing-library/react';
 
-import DeleteSongModalContainer from '../containers/DeleteSongModal';
-import MyProvider from '../containers/MyProvider';
+import DeleteSongModalContainer from '../components/DeleteSongModal';
+import Provider from '../components/Provider';
 
 import { mockFeaturedSongsData } from '../__mocks__';
 
@@ -10,14 +10,14 @@ const { artist, title } = mockFeaturedSongsData[0];
 
 test('DeleteSongModalContainer renders with data', async () => {
   const { getByText } = render(
-    <MyProvider>
+    <Provider>
       <DeleteSongModalContainer
         isOpen
         closeModal={() => {}}
         activeSong={mockFeaturedSongsData[0]}
         refresh={() => {}}
       />
-    </MyProvider>
+    </Provider>
   );
   const titleHeader = getByText('Delete Song');
   const confirmText = getByText(`Are you sure you want to delete ${artist} – ${title}?`);
@@ -28,14 +28,14 @@ test('DeleteSongModalContainer renders with data', async () => {
 
 test('DeleteSongModalContainer does not render when closed', async () => {
   const { queryByText } = render(
-    <MyProvider>
+    <Provider>
       <DeleteSongModalContainer
         isOpen={false}
         closeModal={() => {}}
         activeSong={mockFeaturedSongsData[0]}
         refresh={() => {}}
       />
-    </MyProvider>
+    </Provider>
   );
   const titleHeader = queryByText('Delete Song');
 

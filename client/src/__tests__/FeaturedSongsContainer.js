@@ -1,8 +1,8 @@
 import React from 'react';
 import { render, wait } from '@testing-library/react';
 
-import MyProvider from '../containers/MyProvider';
-import FeaturedSongsContainer from '../containers/FeaturedSongs';
+import Provider from '../components/Provider';
+import FeaturedSongsContainer from '../components/FeaturedSongs';
 
 import { mockFeaturedSongsData } from '../__mocks__';
 import mockApi from '../utils/api';
@@ -24,9 +24,9 @@ test('FeaturedSongsContainer handles successful data fetching', async () => {
   }));
 
   const { getByText, getByTestId } = render(
-    <MyProvider>
+    <Provider>
       <FeaturedSongsContainer />
-    </MyProvider>
+    </Provider>
   );
   const loader = getByText('Loading...');
 
@@ -39,9 +39,9 @@ test('FeaturedSongsContainer handles error from data fetching', async () => {
   mockApi.get.mockImplementation(() => Promise.reject(new Error('error message')));
 
   const { getByText } = render(
-    <MyProvider>
+    <Provider>
       <FeaturedSongsContainer />
-    </MyProvider>
+    </Provider>
   );
   const loader = getByText('Loading...');
 

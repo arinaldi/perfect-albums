@@ -2,18 +2,18 @@ import React from 'react';
 import { render, cleanup, act } from '@testing-library/react';
 import { MemoryRouter } from 'react-router-dom';
 
-import MyProvider, { MyContext } from '../containers/MyProvider';
-import NavBar from '../components/NavBar';
+import Provider, { Context } from '../components/Provider';
+import NavBar from '../components/NavBar/presenter';
 
 afterEach(cleanup);
 
 test('NavBar renders when not authenticated', () => {
   const { getByText } = render(
-    <MyProvider>
+    <Provider>
       <MemoryRouter>
         <NavBar />
       </MemoryRouter>
-    </MyProvider>
+    </Provider>
   );
   const appHeader = getByText('Perfect Albums');
   const albumsLink = getByText('Top Albums');
@@ -29,8 +29,8 @@ test('NavBar renders when not authenticated', () => {
 test('NavBar renders when authenticated', () => {
   let handleSignIn;
   const { getByText } = render(
-    <MyProvider>
-      <MyContext.Consumer>
+    <Provider>
+      <Context.Consumer>
         {({ signIn }) => {
           handleSignIn = signIn;
           return (
@@ -39,8 +39,8 @@ test('NavBar renders when authenticated', () => {
             </MemoryRouter>
           );
         }}
-      </MyContext.Consumer>
-    </MyProvider>
+      </Context.Consumer>
+    </Provider>
   );
 
   act(() => {

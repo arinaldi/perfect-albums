@@ -3,8 +3,8 @@ import { Router } from 'react-router-dom';
 import { render, fireEvent } from '@testing-library/react';
 import { createMemoryHistory } from 'history';
 
-import SignInContainer from '../containers/SignIn';
-import MyProvider from '../containers/MyProvider';
+import SignInContainer from '../components/SignIn';
+import Provider from '../components/Provider';
 import mockApi from '../utils/api';
 
 jest.mock('../utils/api', () => {
@@ -24,11 +24,11 @@ test('SignInContainer submits credentials', async () => {
   const username = 'user';
   const password = '1234';
   const { getByLabelText, getByText } = render(
-    <MyProvider>
+    <Provider>
       <Router history={history}>
         <SignInContainer />
       </Router>
-    </MyProvider>
+    </Provider>
   );
   const usernameInput = getByLabelText(/username/i);
   const passwordInput = getByLabelText(/password/i);

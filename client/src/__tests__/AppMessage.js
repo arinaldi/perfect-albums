@@ -1,7 +1,7 @@
 import React from 'react';
 import { render } from '@testing-library/react';
 
-import AppMessage from '../components/AppMessage';
+import AppMessage from '../components/AppMessage/presenter';
 import { ALERT_TYPES, MESSAGES } from '../constants';
 
 test('AppMessage renders error message', () => {

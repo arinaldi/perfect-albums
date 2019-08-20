@@ -2,8 +2,8 @@ import React from 'react';
 import { render, wait } from '@testing-library/react';
 import { createMemoryHistory } from 'history';
 
-import CreateEditAlbumContainer from '../containers/CreateEditAlbum';
-import MyProvider from '../containers/MyProvider';
+import CreateEditAlbumContainer from '../components/CreateEditAlbum';
+import Provider from '../components/Provider';
 
 import { mockAdminData } from '../__mocks__';
 import mockApi from '../utils/api';
@@ -36,13 +36,13 @@ test('CreateEditAlbumContainer handles successful data fetching', async () => {
   }));
 
   const { getByText, getByLabelText, container } = render(
-    <MyProvider>
+    <Provider>
       <CreateEditAlbumContainer
         history={history}
         location={location}
         match={match}
       />
-    </MyProvider>
+    </Provider>
   );
   const loader = getByText('Loading...');
 
@@ -62,13 +62,13 @@ test('CreateEditAlbumContainer handles error from data fetching', async () => {
   mockApi.get.mockImplementation(() => Promise.reject(new Error(MESSAGES.ERROR)));
 
   const { getByText, container } = render(
-    <MyProvider>
+    <Provider>
       <CreateEditAlbumContainer
         history={history}
         location={location}
         match={match}
       />
-    </MyProvider>
+    </Provider>
   );
   const loader = getByText('Loading...');
 

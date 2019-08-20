@@ -1,7 +1,7 @@
 import React from 'react';
 import { render } from '@testing-library/react';
 
-import Admin from '../components/Admin';
+import Admin from '../components/Admin/presenter';
 import { mockAdminData } from '../__mocks__';
 
 test('Admin renders with data', () => {

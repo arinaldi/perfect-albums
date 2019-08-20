@@ -1,7 +1,7 @@
 import React from 'react';
 import { render } from '@testing-library/react';
 
-import TopAlbums from '../components/TopAlbums';
+import TopAlbums from '../components/TopAlbums/presenter';
 import { mockTopAlbumsData } from '../__mocks__';
 
 test('TopAlbums renders with data by year', () => {

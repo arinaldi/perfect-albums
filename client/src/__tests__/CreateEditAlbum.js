@@ -1,7 +1,7 @@
 import React from 'react';
 import { render } from '@testing-library/react';
 
-import CreateEditAlbum from '../components/CreateEditAlbum';
+import CreateEditAlbum from '../components/CreateEditAlbum/presenter';
 import { mockAdminData } from '../__mocks__';
 
 const { artist, title, year, cd, aotd, favorite } = mockAdminData[0];

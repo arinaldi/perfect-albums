@@ -2,7 +2,7 @@ import React from 'react';
 import { render, wait } from '@testing-library/react';
 import { createMemoryHistory } from 'history';
 
-import AdminContainer from '../containers/Admin';
+import AdminContainer from '../components/Admin';
 
 import { mockAdminData } from '../__mocks__';
 import mockApi from '../utils/api';

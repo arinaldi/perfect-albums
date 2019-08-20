@@ -1,7 +1,7 @@
 import React from 'react';
 import { render } from '@testing-library/react';
 
-import SignIn from '../components/SignIn';
+import SignIn from '../components/SignIn/presenter';
 
 test('SignIn renders with username and password inputs', () => {
   const { getByLabelText } = render(

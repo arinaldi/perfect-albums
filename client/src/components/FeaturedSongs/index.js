@@ -59,6 +59,7 @@ const FeaturedSongsContainer = () => {
     pathname: 'songs',
     dependency: shouldRefresh,
   });
+  const { isCreateOpen, isDeleteOpen, id, artist, title } = state;
 
   if (isLoading) return <Loader />;
   if (isError) return <AppMessage />;
@@ -74,18 +75,14 @@ const FeaturedSongsContainer = () => {
         })}
       />
       <CreateSongModal
-        isOpen={state.isCreateOpen}
+        isOpen={isCreateOpen}
         closeModal={() => dispatch({ type: 'CLOSE_CREATE' })}
         refresh={setShouldRefresh}
       />
       <DeleteSongModal
-        isOpen={state.isDeleteOpen}
+        isOpen={isDeleteOpen}
         closeModal={() => dispatch({ type: 'CLOSE_DELETE' })}
-        activeSong={{
-          id: state.id,
-          artist: state.artist,
-          title: state.title,
-        }}
+        activeSong={{ id, artist, title }}
         refresh={setShouldRefresh}
       />
     </Fragment>

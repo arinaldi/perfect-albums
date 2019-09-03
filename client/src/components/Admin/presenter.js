@@ -39,7 +39,7 @@ const Admin = ({
               </h3>
             </Col>
           </Row>
-          <Form>
+          <Form onSubmit={e => e.preventDefault()}>
             <Form.Group as={Row} controlId='formSearch'>
               <Col>
                 <Row>

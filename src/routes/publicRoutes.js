@@ -3,6 +3,7 @@ const router = require('express').Router();
 const getAllAlbums = require('../controllers/albums/getAllAlbums');
 const getFavorites = require('../controllers/albums/getFavorites');
 const getAllSongs = require('../controllers/songs/getAllSongs');
+const getAllReleases = require('../controllers/releases/getAllReleases');
 const getAlbumById = require('../controllers/albums/getAlbumById');
 
 router.get('/api/health', (req, res) => {
@@ -31,6 +32,15 @@ router.get('/api/songs', async (req, res) => {
   try {
     const songs = await getAllSongs();
     res.send(songs);
+  } catch (err) {
+    res.status(500).send(err.message);
+  }
+});
+
+router.get('/api/releases', async (req, res) => {
+  try {
+    const releases = await getAllReleases();
+    res.send(releases);
   } catch (err) {
     res.status(500).send(err.message);
   }

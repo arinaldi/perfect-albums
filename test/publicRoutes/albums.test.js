@@ -3,18 +3,17 @@ process.env.NODE_ENV = 'test';
 const chai = require('chai');
 const chaiHttp = require('chai-http');
 
-const app = require('../src/app');
-const db = require('../src/db');
-const Album = require('../src/db/models/AlbumModel');
-const Song = require('../src/db/models/SongModel');
-const { albums, songs, invalidId } = require('./data');
+const app = require('../../src/app');
+const db = require('../../src/db');
+const Album = require('../../src/db/models/AlbumModel');
+const { albums, invalidId } = require('../data');
 
 const should = chai.should();
 chai.use(chaiHttp);
 
 let newAlbum = {};
 
-describe('Public routes', () => {
+describe('Public album routes', () => {
   before(done => {
     db.connect()
       .then(() => {
@@ -23,13 +22,6 @@ describe('Public routes', () => {
           album.save((err, album) => {
             if (err) throw new Error(err);
             if (i === 0) newAlbum = album;
-          });
-        }
-
-        for (let j = 0; j < songs.length; j++) {
-          const song = new Song(songs[j]);
-          song.save(err => {
-            if (err) throw new Error(err);
           });
         }
 
@@ -42,19 +34,6 @@ describe('Public routes', () => {
     db.close()
       .then(() => done())
       .catch((err) => done(err));
-  });
-
-  describe('GET /api/health', () => {
-    it('returns 200 and {}', done => {
-      chai.request(app)
-        .get('/health')
-        .end((_, res) => {
-          res.should.have.status(200);
-          res.body.should.be.eql({});
-
-          done();
-        });
-    });
   });
 
   describe('GET /api/albums', () => {
@@ -82,20 +61,6 @@ describe('Public routes', () => {
           res.body.should.have.property('1999');
           res.body['1991'].length.should.be.eql(2);
           res.body['1999'].length.should.be.eql(1);
-
-          done();
-        });
-    });
-  });
-
-  describe('GET /api/songs', () => {
-    it('gets an array of all songs', done => {
-      chai.request(app)
-        .get('/api/songs')
-        .end((_, res) => {
-          res.should.have.status(200);
-          res.body.should.be.a('array');
-          res.body.length.should.be.eql(songs.length);
 
           done();
         });

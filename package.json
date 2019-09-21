@@ -10,7 +10,7 @@
     "dev": "nodemon src/server.js",
     "lint": "eslint src/**/*.js",
     "build": "cd client && npm install && npm run build",
-    "test": "mocha --timeout 120000 --exit"
+    "test": "mocha --recursive --timeout 120000 --exit"
   },
   "author": "Tony Rinaldi",
   "cacheDirectories": [
@@ -49,11 +49,5 @@
     "passport": "^0.3.2",
     "passport-jwt": "^4.0.0",
     "passport-local": "^1.0.0"
-  },
-  "jest": {
-    "testEnvironment": "node",
-    "roots": [
-      "<rootDir>/src/test"
-    ]
   }
 }

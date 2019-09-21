@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
 
-const SongSchema = new mongoose.Schema({
+const ReleaseSchema = new mongoose.Schema({
   artist: {
     type: String,
     required: true,
@@ -9,16 +9,12 @@ const SongSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
-  link: {
-    type: String,
-    required: true,
+  date: {
+    type: Date,
   },
-},
-{
-  timestamps: true,
 });
 
-SongSchema.set('toJSON', {
+ReleaseSchema.set('toJSON', {
   transform: (_, ret) => {
     ret.id = ret._id;
     delete ret._id;
@@ -27,4 +23,4 @@ SongSchema.set('toJSON', {
   },
 });
 
-module.exports = mongoose.model('Song', SongSchema);
+module.exports = mongoose.model('Release', ReleaseSchema);

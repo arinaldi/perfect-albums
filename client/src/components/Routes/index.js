@@ -15,6 +15,7 @@ import { Context } from '../Provider';
 import SignIn from '../SignIn';
 import TopAlbums from '../TopAlbums';
 import FeaturedSongs from '../FeaturedSongs';
+import NewReleases from '../NewReleases';
 import Admin from '../Admin';
 import CreateEditAlbum from '../CreateEditAlbum';
 import DeleteAlbum from '../DeleteAlbum';
@@ -25,6 +26,7 @@ const AppRoutes = () => (
     <Route path='/albums' component={TopAlbums} />
     <Route path='/perfect-songs' component={Songs} />
     <Route path='/featured-songs' component={FeaturedSongs} />
+    <Route path='/new-releases' component={NewReleases} />
     <AuthRoute path='/admin' component={Admin} />
     <AuthRoute path='/new' component={CreateEditAlbum} />
     <AuthRoute path='/edit/:id' component={CreateEditAlbum} />

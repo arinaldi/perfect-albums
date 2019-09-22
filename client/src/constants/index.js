@@ -14,6 +14,7 @@ export const TOAST_TYPES = {
 export const MESSAGES = {
   ALBUM_PREFIX: 'Album successfully',
   SONG_PREFIX: 'Song successfully',
+  RELEASE_PREFIX: 'Release successfully',
   UNAUTHORIZED: 'You are unauthorized to perform this operation',
   SIGNIN: 'Invalid username or password',
   ERROR: 'Something went wrong',
@@ -22,5 +23,5 @@ export const MESSAGES = {
 
 export const ICONS = {
   CHECK: '✔',
-  X: '✘',
+  X: '✖',
 };

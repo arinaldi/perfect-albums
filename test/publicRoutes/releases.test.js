@@ -15,8 +15,8 @@ describe('Public release routes', () => {
   before(done => {
     db.connect()
       .then(() => {
-        for (let k = 0; k < releases.length; k++) {
-          const release = new Release(releases[k]);
+        for (let i = 0; i < releases.length; i++) {
+          const release = new Release(releases[i]);
           release.save(err => {
             if (err) throw new Error(err);
           });
@@ -34,13 +34,19 @@ describe('Public release routes', () => {
   });
 
   describe('GET /api/releases', () => {
-    it('gets an array of all releases', done => {
+    it('gets an object of all releases, with date as a key', done => {
+      const date1 = '4 Oct 2019';
+      const date2 = '11 Oct 2019';
+
       chai.request(app)
         .get('/api/releases')
         .end((_, res) => {
           res.should.have.status(200);
-          res.body.should.be.a('array');
-          res.body.length.should.be.eql(releases.length);
+          res.body.should.be.a('object');
+          res.body.should.have.property(date1);
+          res.body.should.have.property(date2);
+          res.body[date1].length.should.be.eql(2);
+          res.body[date2].length.should.be.eql(1);
 
           done();
         });

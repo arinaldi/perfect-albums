@@ -6,8 +6,9 @@ import Button from 'react-bootstrap/Button';
 
 import SubmitButton from '../SubmitButton/presenter';
 
-const DeleteSongModal = ({
+const DeleteDataModal = ({
   isOpen,
+  dataType,
   artist,
   title,
   isDeleting,
@@ -17,7 +18,7 @@ const DeleteSongModal = ({
 }) => (
   <Modal show={isOpen} onHide={handleClose}>
     <Modal.Header closeButton>
-      <Modal.Title>Delete Song</Modal.Title>
+      <Modal.Title>Delete {dataType}</Modal.Title>
     </Modal.Header>
     <Form noValidate onSubmit={handleDelete}>
       <Modal.Body>
@@ -50,8 +51,9 @@ const DeleteSongModal = ({
   </Modal>
 );
 
-DeleteSongModal.propTypes = {
+DeleteDataModal.propTypes = {
   isOpen: PropTypes.bool.isRequired,
+  dataType: PropTypes.string.isRequired,
   artist: PropTypes.string.isRequired,
   title: PropTypes.string.isRequired,
   isDeleting: PropTypes.bool,
@@ -60,4 +62,4 @@ DeleteSongModal.propTypes = {
   error: PropTypes.string,
 };
 
-export default DeleteSongModal;
+export default DeleteDataModal;

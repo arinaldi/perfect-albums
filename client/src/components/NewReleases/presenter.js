@@ -5,17 +5,18 @@ import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
 import PropTypes from 'prop-types';
 
+import { sortByDate } from '../../utils';
 import { Context } from '../Provider';
-import CardWrapper from './CardWrapper';
+import DateCol from './DateCol';
 
-const FeaturedSongs = ({ data, handleCreateOpen, handleDeleteOpen }) => {
+const NewReleases = ({ data, handleCreateOpen, handleDeleteOpen }) => {
   const { state } = useContext(Context);
 
   return (
     <Container>
       <Row>
         <Col>
-          <h3>Featured Songs</h3>
+          <h3>New Releases</h3>
         </Col>
         {state.isAuthenticated && (
           <Col xs='auto'>
@@ -29,10 +30,11 @@ const FeaturedSongs = ({ data, handleCreateOpen, handleDeleteOpen }) => {
         )}
       </Row>
       <Row data-testid='card-row'>
-        {data.map(song => (
-          <CardWrapper
-            key={song.id}
-            song={song}
+        {Object.keys(data).sort(sortByDate).map(date => (
+          <DateCol
+            key={date}
+            data={data[date]}
+            date={date}
             handleDeleteOpen={handleDeleteOpen}
           />
         ))}
@@ -41,10 +43,10 @@ const FeaturedSongs = ({ data, handleCreateOpen, handleDeleteOpen }) => {
   );
 };
 
-FeaturedSongs.propTypes = {
-  data: PropTypes.array.isRequired,
+NewReleases.propTypes = {
+  data: PropTypes.object.isRequired,
   handleCreateOpen: PropTypes.func.isRequired,
   handleDeleteOpen: PropTypes.func.isRequired,
 };
 
-export default FeaturedSongs;
+export default NewReleases;

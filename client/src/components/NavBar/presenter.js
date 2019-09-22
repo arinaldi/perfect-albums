@@ -1,46 +1,10 @@
 import React, { useContext } from 'react';
 import Nav from 'react-bootstrap/Nav';
 import Navbar from 'react-bootstrap/Navbar';
-import { NavLink } from 'react-router-dom';
-import PropTypes from 'prop-types';
 
 import { Context } from '../Provider';
-
-const activeStyle = {
-  color: 'rgba(255,255,255,.75)',
-};
-
-const LinkWrapper = ({ to, label }) => (
-  <Nav.Link eventKey={to} active={false} as='span'>
-    <NavLink
-      className='link'
-      activeStyle={activeStyle}
-      to={to}
-    >
-      {label}
-    </NavLink>
-  </Nav.Link>
-);
-
-LinkWrapper.propTypes = {
-  to: PropTypes.string.isRequired,
-  label: PropTypes.string.isRequired,
-};
-
-const SignOut = () => {
-  const { signOut } = useContext(Context);
-
-  return (
-    <Nav.Link
-      className='sign-out'
-      eventKey='signout'
-      active={false}
-      as='div'
-    >
-      <span onClick={signOut}>Sign Out</span>
-    </Nav.Link>
-  );
-};
+import LinkWrapper from './LinkWrapper';
+import SignOut from './SignOut';
 
 const NavBar = () => {
   const { state: { isAuthenticated } } = useContext(Context);
@@ -54,6 +18,7 @@ const NavBar = () => {
           <LinkWrapper to='/albums' label='Top Albums' />
           <LinkWrapper to='/perfect-songs' label='Perfect Songs' />
           <LinkWrapper to='/featured-songs' label='Featured Songs' />
+          <LinkWrapper to='/new-releases' label='New Releases' />
           {isAuthenticated && <LinkWrapper to='/admin' label='Admin' />}
         </Nav>
         <Nav>

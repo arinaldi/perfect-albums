@@ -29,7 +29,7 @@ const Songs = () => (
         <tr>
           <th>Artist</th>
           <th>Song</th>
-          <th>YouTube</th>
+          <th>Listen</th>
         </tr>
       </thead>
       <tbody data-testid='table-body'>

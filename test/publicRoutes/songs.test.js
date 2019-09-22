@@ -15,8 +15,8 @@ describe('Public song routes', () => {
   before(done => {
     db.connect()
       .then(() => {
-        for (let j = 0; j < songs.length; j++) {
-          const song = new Song(songs[j]);
+        for (let i = 0; i < songs.length; i++) {
+          const song = new Song(songs[i]);
           song.save(err => {
             if (err) throw new Error(err);
           });

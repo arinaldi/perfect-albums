@@ -52,15 +52,18 @@ describe('Public album routes', () => {
 
   describe('GET /api/favorites', () => {
     it('gets an object of favorite albums, with each year as a key', done => {
+      const date1 = '1991';
+      const date2 = '1999';
+
       chai.request(app)
         .get('/api/favorites')
         .end((_, res) => {
           res.should.have.status(200);
           res.body.should.be.a('object');
-          res.body.should.have.property('1991');
-          res.body.should.have.property('1999');
-          res.body['1991'].length.should.be.eql(2);
-          res.body['1999'].length.should.be.eql(1);
+          res.body.should.have.property(date1);
+          res.body.should.have.property(date2);
+          res.body[date1].length.should.be.eql(2);
+          res.body[date2].length.should.be.eql(1);
 
           done();
         });

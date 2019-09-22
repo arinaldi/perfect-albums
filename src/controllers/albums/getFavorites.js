@@ -1,22 +1,20 @@
 const AlbumModel = require('../../db/models/AlbumModel');
 
-function formatData (albums) {
+const formatData = (albums) => {
   const results = {};
+
   albums.forEach(({ artist, title, year }) => {
+    const album = { artist, title };
+
     if (results[year]) {
-      results[year].push({
-        artist,
-        title,
-      });
+      results[year].push(album);
     } else {
-      results[year] = [{
-        artist,
-        title,
-      }];
+      results[year] = [album];
     }
   });
+
   return results;
-}
+};
 
 module.exports = () => (
   new Promise((resolve, reject) => {

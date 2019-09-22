@@ -5,9 +5,9 @@ import Api from '../../utils/api';
 import { TOAST_TYPES, MESSAGES } from '../../constants';
 
 import { Context } from '../Provider';
-import DeleteSongModal from './presenter';
+import DeleteDataModal from './presenter';
 
-const DeleteSongContainer = ({ isOpen, closeModal, activeSong, refresh }) => {
+const DeleteDataContainer = ({ isOpen, dataType, closeModal, path, data, refresh }) => {
   const { signOut, showToast } = useContext(Context);
   const [isDeleting, setIsDeleting] = useState(false);
   const [error, setError] = useState('');
@@ -22,13 +22,13 @@ const DeleteSongContainer = ({ isOpen, closeModal, activeSong, refresh }) => {
     setIsDeleting(true);
 
     try {
-      await Api.delete(`/api/songs/${activeSong.id}`, signOut, showToast);
+      await Api.delete(`/api/${path}/${data.id}`, signOut, showToast);
       setIsDeleting(false);
       handleClose();
       refresh(Date.now());
       showToast({
         type: TOAST_TYPES.SUCCESS,
-        message: `${MESSAGES.SONG_PREFIX} deleted`,
+        message: `${dataType} successfully deleted`,
       });
     } catch (err) {
       if (err.message === MESSAGES.UNAUTHORIZED) {
@@ -41,10 +41,11 @@ const DeleteSongContainer = ({ isOpen, closeModal, activeSong, refresh }) => {
   };
 
   return (
-    <DeleteSongModal
+    <DeleteDataModal
       isOpen={isOpen}
-      artist={activeSong.artist}
-      title={activeSong.title}
+      dataType={dataType}
+      artist={data.artist}
+      title={data.title}
       isDeleting={isDeleting}
       handleClose={handleClose}
       handleDelete={handleDelete}
@@ -53,10 +54,12 @@ const DeleteSongContainer = ({ isOpen, closeModal, activeSong, refresh }) => {
   );
 };
 
-DeleteSongContainer.propTypes = {
+DeleteDataContainer.propTypes = {
   isOpen: PropTypes.bool.isRequired,
+  dataType: PropTypes.string.isRequired,
   closeModal: PropTypes.func.isRequired,
-  activeSong: PropTypes.shape({
+  path: PropTypes.string.isRequired,
+  data: PropTypes.shape({
     id: PropTypes.string.isRequired,
     artist: PropTypes.string.isRequired,
     title: PropTypes.string.isRequired,
@@ -64,4 +67,4 @@ DeleteSongContainer.propTypes = {
   refresh: PropTypes.func.isRequired,
 };
 
-export default DeleteSongContainer;
+export default DeleteDataContainer;

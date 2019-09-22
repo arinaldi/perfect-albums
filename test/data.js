@@ -58,6 +58,11 @@ const releases = [
     date: '2019-10-04T05:00:00.000Z',
   },
   {
+    artist: 'The Darkness',
+    title: 'Easter Is Cancelled',
+    date: '2019-10-04T05:00:00.000Z',
+  },
+  {
     artist: 'Bury Your Dead',
     title: 'We Are Bury Your Dead',
     date: '2019-10-11T05:00:00.000Z',

@@ -8,11 +8,11 @@ import { useApiGet } from '../../utils/hooks';
 
 import Loader from '../Loader/presenter';
 import AppMessage from '../AppMessage/presenter';
-import CreateSongModal from '../CreateSongModal';
+import CreateReleaseModal from '../CreateReleaseModal';
 import DeleteDataModal from '../DeleteDataModal';
-import FeaturedSongs from './presenter';
+import NewReleases from './presenter';
 
-const songReducer = (state, action) => {
+const releaseReducer = (state, action) => {
   const { type, payload } = action;
 
   switch (type) {
@@ -55,12 +55,12 @@ const initialState = {
   title: '',
 };
 
-const FeaturedSongsContainer = () => {
+const NewReleasesContainer = () => {
   const [shouldRefresh, setShouldRefresh] = useState(Date.now());
-  const [state, dispatch] = useReducer(songReducer, initialState);
+  const [state, dispatch] = useReducer(releaseReducer, initialState);
   const { data, isLoading, isError } = useApiGet({
-    initialState: [],
-    pathname: 'songs',
+    initialState: {},
+    pathname: 'releases',
     dependency: shouldRefresh,
   });
   const { isCreateOpen, isDeleteOpen, id, artist, title } = state;
@@ -70,7 +70,7 @@ const FeaturedSongsContainer = () => {
 
   return (
     <Fragment>
-      <FeaturedSongs
+      <NewReleases
         data={data}
         handleCreateOpen={() => dispatch({ type: 'OPEN_CREATE' })}
         handleDeleteOpen={({ id, artist, title }) => dispatch({
@@ -78,16 +78,16 @@ const FeaturedSongsContainer = () => {
           payload: { id, artist, title },
         })}
       />
-      <CreateSongModal
+      <CreateReleaseModal
         isOpen={isCreateOpen}
         closeModal={() => dispatch({ type: 'CLOSE_CREATE' })}
         refresh={setShouldRefresh}
       />
       <DeleteDataModal
         isOpen={isDeleteOpen}
-        dataType='Song'
+        dataType='Release'
         closeModal={() => dispatch({ type: 'CLOSE_DELETE' })}
-        path='songs'
+        path='releases'
         data={{ id, artist, title }}
         refresh={setShouldRefresh}
       />
@@ -95,4 +95,4 @@ const FeaturedSongsContainer = () => {
   );
 };
 
-export default FeaturedSongsContainer;
+export default NewReleasesContainer;

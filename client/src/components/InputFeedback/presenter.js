@@ -9,16 +9,18 @@ const InputFeedback = ({
   name,
   value,
   onChange,
+  type,
+  isRequired,
 }) => (
   <Form.Row>
     <Form.Group as={Col} controlId={controlId}>
       <Form.Label>{label}</Form.Label>
       <Form.Control
-        type='text'
+        type={type}
         name={name}
         value={value}
         onChange={onChange}
-        required
+        required={isRequired}
       />
       <Form.Control.Feedback type='invalid'>
         Required
@@ -33,6 +35,13 @@ InputFeedback.propTypes = {
   name: PropTypes.string.isRequired,
   value: PropTypes.string.isRequired,
   onChange: PropTypes.func.isRequired,
+  type: PropTypes.string,
+  isRequired: PropTypes.bool,
+};
+
+InputFeedback.defaultProps = {
+  type: 'text',
+  isRequired: true,
 };
 
 export default InputFeedback;

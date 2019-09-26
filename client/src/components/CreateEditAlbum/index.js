@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useContext, Fragment } from 'react';
-import PropTypes from 'prop-types';
+import { useHistory, useLocation, useParams } from 'react-router-dom';
 
 import { getQuery } from '../../utils';
 import Api from '../../utils/api';
@@ -10,8 +10,11 @@ import Loader from '../Loader/presenter';
 import AppMessage from '../AppMessage/presenter';
 import CreateEditAlbum from './presenter';
 
-const CreateEditAlbumContainer = ({ history, location, match }) => {
+const CreateEditAlbumContainer = () => {
   const { signOut, showToast } = useContext(Context);
+  const history = useHistory();
+  const location = useLocation();
+  const { id } = useParams();
   const [album, setAlbum] = useState({
     artist: '',
     title: '',
@@ -29,10 +32,10 @@ const CreateEditAlbumContainer = ({ history, location, match }) => {
 
   useEffect(() => {
     const query = location.search ? getQuery(location.search) : '';
-    const isEditMode = match.path.includes('edit');
+    const isEditMode = location.pathname.includes('edit');
     const fetchData = async () => {
       try {
-        const res = await Api.get(`/api/albums/${match.params.id}`);
+        const res = await Api.get(`/api/albums/${id}`);
         const album = await res.json();
 
         if (res.status === 200) {
@@ -55,7 +58,7 @@ const CreateEditAlbumContainer = ({ history, location, match }) => {
     } else {
       setIsLoading(false);
     }
-  }, [location, match]);
+  }, [location, id]);
 
   const handleChange = ({ target: { name, value } }) => {
     let newValue = value;
@@ -82,7 +85,7 @@ const CreateEditAlbumContainer = ({ history, location, match }) => {
     const form = e.currentTarget;
     const saveFunc = isEditMode ? Api.put : Api.post;
     const saveUrl = isEditMode
-      ? `/api/albums/${match.params.id}`
+      ? `/api/albums/${id}`
       : '/api/albums';
     const action = isEditMode ? 'edited' : 'created';
 
@@ -117,7 +120,6 @@ const CreateEditAlbumContainer = ({ history, location, match }) => {
     <Fragment>
       {error && <AppMessage message={error} />}
       <CreateEditAlbum
-        history={history}
         album={album}
         isValidated={isValidated}
         isSaving={isSaving}
@@ -129,12 +131,6 @@ const CreateEditAlbumContainer = ({ history, location, match }) => {
       />
     </Fragment>
   );
-};
-
-CreateEditAlbumContainer.propTypes = {
-  history: PropTypes.object.isRequired,
-  location: PropTypes.object.isRequired,
-  match: PropTypes.object.isRequired,
 };
 
 export default CreateEditAlbumContainer;

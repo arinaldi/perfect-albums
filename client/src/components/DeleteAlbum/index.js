@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useContext, Fragment } from 'react';
-import PropTypes from 'prop-types';
+import { useHistory, useLocation, useParams } from 'react-router-dom';
 
 import { getQuery } from '../../utils';
 import Api from '../../utils/api';
@@ -10,8 +10,11 @@ import Loader from '../Loader/presenter';
 import AppMessage from '../AppMessage/presenter';
 import DeleteAlbum from './presenter';
 
-const DeleteAlbumContainer = ({ history, location, match }) => {
+const DeleteAlbumContainer = () => {
   const { signOut, showToast } = useContext(Context);
+  const history = useHistory();
+  const location = useLocation();
+  const { id } = useParams();
   const [artist, setArtist] = useState('');
   const [title, setTitle] = useState('');
   const [query, setQuery] = useState('');
@@ -23,7 +26,7 @@ const DeleteAlbumContainer = ({ history, location, match }) => {
     const query = location.search ? getQuery(location.search) : '';
     const fetchData = async () => {
       try {
-        const res = await Api.get(`/api/albums/${match.params.id}`);
+        const res = await Api.get(`/api/albums/${id}`);
         const { artist, title } = await res.json();
 
         if (res.status === 200) {
@@ -41,14 +44,14 @@ const DeleteAlbumContainer = ({ history, location, match }) => {
 
     setQuery(query);
     fetchData();
-  }, [location, match]);
+  }, [location, id]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     setIsDeleting(true);
 
     try {
-      await Api.delete(`/api/albums/${match.params.id}`, signOut, showToast);
+      await Api.delete(`/api/albums/${id}`, signOut, showToast);
       setIsDeleting(false);
       history.push(`/admin?${query}`);
       showToast({
@@ -72,7 +75,6 @@ const DeleteAlbumContainer = ({ history, location, match }) => {
     <Fragment>
       {error && <AppMessage message={error} />}
       <DeleteAlbum
-        history={history}
         artist={artist}
         title={title}
         isDeleting={isDeleting}
@@ -81,12 +83,6 @@ const DeleteAlbumContainer = ({ history, location, match }) => {
       />
     </Fragment>
   );
-};
-
-DeleteAlbumContainer.propTypes = {
-  history: PropTypes.object.isRequired,
-  location: PropTypes.object.isRequired,
-  match: PropTypes.object.isRequired,
 };
 
 export default DeleteAlbumContainer;

@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
-import PropTypes from 'prop-types';
+import { useHistory, useLocation } from 'react-router-dom';
 
 import { formatData, filterData, getQuery } from '../../utils';
 import Api from '../../utils/api';
@@ -8,7 +8,9 @@ import Loader from '../Loader/presenter';
 import AppMessage from '../AppMessage/presenter';
 import Admin from './presenter';
 
-const AdminContainer = ({ history, location }) => {
+const AdminContainer = () => {
+  const history = useHistory();
+  const location = useLocation();
   const [data, setData] = useState([]);
   const [filteredData, setFilteredData] = useState([]);
   const [searchText, setSearchText] = useState('');
@@ -18,6 +20,7 @@ const AdminContainer = ({ history, location }) => {
 
   useEffect(() => {
     const searchText = location.search ? getQuery(location.search) : '';
+
     const fetchData = async (searchText) => {
       try {
         const res = await Api.get('/api/albums');
@@ -60,7 +63,6 @@ const AdminContainer = ({ history, location }) => {
 
   return (
     <Admin
-      history={history}
       searchText={searchText}
       total={data.length}
       filteredData={filteredData}
@@ -69,11 +71,6 @@ const AdminContainer = ({ history, location }) => {
       clearInput={clearInput}
     />
   );
-};
-
-AdminContainer.propTypes = {
-  history: PropTypes.object.isRequired,
-  location: PropTypes.object.isRequired,
 };
 
 export default AdminContainer;

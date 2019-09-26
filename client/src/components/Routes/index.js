@@ -23,16 +23,16 @@ import AuthRoute from '../AuthRoute';
 
 const AppRoutes = () => (
   <Switch>
-    <Route path='/albums' component={TopAlbums} />
-    <Route path='/perfect-songs' component={Songs} />
-    <Route path='/featured-songs' component={FeaturedSongs} />
-    <Route path='/new-releases' component={NewReleases} />
-    <AuthRoute path='/admin' component={Admin} />
-    <AuthRoute path='/new' component={CreateEditAlbum} />
-    <AuthRoute path='/edit/:id' component={CreateEditAlbum} />
-    <AuthRoute path='/delete/:id' component={DeleteAlbum} />
-    <Route path='/signin' component={SignIn} />
-    <Route render={() => <Redirect to='/albums' />} />
+    <Route path='/albums'><TopAlbums /></Route>
+    <Route path='/perfect-songs'><Songs /></Route>
+    <Route path='/featured-songs'><FeaturedSongs /></Route>
+    <Route path='/new-releases'><NewReleases /></Route>
+    <AuthRoute path='/admin'><Admin /></AuthRoute>
+    <AuthRoute path='/new'><CreateEditAlbum /></AuthRoute>
+    <AuthRoute path='/edit/:id'><CreateEditAlbum /></AuthRoute>
+    <AuthRoute path='/delete/:id'><DeleteAlbum /></AuthRoute>
+    <Route path='/signin'><SignIn /></Route>
+    <Route><Redirect to='/albums' /></Route>
   </Switch>
 );
 

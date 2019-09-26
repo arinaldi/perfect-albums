@@ -5,7 +5,9 @@ import TopAlbums from '../components/TopAlbums/presenter';
 import { mockTopAlbumsData } from '../__mocks__';
 
 test('TopAlbums renders with data by year', () => {
-  const { getByText, getByTestId } = render(<TopAlbums data={mockTopAlbumsData} />);
+  const { getByText, getByTestId } = render(
+    <TopAlbums data={mockTopAlbumsData} />,
+  );
   const titleHeader = getByText('Top Albums');
   const year91Header = getByText('1991');
   const year99Header = getByText('1999');

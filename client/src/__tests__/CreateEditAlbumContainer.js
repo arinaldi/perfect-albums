@@ -1,10 +1,9 @@
 import React from 'react';
-import { render, wait } from '@testing-library/react';
-import { createMemoryHistory } from 'history';
+import { wait } from '@testing-library/react';
 
 import CreateEditAlbumContainer from '../components/CreateEditAlbum';
-import Provider from '../components/Provider';
 
+import render from '../__test-utils__';
 import { mockAdminData } from '../__mocks__';
 import mockApi from '../utils/api';
 import { MESSAGES } from '../constants';
@@ -19,15 +18,7 @@ afterAll(() => {
   mockApi.get.mockClear();
 });
 
-const history = createMemoryHistory({
-  initialEntries: [''],
-});
-const location = { search: '' };
-const match = {
-  params: { id: '1' },
-  path: '/edit',
-};
-const { artist, title, year, cd, aotd, favorite } = mockAdminData[0];
+const { id, artist, title, year, cd, aotd, favorite } = mockAdminData[0];
 
 test('CreateEditAlbumContainer handles successful data fetching', async () => {
   mockApi.get.mockImplementation(() => Promise.resolve({
@@ -36,14 +27,10 @@ test('CreateEditAlbumContainer handles successful data fetching', async () => {
   }));
 
   const { getByText, getByLabelText, container } = render(
-    <Provider>
-      <CreateEditAlbumContainer
-        history={history}
-        location={location}
-        match={match}
-      />
-    </Provider>
+    <CreateEditAlbumContainer />,
+    `/edit/${id}`,
   );
+
   const loader = getByText('Loading...');
 
   expect(loader).toBeInTheDocument();
@@ -62,13 +49,8 @@ test('CreateEditAlbumContainer handles error from data fetching', async () => {
   mockApi.get.mockImplementation(() => Promise.reject(new Error(MESSAGES.ERROR)));
 
   const { getByText, container } = render(
-    <Provider>
-      <CreateEditAlbumContainer
-        history={history}
-        location={location}
-        match={match}
-      />
-    </Provider>
+    <CreateEditAlbumContainer />,
+    `/edit/${id}`,
   );
   const loader = getByText('Loading...');
 

@@ -29,7 +29,7 @@ const NewReleases = ({ data, handleCreateOpen, handleDeleteOpen }) => {
           </Col>
         )}
       </Row>
-      <Row data-testid='card-row'>
+      <Row>
         {Object.keys(data).sort(sortByDate).map(date => (
           <DateCol
             key={date}

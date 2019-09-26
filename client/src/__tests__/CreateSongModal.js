@@ -2,6 +2,7 @@ import React from 'react';
 import { render } from '@testing-library/react';
 
 import CreateSongModal from '../components/CreateSongModal/presenter';
+
 import { mockFeaturedSongsData } from '../__mocks__';
 
 const { artist, title, link } = mockFeaturedSongsData[0];

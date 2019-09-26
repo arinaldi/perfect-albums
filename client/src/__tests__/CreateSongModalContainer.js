@@ -1,18 +1,16 @@
 import React from 'react';
-import { render } from '@testing-library/react';
 
 import CreateSongModalContainer from '../components/CreateSongModal';
-import Provider from '../components/Provider';
+
+import render from '../__test-utils__';
 
 test('CreateSongModalContainer renders', async () => {
   const { getByText, getByLabelText, getAllByText } = render(
-    <Provider>
-      <CreateSongModalContainer
-        isOpen
-        closeModal={() => {}}
-        refresh={() => {}}
-      />
-    </Provider>
+    <CreateSongModalContainer
+      isOpen
+      closeModal={() => {}}
+      refresh={() => {}}
+    />,
   );
   const titleHeader = getByText('Create Song');
   const artistInput = getByLabelText('Artist');
@@ -32,15 +30,13 @@ test('CreateSongModalContainer renders', async () => {
 
 test('CreateSongModalContainer does not render when closed', async () => {
   const { queryByText } = render(
-    <Provider>
-      <CreateSongModalContainer
-        isOpen={false}
-        closeModal={() => {}}
-        refresh={() => {}}
-      />
-    </Provider>
+    <CreateSongModalContainer
+      isOpen={false}
+      closeModal={() => {}}
+      refresh={() => {}}
+    />,
   );
-  const titleHeader = queryByText('Delete Song');
+  const titleHeader = queryByText('Create Song');
 
   expect(titleHeader).not.toBeInTheDocument();
 });

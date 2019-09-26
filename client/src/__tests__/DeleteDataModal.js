@@ -1,15 +1,16 @@
 import React from 'react';
 import { render } from '@testing-library/react';
 
-import DeleteSongModal from '../components/DeleteSongModal/presenter';
+import DeleteDataModal from '../components/DeleteDataModal/presenter';
 import { mockFeaturedSongsData } from '../__mocks__';
 
 const { artist, title } = mockFeaturedSongsData[0];
 
-test('DeleteSongModal renders with data', () => {
+test('DeleteDataModal renders with data', () => {
   const { getByText, getAllByText } = render(
-    <DeleteSongModal
+    <DeleteDataModal
       isOpen
+      dataType='Song'
       artist={artist}
       title={title}
       isDeleting={false}

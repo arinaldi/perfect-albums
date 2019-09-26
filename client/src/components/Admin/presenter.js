@@ -1,4 +1,5 @@
 import React, { useEffect } from 'react';
+import { useHistory } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import Badge from 'react-bootstrap/Badge';
 import Button from 'react-bootstrap/Button';
@@ -13,7 +14,6 @@ import AdminTable from '../AdminTable/presenter';
 import AppMessage from '../AppMessage/presenter';
 
 const Admin = ({
-  history,
   searchText,
   total,
   filteredData,
@@ -21,6 +21,8 @@ const Admin = ({
   handleChange,
   clearInput,
 }) => {
+  const history = useHistory();
+
   useEffect(() => {
     searchInput.current.focus();
   }, [searchInput]);
@@ -79,7 +81,6 @@ const Admin = ({
           </Form>
           {filteredData.length
             ? <AdminTable
-              history={history}
               data={filteredData}
               searchText={searchText}
             />
@@ -94,7 +95,6 @@ const Admin = ({
 };
 
 Admin.propTypes = {
-  history: PropTypes.object.isRequired,
   searchText: PropTypes.string.isRequired,
   total: PropTypes.number.isRequired,
   filteredData: PropTypes.array.isRequired,

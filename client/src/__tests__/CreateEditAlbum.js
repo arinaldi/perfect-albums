@@ -1,7 +1,8 @@
 import React from 'react';
-import { render } from '@testing-library/react';
 
 import CreateEditAlbum from '../components/CreateEditAlbum/presenter';
+
+import render from '../__test-utils__';
 import { mockAdminData } from '../__mocks__';
 
 const { artist, title, year, cd, aotd, favorite } = mockAdminData[0];
@@ -9,13 +10,12 @@ const { artist, title, year, cd, aotd, favorite } = mockAdminData[0];
 test('CreateEditAlbum renders with data', () => {
   const { getByText, getByLabelText, container } = render(
     <CreateEditAlbum
-      history={{}}
       album={mockAdminData[0]}
       header='Edit'
       handleChange={() => {}}
       handleRadioChange={() => {}}
       handleSubmit={() => {}}
-    />
+    />,
   );
   const titleHeader = getByText('Edit Album');
   const artistInput = getByLabelText('Artist');

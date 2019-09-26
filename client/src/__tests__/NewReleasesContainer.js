@@ -1,10 +1,10 @@
 import React from 'react';
 import { wait } from '@testing-library/react';
 
-import FeaturedSongsContainer from '../components/FeaturedSongs';
+import NewReleasesContainer from '../components/NewReleases';
 
 import render from '../__test-utils__';
-import { mockFeaturedSongsData } from '../__mocks__';
+import { mockNewReleasesData, releaseLabels } from '../__mocks__';
 import mockApi from '../utils/api';
 import { MESSAGES } from '../constants';
 
@@ -18,26 +18,26 @@ afterAll(() => {
   mockApi.get.mockClear();
 });
 
-test('FeaturedSongsContainer handles successful data fetching', async () => {
+test('NewReleasesContainer handles successful data fetching', async () => {
   mockApi.get.mockImplementation(() => Promise.resolve({
-    json: () => Promise.resolve(mockFeaturedSongsData),
+    json: () => Promise.resolve(mockNewReleasesData),
   }));
 
   const { getByText, getByTestId } = render(
-    <FeaturedSongsContainer />,
+    <NewReleasesContainer />,
   );
   const loader = getByText('Loading...');
 
   expect(loader).toBeInTheDocument();
-  await wait(() => expect(getByTestId('card-row')).toBeInTheDocument());
-  await wait(() => expect(getByTestId('card-row').children).toHaveLength(3));
+  await wait(() => expect(getByTestId(`list-${releaseLabels.one}`)).toBeInTheDocument());
+  await wait(() => expect(getByTestId(`list-${releaseLabels.two}`)).toBeInTheDocument());
 });
 
-test('FeaturedSongsContainer handles error from data fetching', async () => {
+test('NewReleasesContainer handles error from data fetching', async () => {
   mockApi.get.mockImplementation(() => Promise.reject(new Error('error message')));
 
   const { getByText } = render(
-    <FeaturedSongsContainer />,
+    <NewReleasesContainer />,
   );
   const loader = getByText('Loading...');
 

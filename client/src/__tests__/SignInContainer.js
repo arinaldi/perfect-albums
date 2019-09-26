@@ -1,10 +1,9 @@
 import React from 'react';
-import { Router } from 'react-router-dom';
-import { render, fireEvent } from '@testing-library/react';
-import { createMemoryHistory } from 'history';
+import { fireEvent, wait } from '@testing-library/react';
 
 import SignInContainer from '../components/SignIn';
-import Provider from '../components/Provider';
+
+import render from '../__test-utils__';
 import mockApi from '../utils/api';
 
 jest.mock('../utils/api', () => {
@@ -20,15 +19,10 @@ afterAll(() => {
 });
 
 test('SignInContainer submits credentials', async () => {
-  const history = createMemoryHistory({});
   const username = 'user';
   const password = '1234';
-  const { getByLabelText, getByText } = render(
-    <Provider>
-      <Router history={history}>
-        <SignInContainer />
-      </Router>
-    </Provider>
+  const { getByLabelText, getByText, queryByText } = render(
+    <SignInContainer />,
   );
   const usernameInput = getByLabelText(/username/i);
   const passwordInput = getByLabelText(/password/i);
@@ -43,4 +37,9 @@ test('SignInContainer submits credentials', async () => {
     '/api/signin',
     { username, password },
   );
+
+  await wait(() => {
+    const titleHeader = queryByText('Sign In');
+    expect(titleHeader).not.toBeInTheDocument();
+  });
 });

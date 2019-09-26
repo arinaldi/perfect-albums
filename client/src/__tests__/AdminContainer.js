@@ -1,9 +1,9 @@
 import React from 'react';
-import { render, wait } from '@testing-library/react';
-import { createMemoryHistory } from 'history';
+import { wait } from '@testing-library/react';
 
 import AdminContainer from '../components/Admin';
 
+import render from '../__test-utils__';
 import { mockAdminData } from '../__mocks__';
 import mockApi from '../utils/api';
 import { MESSAGES } from '../constants';
@@ -18,18 +18,13 @@ afterAll(() => {
   mockApi.get.mockClear();
 });
 
-const history = createMemoryHistory({
-  initialEntries: [''],
-});
-const location = { search: '' };
-
 test('AdminContainer handles successful data fetching', async () => {
   mockApi.get.mockImplementation(() => Promise.resolve({
     json: () => Promise.resolve(mockAdminData),
   }));
 
   const { getByText, getAllByText } = render(
-    <AdminContainer history={history} location={location} />
+    <AdminContainer />,
   );
   const loader = getByText('Loading...');
 
@@ -48,7 +43,7 @@ test('AdminContainer handles error from data fetching', async () => {
   mockApi.get.mockImplementation(() => Promise.reject(new Error('error message')));
 
   const { getByText } = render(
-    <AdminContainer history={history} location={location} />
+    <AdminContainer />,
   );
   const loader = getByText('Loading...');
 

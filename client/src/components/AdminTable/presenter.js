@@ -1,53 +1,10 @@
 import React from 'react';
-import Button from 'react-bootstrap/Button';
 import Table from 'react-bootstrap/Table';
 import PropTypes from 'prop-types';
 
-import { ICONS } from '../../constants';
+import AdminTableRow from './AdminTableRow';
 
-const { CHECK } = ICONS;
-const margin = 2;
-
-const AdminTableRow = ({ history, item, searchText }) => (
-  <tr data-testid={item.id}>
-    <td>{item.artist}</td>
-    <td>{item.title}</td>
-    <td>{item.year}</td>
-    <td>{item.cd && CHECK}</td>
-    <td>{item.aotd && CHECK}</td>
-    <td>{item.favorite && CHECK}</td>
-    <td>
-      <Button
-        variant='outline-dark'
-        size='sm'
-        onClick={() => history.push(`/edit/${item.id}?${searchText}`)}
-        style={{ margin }}
-      >
-        Edit
-      </Button>
-      <Button
-        variant='outline-dark'
-        size='sm'
-        onClick={() => history.push(`/delete/${item.id}?${searchText}`)}
-        style={{ margin }}
-      >
-        Delete
-      </Button>
-    </td>
-  </tr>
-);
-
-AdminTableRow.propTypes = {
-  history: PropTypes.object.isRequired,
-  item: PropTypes.object.isRequired,
-  searchText: PropTypes.string,
-};
-
-AdminTableRow.defaultProps = {
-  searchText: '',
-};
-
-const AdminTable = ({ history, data, searchText }) => (
+const AdminTable = ({ data, searchText }) => (
   <Table responsive striped hover size='sm'>
     <thead>
       <tr>
@@ -64,7 +21,6 @@ const AdminTable = ({ history, data, searchText }) => (
       {data.map(item => (
         <AdminTableRow
           key={item.id}
-          history={history}
           item={item}
           searchText={searchText}
         />
@@ -74,7 +30,6 @@ const AdminTable = ({ history, data, searchText }) => (
 );
 
 AdminTable.propTypes = {
-  history: PropTypes.object.isRequired,
   data: PropTypes.array.isRequired,
   searchText: PropTypes.string,
 };

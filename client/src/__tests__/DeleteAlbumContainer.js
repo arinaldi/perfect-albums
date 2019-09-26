@@ -1,10 +1,9 @@
 import React from 'react';
-import { render, wait } from '@testing-library/react';
-import { createMemoryHistory } from 'history';
+import { wait } from '@testing-library/react';
 
 import DeleteAlbumContainer from '../components/DeleteAlbum';
-import Provider from '../components/Provider';
 
+import render from '../__test-utils__';
 import { mockAdminData } from '../__mocks__';
 import mockApi from '../utils/api';
 import { MESSAGES } from '../constants';
@@ -19,11 +18,6 @@ afterAll(() => {
   mockApi.get.mockClear();
 });
 
-const history = createMemoryHistory({
-  initialEntries: [''],
-});
-const location = { search: '' };
-const match = { params: { id: '1' } };
 const { artist, title } = mockAdminData[0];
 
 test('DeleteAlbumContainer handles successful data fetching', async () => {
@@ -33,13 +27,7 @@ test('DeleteAlbumContainer handles successful data fetching', async () => {
   }));
 
   const { getByText } = render(
-    <Provider>
-      <DeleteAlbumContainer
-        history={history}
-        location={location}
-        match={match}
-      />
-    </Provider>
+    <DeleteAlbumContainer />,
   );
   const loader = getByText('Loading...');
 
@@ -54,13 +42,7 @@ test('DeleteAlbumContainer handles error from data fetching', async () => {
   mockApi.get.mockImplementation(() => Promise.reject(new Error(MESSAGES.ERROR)));
 
   const { getByText, container } = render(
-    <Provider>
-      <DeleteAlbumContainer
-        history={history}
-        location={location}
-        match={match}
-      />
-    </Provider>
+    <DeleteAlbumContainer />,
   );
   const loader = getByText('Loading...');
 

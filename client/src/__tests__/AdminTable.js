@@ -1,16 +1,16 @@
 import React from 'react';
-import { render } from '@testing-library/react';
 
 import AdminTable from '../components/AdminTable/presenter';
+
+import render from '../__test-utils__';
 import { mockAdminData } from '../__mocks__';
 
 test('AdminTable renders with data', () => {
   const { container, getByTestId } = render(
     <AdminTable
-      history={{}}
       data={mockAdminData}
       searchText=''
-    />
+    />,
   );
   const firstRow = getByTestId('1');
   const secondRow = getByTestId('2');

@@ -1,9 +1,9 @@
 export const mockTopAlbumsData = {
-  '1991': [
+  1991: [
     { artist: 'Nirvana', title: 'Nevermind' },
     { artist: 'Pearl Jam', title: 'Ten' },
   ],
-  '1999': [
+  1999: [
     { artist: 'HIM', title: 'Razorblade Romance' },
   ],
 };

@@ -4,24 +4,22 @@ const DB_OPTIONS = {
   useNewUrlParser: true,
   useCreateIndex: true,
   useFindAndModify: false,
+  useUnifiedTopology: true,
 };
 
 function connect () {
   return new Promise((resolve, reject) => {
     if (process.env.NODE_ENV === 'test') {
-      const { Mockgoose } = require('mockgoose');
-      const mockgoose = new Mockgoose(mongoose);
+      const { MongoMemoryServer } = require('mongodb-memory-server');
+      const mongoServer = new MongoMemoryServer();
 
-      mockgoose.prepareStorage()
-        .then(() => {
-          mongoose.connect('mongodb://localhost:27017/tester', DB_OPTIONS);
-          mongoose.connection.on('error', err => {
-            reject(err);
-          });
-          mongoose.connection.once('open', () => {
+      mongoServer.getConnectionString()
+        .then(mongoUri => (
+          mongoose.connect(mongoUri, DB_OPTIONS, err => {
+            if (err) reject(err);
             resolve();
-          });
-        });
+          })
+        ));
     } else {
       mongoose.connect(process.env.DATABASE, DB_OPTIONS);
       mongoose.connection.on('error', err => {

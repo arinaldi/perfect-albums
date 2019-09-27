@@ -16,6 +16,7 @@
   "parser": "babel-eslint",
   "plugins": [
     "import",
+    "jsx-a11y",
     "node",
     "promise",
     "react",
@@ -37,6 +38,7 @@
       { "varsIgnorePattern": "should|expect" }
     ],
     "quotes": ["error", "single"],
+    "react/jsx-fragments": "off",
     "react-hooks/rules-of-hooks": "error",
     "react-hooks/exhaustive-deps": "warn",
     "semi": ["error", "always"],
@@ -45,7 +47,7 @@
   },
   "settings": {
     "react": {
-      "version": "16.8.6"
+      "version": "16.9.0"
     }
   },
   "globals": {

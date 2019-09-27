@@ -7,8 +7,8 @@ const DB_OPTIONS = {
   useUnifiedTopology: true,
 };
 
-function connect () {
-  return new Promise((resolve, reject) => {
+const connect = () => (
+  new Promise((resolve, reject) => {
     if (process.env.NODE_ENV === 'test') {
       const { MongoMemoryServer } = require('mongodb-memory-server');
       const mongoServer = new MongoMemoryServer();
@@ -33,11 +33,9 @@ function connect () {
         resolve();
       });
     }
-  });
-}
+  })
+);
 
-function close () {
-  return mongoose.disconnect();
-}
+const close = () => mongoose.disconnect();
 
 module.exports = { connect, close };

@@ -6,6 +6,7 @@ const chaiHttp = require('chai-http');
 const app = require('../../src/app');
 const db = require('../../src/db');
 const { saveUser } = require('../../src/controllers/authController');
+const { ERRORS } = require('../../src/constants');
 const { songs, invalidId, getUser } = require('../data');
 
 const should = chai.should();
@@ -27,13 +28,13 @@ describe('Private song routes', () => {
         saveUser(user.username, user.password)
           .then(() => done());
       })
-      .catch((err) => done(err));
+      .catch(err => done(err));
   });
 
   after(done => {
     db.close()
       .then(() => done())
-      .catch((err) => done(err));
+      .catch(err => done(err));
   });
 
   describe('POST /api/signin', () => {
@@ -111,7 +112,7 @@ describe('Private song routes', () => {
         .set('authorization', `Bearer ${token}`)
         .end((_, res) => {
           res.should.have.status(404);
-          res.text.should.be.eql('Song not found');
+          res.text.should.be.eql(ERRORS.SONG);
 
           done();
         });

@@ -11,6 +11,8 @@ const createRelease = require('../controllers/releases/createRelease');
 const editRelease = require('../controllers/releases/editRelease');
 const deleteRelease = require('../controllers/releases/deleteRelease');
 
+const { ERRORS } = require('../constants');
+
 router.post('/api/albums', async (req, res) => {
   try {
     const newAlbum = await createAlbum(req.body);
@@ -24,7 +26,7 @@ router.put('/api/albums/:id', async (req, res) => {
   try {
     const updatedAlbum = await editAlbum(req.params.id, req.body);
     if (!updatedAlbum) {
-      res.status(404).send('Album not found');
+      res.status(404).send(ERRORS.ALBUM);
     } else {
       res.send(updatedAlbum);
     }
@@ -39,7 +41,7 @@ router.delete('/api/albums/:id', async (req, res) => {
     await deleteAlbum(id);
     res.send(`Album successfully deleted: ${id}`);
   } catch (err) {
-    const status = err.message === 'Album not found' ? 404 : 500;
+    const status = err.message === ERRORS.ALBUM ? 404 : 500;
     res.status(status).send(err.message);
   }
 });
@@ -59,7 +61,7 @@ router.delete('/api/songs/:id', async (req, res) => {
     await deleteSong(id);
     res.send(`Song successfully deleted: ${id}`);
   } catch (err) {
-    const status = err.message === 'Song not found' ? 404 : 500;
+    const status = err.message === ERRORS.SONG ? 404 : 500;
     res.status(status).send(err.message);
   }
 });
@@ -77,7 +79,7 @@ router.put('/api/releases/:id', async (req, res) => {
   try {
     const updatedRelease = await editRelease(req.params.id, req.body);
     if (!updatedRelease) {
-      res.status(404).send('Release not found');
+      res.status(404).send(ERRORS.RELEASE);
     } else {
       res.send(updatedRelease);
     }
@@ -92,7 +94,7 @@ router.delete('/api/releases/:id', async (req, res) => {
     await deleteRelease(id);
     res.send(`Release successfully deleted: ${id}`);
   } catch (err) {
-    const status = err.message === 'Release not found' ? 404 : 500;
+    const status = err.message === ERRORS.RELEASE ? 404 : 500;
     res.status(status).send(err.message);
   }
 });

@@ -6,6 +6,7 @@ const chaiHttp = require('chai-http');
 const app = require('../../src/app');
 const db = require('../../src/db');
 const Album = require('../../src/db/models/AlbumModel');
+const { ERRORS } = require('../../src/constants');
 const { albums, invalidId } = require('../data');
 
 const should = chai.should();
@@ -27,13 +28,13 @@ describe('Public album routes', () => {
 
         done();
       })
-      .catch((err) => done(err));
+      .catch(err => done(err));
   });
 
   after(done => {
     db.close()
       .then(() => done())
-      .catch((err) => done(err));
+      .catch(err => done(err));
   });
 
   describe('GET /api/albums', () => {
@@ -94,7 +95,7 @@ describe('Public album routes', () => {
         .get(`/api/albums/${invalidId}`)
         .end((_, res) => {
           res.should.have.status(404);
-          res.text.should.be.eql('Album not found');
+          res.body.error.should.be.eql(ERRORS.ALBUM);
 
           done();
         });

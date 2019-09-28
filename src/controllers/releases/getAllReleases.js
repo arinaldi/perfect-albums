@@ -1,16 +1,6 @@
 const ReleaseModel = require('../../db/models/ReleaseModel');
-
-const formatDate = (isoDate) => {
-  const newDate = new Date(isoDate);
-  const date = newDate.getUTCDate();
-  const month = newDate.toLocaleDateString(
-    'en-US',
-    { month: 'short' },
-  );
-  const year = newDate.getFullYear();
-
-  return `${date} ${month} ${year}`;
-};
+const { TBD } = require('../../constants');
+const { formatDate } = require('../../utils');
 
 const formatData = (releases) => {
   const results = {};
@@ -18,7 +8,7 @@ const formatData = (releases) => {
   releases.forEach((release) => {
     const releaseDate = release.date
       ? formatDate(release.date)
-      : 'TBD';
+      : TBD;
 
     if (results[releaseDate]) {
       results[releaseDate].push(release);

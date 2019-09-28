@@ -6,6 +6,7 @@ const chaiHttp = require('chai-http');
 const app = require('../../src/app');
 const db = require('../../src/db');
 const Release = require('../../src/db/models/ReleaseModel');
+const { formatDate } = require('../../src/utils');
 const { releases } = require('../data');
 
 const should = chai.should();
@@ -24,19 +25,19 @@ describe('Public release routes', () => {
 
         done();
       })
-      .catch((err) => done(err));
+      .catch(err => done(err));
   });
 
   after(done => {
     db.close()
       .then(() => done())
-      .catch((err) => done(err));
+      .catch(err => done(err));
   });
 
   describe('GET /api/releases', () => {
     it('gets an object of all releases, with date as a key', done => {
-      const date1 = '4 Oct 2019';
-      const date2 = '11 Oct 2019';
+      const date1 = formatDate(releases[0].date);
+      const date2 = formatDate(releases[2].date);
 
       chai.request(app)
         .get('/api/releases')

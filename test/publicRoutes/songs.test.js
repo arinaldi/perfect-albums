@@ -24,13 +24,13 @@ describe('Public song routes', () => {
 
         done();
       })
-      .catch((err) => done(err));
+      .catch(err => done(err));
   });
 
   after(done => {
     db.close()
       .then(() => done())
-      .catch((err) => done(err));
+      .catch(err => done(err));
   });
 
   describe('GET /api/songs', () => {

@@ -6,6 +6,7 @@ const chaiHttp = require('chai-http');
 const app = require('../../src/app');
 const db = require('../../src/db');
 const { saveUser } = require('../../src/controllers/authController');
+const { ERRORS } = require('../../src/constants');
 const { albums, invalidId, getUser } = require('../data');
 
 const should = chai.should();
@@ -27,13 +28,13 @@ describe('Private album routes', () => {
         saveUser(user.username, user.password)
           .then(() => done());
       })
-      .catch((err) => done(err));
+      .catch(err => done(err));
   });
 
   after(done => {
     db.close()
       .then(() => done())
-      .catch((err) => done(err));
+      .catch(err => done(err));
   });
 
   describe('POST /api/signin', () => {
@@ -114,7 +115,7 @@ describe('Private album routes', () => {
         .send({ cd: true })
         .end((_, res) => {
           res.should.have.status(404);
-          res.text.should.be.eql('Album not found');
+          res.text.should.be.eql(ERRORS.ALBUM);
 
           done();
         });
@@ -143,7 +144,7 @@ describe('Private album routes', () => {
         .set('authorization', `Bearer ${token}`)
         .end((_, res) => {
           res.should.have.status(404);
-          res.text.should.be.eql('Album not found');
+          res.text.should.be.eql(ERRORS.ALBUM);
 
           done();
         });

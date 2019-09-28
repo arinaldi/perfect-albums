@@ -1,15 +1,16 @@
 require('dotenv').config();
 const bcrypt = require('bcrypt-nodejs');
 const jwt = require('jwt-simple');
+
 const User = require('../db/models/UserModel');
+const { ERRORS, ONE_WEEK } = require('../constants');
 
 const makeToken = (user) => {
-  const timestamp = Math.round(Date.now() / 1000);
-  const expiry = 60 * 60 * 24 * 7; // one week
+  const TIMESTAMP = Math.round(Date.now() / 1000);
   return jwt.encode({
     user,
-    iat: timestamp,
-    exp: timestamp + expiry,
+    iat: TIMESTAMP,
+    exp: TIMESTAMP + ONE_WEEK,
   }, process.env.SECRET);
 };
 
@@ -24,7 +25,7 @@ const decodeToken = (token) => {
     return jwt.decode(token, process.env.SECRET);
   } catch (err) {
     // eslint-disable-next-line no-console
-    console.log('Error decoding token:', err.message);
+    console.log(ERRORS.TOKEN, err.message);
   }
 };
 
@@ -42,12 +43,12 @@ const checkUser = async (req, res) => {
       const user = await User.findById(data.user._id);
 
       if (user) return res.send('User is valid');
-      return res.status(404).send('User not found');
+      return res.status(404).send(ERRORS.USER.NOT_FOUND);
     }
 
-    return res.status(401).json('User not valid');
+    return res.status(401).json(ERRORS.USER.NOT_VALID);
   } catch (err) {
-    res.status(500).send('Something went wrong');
+    res.status(500).send(ERRORS.GENERIC);
   }
 };
 
@@ -57,8 +58,11 @@ const saveUser = (username, password) => (
       if (err) reject(err);
       bcrypt.hash(password, salt, null, (err, hashedPassword) => {
         if (err) reject(err);
-        const user = new User({ username, password: hashedPassword });
-        user.save().then(user => resolve(user));
+        const user = new User({
+          username,
+          password: hashedPassword,
+        });
+        user.save().then((user) => resolve(user));
       });
     });
   })
@@ -70,13 +74,17 @@ const signUp = async (req, res, next) => {
   if (!username || !password) {
     return res
       .status(422)
-      .json({ error: 'You must provide an username and password' });
+      .json({ error: ERRORS.USER.CREDENTIALS });
   }
 
   try {
     const user = await User.findOne({ username });
 
-    if (user) return res.status(422).json({ error: 'Username is in use' });
+    if (user) {
+      return res.status(422).json({
+        error: ERRORS.USER.TAKEN,
+      });
+    }
 
     const newUser = await saveUser(username, password);
     return res.json({ token: makeToken(newUser.id) });

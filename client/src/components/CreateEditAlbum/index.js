@@ -41,7 +41,8 @@ const CreateEditAlbumContainer = () => {
         if (res.status === 200) {
           setAlbum(album);
         } else {
-          throw new Error(MESSAGES.ERROR);
+          const error = album.error || MESSAGES.ERROR;
+          throw new Error(error);
         }
       } catch (err) {
         setError(err.message);

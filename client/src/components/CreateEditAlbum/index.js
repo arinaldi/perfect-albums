@@ -57,6 +57,11 @@ const CreateEditAlbumContainer = () => {
     if (isEditMode) {
       fetchData();
     } else {
+      const newAlbum = {
+        ...album,
+        year: (new Date()).getFullYear().toString(),
+      };
+      setAlbum(newAlbum);
       setIsLoading(false);
     }
   }, [location, id]);

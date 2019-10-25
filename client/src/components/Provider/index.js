@@ -71,7 +71,8 @@ const Provider = ({ children }) => {
       signOut: handleSignOut,
       showToast,
       closeToast,
-    }}>
+    }}
+    >
       {children}
     </Context.Provider>
   );

@@ -80,14 +80,18 @@ const Admin = ({
             </Form.Group>
           </Form>
           {filteredData.length
-            ? <AdminTable
-              data={filteredData}
-              searchText={searchText}
-            />
-            : <AppMessage
-              type={ALERT_TYPES.INFO}
-              message={MESSAGES.NO_DATA}
-            />}
+            ? (
+              <AdminTable
+                data={filteredData}
+                searchText={searchText}
+              />
+            )
+            : (
+              <AppMessage
+                type={ALERT_TYPES.INFO}
+                message={MESSAGES.NO_DATA}
+              />
+            )}
         </Col>
       </Row>
     </Container>

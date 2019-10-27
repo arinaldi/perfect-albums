@@ -23,5 +23,29 @@ export const MESSAGES = {
 
 export const ICONS = {
   CHECK: '✔',
+  UP: '↑',
   X: '✖',
 };
+
+export const DECADES = [
+  {
+    label: '10s',
+    link: '#2019',
+  },
+  {
+    label: '00s',
+    link: '#2009',
+  },
+  {
+    label: '90s',
+    link: '#1999',
+  },
+  {
+    label: '80s',
+    link: '#1989',
+  },
+  {
+    label: '70s',
+    link: '#1976',
+  },
+];

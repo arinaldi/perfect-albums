@@ -10,7 +10,14 @@ const NavBar = () => {
   const { state: { isAuthenticated } } = useContext(Context);
 
   return (
-    <Navbar collapseOnSelect bg='dark' variant='dark' expand='md'>
+    <Navbar
+      collapseOnSelect
+      bg='dark'
+      variant='dark'
+      expand='md'
+      className='mb10'
+      id='top'
+    >
       <Navbar.Brand>Perfect Albums</Navbar.Brand>
       <Navbar.Toggle aria-controls='responsive-navbar-nav' />
       <Navbar.Collapse id='responsive-navbar-nav'>

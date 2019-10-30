@@ -8,7 +8,7 @@ import {
 
 import NavBar from '../NavBar/presenter';
 import ToastAlert from '../ToastAlert/presenter';
-import Songs from '../Songs/presenter';
+import PerfectSongs from '../PerfectSongs/presenter';
 import Loader from '../Loader/presenter';
 
 import { Context } from '../Provider';
@@ -24,7 +24,7 @@ import AuthRoute from '../AuthRoute';
 const AppRoutes = () => (
   <Switch>
     <Route path='/albums'><TopAlbums /></Route>
-    <Route path='/perfect-songs'><Songs /></Route>
+    <Route path='/perfect-songs'><PerfectSongs /></Route>
     <Route path='/featured-songs'><FeaturedSongs /></Route>
     <Route path='/new-releases'><NewReleases /></Route>
     <AuthRoute path='/admin'><Admin /></AuthRoute>

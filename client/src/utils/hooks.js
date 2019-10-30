@@ -5,7 +5,7 @@ import Api from '../utils/api';
 export const useApiGet = ({ initialState, pathname, dependency }) => {
   const [data, setData] = useState(initialState);
   const [isLoading, setIsLoading] = useState(true);
-  const [isError, setIsError] = useState(false);
+  const [hasError, setHasError] = useState(false);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -14,7 +14,7 @@ export const useApiGet = ({ initialState, pathname, dependency }) => {
         const data = await res.json();
         setData(data);
       } catch (err) {
-        setIsError(true);
+        setHasError(true);
       }
 
       setIsLoading(false);
@@ -23,5 +23,5 @@ export const useApiGet = ({ initialState, pathname, dependency }) => {
     fetchData();
   }, [pathname, dependency]);
 
-  return { data, isLoading, isError };
+  return { data, isLoading, hasError };
 };

@@ -1,11 +1,8 @@
-import React, {
-  Fragment,
-  useReducer,
-  useState,
-} from 'react';
+import React, { useReducer, useState } from 'react';
 
 import { useApiGet } from '../../utils/hooks';
 
+import ErrorBoundary from '../ErrorBoundary';
 import Loader from '../Loader/presenter';
 import AppMessage from '../AppMessage/presenter';
 import CreateReleaseModal from '../CreateReleaseModal';
@@ -58,7 +55,7 @@ const initialState = {
 const NewReleasesContainer = () => {
   const [shouldRefresh, setShouldRefresh] = useState(Date.now());
   const [state, dispatch] = useReducer(releaseReducer, initialState);
-  const { data, isLoading, isError } = useApiGet({
+  const { data, isLoading, hasError } = useApiGet({
     initialState: {},
     pathname: 'releases',
     dependency: shouldRefresh,
@@ -66,10 +63,10 @@ const NewReleasesContainer = () => {
   const { isCreateOpen, isDeleteOpen, id, artist, title } = state;
 
   if (isLoading) return <Loader />;
-  if (isError) return <AppMessage />;
+  if (hasError) return <AppMessage />;
 
   return (
-    <Fragment>
+    <ErrorBoundary>
       <NewReleases
         data={data}
         handleCreateOpen={() => dispatch({ type: 'OPEN_CREATE' })}
@@ -91,7 +88,7 @@ const NewReleasesContainer = () => {
         data={{ id, artist, title }}
         refresh={setShouldRefresh}
       />
-    </Fragment>
+    </ErrorBoundary>
   );
 };
 

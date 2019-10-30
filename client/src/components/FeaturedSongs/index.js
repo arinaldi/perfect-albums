@@ -1,11 +1,8 @@
-import React, {
-  Fragment,
-  useReducer,
-  useState,
-} from 'react';
+import React, { useReducer, useState } from 'react';
 
 import { useApiGet } from '../../utils/hooks';
 
+import ErrorBoundary from '../ErrorBoundary';
 import Loader from '../Loader/presenter';
 import AppMessage from '../AppMessage/presenter';
 import CreateSongModal from '../CreateSongModal';
@@ -58,7 +55,7 @@ const initialState = {
 const FeaturedSongsContainer = () => {
   const [shouldRefresh, setShouldRefresh] = useState(Date.now());
   const [state, dispatch] = useReducer(songReducer, initialState);
-  const { data, isLoading, isError } = useApiGet({
+  const { data, isLoading, hasError } = useApiGet({
     initialState: [],
     pathname: 'songs',
     dependency: shouldRefresh,
@@ -66,10 +63,10 @@ const FeaturedSongsContainer = () => {
   const { isCreateOpen, isDeleteOpen, id, artist, title } = state;
 
   if (isLoading) return <Loader />;
-  if (isError) return <AppMessage />;
+  if (hasError) return <AppMessage />;
 
   return (
-    <Fragment>
+    <ErrorBoundary>
       <FeaturedSongs
         data={data}
         handleCreateOpen={() => dispatch({ type: 'OPEN_CREATE' })}
@@ -91,7 +88,7 @@ const FeaturedSongsContainer = () => {
         data={{ id, artist, title }}
         refresh={setShouldRefresh}
       />
-    </Fragment>
+    </ErrorBoundary>
   );
 };
 

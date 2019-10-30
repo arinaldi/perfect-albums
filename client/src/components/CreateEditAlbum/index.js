@@ -1,10 +1,15 @@
-import React, { useState, useEffect, useContext, Fragment } from 'react';
+import React, {
+  useContext,
+  useEffect,
+  useState,
+} from 'react';
 import { useHistory, useLocation, useParams } from 'react-router-dom';
 
 import { getQuery } from '../../utils';
 import Api from '../../utils/api';
 import { TOAST_TYPES, MESSAGES } from '../../constants';
 
+import ErrorBoundary from '../ErrorBoundary';
 import { Context } from '../Provider';
 import Loader from '../Loader/presenter';
 import AppMessage from '../AppMessage/presenter';
@@ -123,7 +128,7 @@ const CreateEditAlbumContainer = () => {
   if (isLoading) return <Loader />;
 
   return (
-    <Fragment>
+    <ErrorBoundary>
       {error && <AppMessage message={error} />}
       <CreateEditAlbum
         album={album}
@@ -135,7 +140,7 @@ const CreateEditAlbumContainer = () => {
         handleRadioChange={handleRadioChange}
         handleSubmit={handleSubmit}
       />
-    </Fragment>
+    </ErrorBoundary>
   );
 };
 

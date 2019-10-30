@@ -1,9 +1,10 @@
-import React, { useState, useContext, Fragment } from 'react';
+import React, { useState, useContext } from 'react';
 import { Redirect } from 'react-router-dom';
 
 import Api from '../../utils/api';
 
 import { Context } from '../Provider';
+import ErrorBoundary from '../ErrorBoundary';
 import AppMessage from '../AppMessage/presenter';
 import SignIn from './presenter';
 
@@ -46,7 +47,7 @@ const SignInContainer = () => {
   }
 
   return (
-    <Fragment>
+    <ErrorBoundary>
       {error && <AppMessage message={error} />}
       <SignIn
         username={credentials.username}
@@ -55,7 +56,7 @@ const SignInContainer = () => {
         handleChange={handleChange}
         handleSubmit={handleSubmit}
       />
-    </Fragment>
+    </ErrorBoundary>
   );
 };
 

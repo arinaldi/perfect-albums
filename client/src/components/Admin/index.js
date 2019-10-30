@@ -4,6 +4,7 @@ import { useHistory, useLocation } from 'react-router-dom';
 import { formatData, filterData, getQuery } from '../../utils';
 import Api from '../../utils/api';
 
+import ErrorBoundary from '../ErrorBoundary';
 import Loader from '../Loader/presenter';
 import AppMessage from '../AppMessage/presenter';
 import Admin from './presenter';
@@ -15,7 +16,7 @@ const AdminContainer = () => {
   const [filteredData, setFilteredData] = useState([]);
   const [searchText, setSearchText] = useState('');
   const [isLoading, setIsLoading] = useState(true);
-  const [isError, setIsError] = useState(false);
+  const [hasError, setHasError] = useState(false);
   const searchInput = useRef(null);
 
   useEffect(() => {
@@ -32,7 +33,7 @@ const AdminContainer = () => {
         setData(albums);
         setFilteredData(filteredAlbums);
       } catch (err) {
-        setIsError(true);
+        setHasError(true);
       }
 
       setIsLoading(false);
@@ -59,17 +60,19 @@ const AdminContainer = () => {
   };
 
   if (isLoading) return <Loader />;
-  if (isError) return <AppMessage />;
+  if (hasError) return <AppMessage />;
 
   return (
-    <Admin
-      searchText={searchText}
-      total={data.length}
-      filteredData={filteredData}
-      searchInput={searchInput}
-      handleChange={handleChange}
-      clearInput={clearInput}
-    />
+    <ErrorBoundary>
+      <Admin
+        searchText={searchText}
+        total={data.length}
+        filteredData={filteredData}
+        searchInput={searchInput}
+        handleChange={handleChange}
+        clearInput={clearInput}
+      />
+    </ErrorBoundary>
   );
 };
 

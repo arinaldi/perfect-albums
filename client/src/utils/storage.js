@@ -1,13 +1,15 @@
-const KEY = 'PerfectAlbums/token';
+import Cookies from 'js-cookie';
+
+const KEY = 'perfectalbums';
 
 export const setToken = (token) => {
-  localStorage.setItem(KEY, token);
+  Cookies.set(KEY, token, { expires: 7 });
 };
 
-export const getToken = () => {
-  return localStorage.getItem(KEY);
-};
+export const getToken = () => (
+  Cookies.get(KEY) || ''
+);
 
 export const removeToken = () => {
-  localStorage.removeItem(KEY);
+  Cookies.remove(KEY);
 };

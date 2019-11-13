@@ -1,11 +1,11 @@
 import React from 'react';
 import { render } from '@testing-library/react';
 
-import Songs from '../components/Songs/presenter';
+import PerfectSongs from '../components/PerfectSongs/presenter';
 import data from '../data/songs';
 
-test('Songs renders with all data', () => {
-  const { getByText, getByTestId } = render(<Songs />);
+test('PerfectSongs renders with all data', () => {
+  const { getByText, getByTestId } = render(<PerfectSongs />);
   const titleHeader = getByText('Perfect Songs');
   const tableBody = getByTestId('table-body');
 

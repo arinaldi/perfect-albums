@@ -26,6 +26,7 @@ const SignIn = ({
                 type='text'
                 name='username'
                 autoComplete='username'
+                autoCapitalize='off'
                 value={username}
                 onChange={handleChange}
               />

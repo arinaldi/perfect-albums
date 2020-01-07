@@ -9,6 +9,8 @@
   "scripts": {
     "start": "node src/server.js",
     "dev": "nodemon src/server.js",
+    "client": "npm start --prefix client",
+    "both": "concurrently \"npm run dev\" \"npm run client\"",
     "lint": "eslint src/**/*.js",
     "lint:client": "eslint client/src/**/*.js",
     "build": "cd client && npm install && npm run build",
@@ -24,6 +26,7 @@
     "babel-eslint": "^10.0.3",
     "chai": "^4.2.0",
     "chai-http": "^4.3.0",
+    "concurrently": "^5.0.2",
     "eslint": "^6.4.0",
     "eslint-config-react-app": "^5.0.2",
     "eslint-config-standard": "^14.1.0",

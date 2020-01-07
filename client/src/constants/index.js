@@ -1,4 +1,4 @@
-export const TOAST_TIMEOUT = 4000;
+export const TOAST_TIMEOUT = 2500;
 
 export const ALERT_TYPES = {
   SUCCESS: 'success',

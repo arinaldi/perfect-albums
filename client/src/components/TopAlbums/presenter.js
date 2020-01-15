@@ -26,6 +26,7 @@ const TopAlbums = ({ data }) => (
             key={year}
             data={data[year]}
             year={year}
+            total={data[year].length}
           />
         ))}
       </Row>

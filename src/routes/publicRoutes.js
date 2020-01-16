@@ -13,7 +13,7 @@ router.get('/api/health', (req, res) => {
 
 router.get('/api/albums', async (req, res) => {
   try {
-    const albums = await getAllAlbums();
+    const albums = await getAllAlbums(req.query);
     res.send(albums);
   } catch (err) {
     res.status(500).json({ error: err.message });

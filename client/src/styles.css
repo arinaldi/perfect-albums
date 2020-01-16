@@ -1,3 +1,7 @@
+:root {
+  --black: #212529;
+}
+
 .table td {
   vertical-align: middle;
 }
@@ -80,4 +84,17 @@
 
 button[type='submit'] {
   min-width: 5rem;
+}
+
+.page-link {
+  color: var(--black);
+}
+
+.page-link:hover {
+  color: var(--black);
+}
+
+.page-item.active .page-link {
+  background-color: var(--black);
+  border-color: var(--black);
 }

@@ -38,13 +38,25 @@ describe('Public album routes', () => {
   });
 
   describe('GET /api/albums', () => {
-    it('gets an array of all albums', done => {
+    it('gets an array paginated data', done => {
       chai.request(app)
         .get('/api/albums')
         .end((_, res) => {
           res.should.have.status(200);
-          res.body.should.be.a('array');
-          res.body.length.should.be.eql(albums.length);
+          res.body.data.should.be.a('array');
+          res.body.count.should.be.eql(albums.length);
+
+          done();
+        });
+    });
+
+    it('gets an array of paginated and searched data', done => {
+      chai.request(app)
+        .get('/api/albums?page=1&per_page=20&search=nirvana')
+        .end((_, res) => {
+          res.should.have.status(200);
+          res.body.data.should.be.a('array');
+          res.body.count.should.be.eql(1);
 
           done();
         });

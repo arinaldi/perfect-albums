@@ -1,3 +1,5 @@
+import { PER_PAGE } from '../constants';
+
 export const sortByAlbum = (a, b) => {
   if (a.artist < b.artist) return -1;
   if (a.artist > b.artist) return 1;
@@ -21,10 +23,10 @@ export const sortByDate = (a, b) => {
 
 export const sortDesc = (a, b) => b - a;
 
-export const formatData = (data) => (
+export const formatData = (data, page = 1) => (
   data
     .sort(sortByAlbum)
-    .slice(0, 50)
+    .slice(PER_PAGE * (page - 1), page * PER_PAGE)
 );
 
 export const filterData = (data, query) => (

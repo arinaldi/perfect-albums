@@ -1,8 +1,10 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { useHistory, useLocation } from 'react-router-dom';
 
-import { formatData, filterData, getQuery } from '../../utils';
+import { getQuery } from '../../utils';
 import Api from '../../utils/api';
+import { useDebounce } from '../../utils/hooks';
+import { PER_PAGE } from '../../constants';
 
 import ErrorBoundary from '../ErrorBoundary';
 import Loader from '../Loader/presenter';
@@ -13,25 +15,29 @@ const AdminContainer = () => {
   const history = useHistory();
   const location = useLocation();
   const [data, setData] = useState([]);
-  const [filteredData, setFilteredData] = useState([]);
+  const [total, setTotal] = useState(0);
   const [searchText, setSearchText] = useState('');
   const [isLoading, setIsLoading] = useState(true);
   const [hasError, setHasError] = useState(false);
+  const [currentPage, setCurrentPage] = useState(1);
   const searchInput = useRef(null);
+  const debouncedSearch = useDebounce(searchText, 500);
 
   useEffect(() => {
-    const searchText = location.search ? getQuery(location.search) : '';
+    const search = location.search ? getQuery(location.search) : '';
 
-    const fetchData = async (searchText) => {
+    setSearchText(search);
+  }, [location.search]);
+
+  useEffect(() => {
+    const fetchData = async () => {
       try {
-        const res = await Api.get('/api/albums');
-        const albums = await res.json();
-        const filteredAlbums = searchText
-          ? formatData(filterData(albums, searchText))
-          : formatData(albums);
+        const url = `/api/albums?page=${currentPage}&per_page=${PER_PAGE}&search=${debouncedSearch}`;
+        const res = await Api.get(url);
+        const { count, data: albums } = await res.json();
 
         setData(albums);
-        setFilteredData(filteredAlbums);
+        setTotal(count);
       } catch (err) {
         setHasError(true);
       }
@@ -39,17 +45,16 @@ const AdminContainer = () => {
       setIsLoading(false);
     };
 
-    setSearchText(searchText);
-    fetchData(searchText);
-  }, [location]);
+    fetchData();
+  }, [currentPage, debouncedSearch]);
 
   const handleChange = ({ target: { value } }) => {
+    handleFirst();
     setSearchText(value);
-    setFilteredData(formatData(filterData(data, value)));
   };
 
   const clearInput = () => {
-    setFilteredData(formatData(data));
+    handleFirst();
     setSearchText('');
     searchInput.current.focus();
 
@@ -59,6 +64,22 @@ const AdminContainer = () => {
     }
   };
 
+  const handleFirst = () => {
+    setCurrentPage(1);
+  };
+
+  const handleLast = () => {
+    setCurrentPage(Math.ceil(total / PER_PAGE));
+  };
+
+  const handlePrev = () => {
+    setCurrentPage(currentPage - 1);
+  };
+
+  const handleNext = () => {
+    setCurrentPage(currentPage + 1);
+  };
+
   if (isLoading) return <Loader />;
   if (hasError) return <AppMessage />;
 
@@ -66,11 +87,16 @@ const AdminContainer = () => {
     <ErrorBoundary>
       <Admin
         searchText={searchText}
-        total={data.length}
-        filteredData={filteredData}
+        total={total}
+        data={data}
+        currentPage={currentPage}
         searchInput={searchInput}
         handleChange={handleChange}
         clearInput={clearInput}
+        handleFirst={handleFirst}
+        handleLast={handleLast}
+        handlePrev={handlePrev}
+        handleNext={handleNext}
       />
     </ErrorBoundary>
   );

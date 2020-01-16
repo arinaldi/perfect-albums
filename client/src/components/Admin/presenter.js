@@ -7,21 +7,30 @@ import Col from 'react-bootstrap/Col';
 import Container from 'react-bootstrap/Container';
 import Form from 'react-bootstrap/Form';
 import Row from 'react-bootstrap/Row';
+import Pagination from 'react-bootstrap/Pagination';
 
-import { ALERT_TYPES, MESSAGES } from '../../constants';
+import { ALERT_TYPES, MESSAGES, PER_PAGE } from '../../constants';
 
 import AdminTable from '../AdminTable/presenter';
 import AppMessage from '../AppMessage/presenter';
 
-const Admin = ({
-  searchText,
-  total,
-  filteredData,
-  searchInput,
-  handleChange,
-  clearInput,
-}) => {
+const Admin = (props) => {
+  const {
+    searchText,
+    total,
+    data,
+    currentPage,
+    searchInput,
+    handleChange,
+    clearInput,
+    handleFirst,
+    handleLast,
+    handlePrev,
+    handleNext,
+  } = props;
   const history = useHistory();
+  const isFirstPage = currentPage === 1;
+  const isLastPage = currentPage === Math.ceil(total / PER_PAGE);
 
   useEffect(() => {
     searchInput.current.focus();
@@ -55,11 +64,11 @@ const Admin = ({
                       style={{ marginBottom: 5 }}
                     />
                   </Col>
-                  <Col xs='auto'>
+                  {/* <Col xs='auto'>
                     <h3>
-                      <Badge variant='light'>{filteredData.length}</Badge>
+                      <Badge variant='light'>{data.length}</Badge>
                     </h3>
-                  </Col>
+                  </Col> */}
                 </Row>
               </Col>
               <Col sm={12} md='auto'>
@@ -79,10 +88,10 @@ const Admin = ({
               </Col>
             </Form.Group>
           </Form>
-          {filteredData.length
+          {data.length
             ? (
               <AdminTable
-                data={filteredData}
+                data={data}
                 searchText={searchText}
               />
             )
@@ -94,6 +103,27 @@ const Admin = ({
             )}
         </Col>
       </Row>
+      <Row className='justify-content-sm-center'>
+        <Pagination>
+          <Pagination.First
+            onClick={handleFirst}
+            disabled={isFirstPage}
+          />
+          <Pagination.Prev
+            onClick={handlePrev}
+            disabled={isFirstPage}
+          />
+          <Pagination.Item disabled>{currentPage}</Pagination.Item>
+          <Pagination.Next
+            onClick={handleNext}
+            disabled={isLastPage}
+          />
+          <Pagination.Last
+            onClick={handleLast}
+            disabled={isLastPage}
+          />
+        </Pagination>
+      </Row>
     </Container>
   );
 };
@@ -101,10 +131,15 @@ const Admin = ({
 Admin.propTypes = {
   searchText: PropTypes.string.isRequired,
   total: PropTypes.number.isRequired,
-  filteredData: PropTypes.array.isRequired,
+  data: PropTypes.array.isRequired,
+  currentPage: PropTypes.number.isRequired,
   searchInput: PropTypes.object.isRequired,
   handleChange: PropTypes.func.isRequired,
   clearInput: PropTypes.func.isRequired,
+  handleFirst: PropTypes.func.isRequired,
+  handleLast: PropTypes.func.isRequired,
+  handlePrev: PropTypes.func.isRequired,
+  handleNext: PropTypes.func.isRequired,
 };
 
 export default Admin;

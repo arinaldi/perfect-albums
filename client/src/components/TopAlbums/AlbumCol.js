@@ -4,8 +4,6 @@ import OverlayTrigger from 'react-bootstrap/OverlayTrigger';
 import Tooltip from 'react-bootstrap/Tooltip';
 import PropTypes from 'prop-types';
 
-import { sortByAlbum } from '../../utils';
-
 const AlbumCol = ({ data, year, total }) => (
   <Col xs={12} md={6} lg={4}>
     <OverlayTrigger
@@ -30,7 +28,7 @@ const AlbumCol = ({ data, year, total }) => (
       </h4>
     </OverlayTrigger>
     <ul data-testid={`list-${year}`}>
-      {data.sort(sortByAlbum).map((album, index) => (
+      {data.map((album, index) => (
         <li key={index}>
           {album.artist} &ndash; {album.title}
         </li>

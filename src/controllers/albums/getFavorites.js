@@ -20,6 +20,7 @@ module.exports = () => (
   new Promise((resolve, reject) => {
     AlbumModel
       .find({ favorite: true })
+      .sort({ artist: 'asc', title: 'asc' })
       .exec((err, albums) => {
         if (err) reject(err);
         const favorites = formatData(albums);

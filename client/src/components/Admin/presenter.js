@@ -64,11 +64,6 @@ const Admin = (props) => {
                       style={{ marginBottom: 5 }}
                     />
                   </Col>
-                  {/* <Col xs='auto'>
-                    <h3>
-                      <Badge variant='light'>{data.length}</Badge>
-                    </h3>
-                  </Col> */}
                 </Row>
               </Col>
               <Col sm={12} md='auto'>

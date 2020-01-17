@@ -25,9 +25,10 @@ const AdminContainer = () => {
   const debouncedSearch = useDebounce(searchText, 500);
 
   useEffect(() => {
-    const search = location.search ? getQuery(location.search) : '';
-
-    setSearchText(search);
+    if (location.search) {
+      const search = getQuery(location.search);
+      setSearchText(search);
+    }
   }, [location.search]);
 
   useEffect(() => {
@@ -61,7 +62,7 @@ const AdminContainer = () => {
 
     if (location.search) {
       location.search = '';
-      history.push(location);
+      history.replace(location);
     }
   };
 
@@ -83,6 +84,7 @@ const AdminContainer = () => {
 
   const handlePageChange = (value) => {
     setPerPage(value);
+    handleFirst();
   };
 
   if (isLoading) return <Loader />;

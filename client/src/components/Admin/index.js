@@ -22,7 +22,7 @@ const AdminContainer = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const [perPage, setPerPage] = useState(PER_PAGE[0]);
   const searchInput = useRef(null);
-  const debouncedSearch = useDebounce(searchText, 500);
+  const debouncedSearch = useDebounce(searchText, 250);
 
   useEffect(() => {
     if (location.search) {
@@ -32,6 +32,7 @@ const AdminContainer = () => {
   }, [location.search]);
 
   useEffect(() => {
+    const search = location.search ? getQuery(location.search) : '';
     const fetchData = async () => {
       try {
         const url = `/api/albums?page=${currentPage}&per_page=${perPage}&search=${debouncedSearch}`;
@@ -47,8 +48,12 @@ const AdminContainer = () => {
       setIsLoading(false);
     };
 
-    fetchData();
-  }, [currentPage, perPage, debouncedSearch]);
+    if (!debouncedSearch && search) {
+      // wait for debouncedSearch to fetch data
+    } else {
+      fetchData();
+    }
+  }, [location.search, currentPage, perPage, debouncedSearch]);
 
   const handleChange = ({ target: { value } }) => {
     handleFirst();

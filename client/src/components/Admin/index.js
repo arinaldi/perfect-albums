@@ -20,6 +20,7 @@ const AdminContainer = () => {
   const [isLoading, setIsLoading] = useState(true);
   const [hasError, setHasError] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
+  const [perPage, setPerPage] = useState(PER_PAGE[0]);
   const searchInput = useRef(null);
   const debouncedSearch = useDebounce(searchText, 500);
 
@@ -32,7 +33,7 @@ const AdminContainer = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const url = `/api/albums?page=${currentPage}&per_page=${PER_PAGE}&search=${debouncedSearch}`;
+        const url = `/api/albums?page=${currentPage}&per_page=${perPage}&search=${debouncedSearch}`;
         const res = await Api.get(url);
         const { count, data: albums } = await res.json();
 
@@ -46,7 +47,7 @@ const AdminContainer = () => {
     };
 
     fetchData();
-  }, [currentPage, debouncedSearch]);
+  }, [currentPage, perPage, debouncedSearch]);
 
   const handleChange = ({ target: { value } }) => {
     handleFirst();
@@ -69,7 +70,7 @@ const AdminContainer = () => {
   };
 
   const handleLast = () => {
-    setCurrentPage(Math.ceil(total / PER_PAGE));
+    setCurrentPage(Math.ceil(total / perPage));
   };
 
   const handlePrev = () => {
@@ -78,6 +79,10 @@ const AdminContainer = () => {
 
   const handleNext = () => {
     setCurrentPage(currentPage + 1);
+  };
+
+  const handlePageChange = (value) => {
+    setPerPage(value);
   };
 
   if (isLoading) return <Loader />;
@@ -90,6 +95,7 @@ const AdminContainer = () => {
         total={total}
         data={data}
         currentPage={currentPage}
+        perPage={perPage}
         searchInput={searchInput}
         handleChange={handleChange}
         clearInput={clearInput}
@@ -97,6 +103,7 @@ const AdminContainer = () => {
         handleLast={handleLast}
         handlePrev={handlePrev}
         handleNext={handleNext}
+        handlePageChange={handlePageChange}
       />
     </ErrorBoundary>
   );

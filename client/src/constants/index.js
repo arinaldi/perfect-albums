@@ -1,5 +1,5 @@
 export const TOAST_TIMEOUT = 2500;
-export const PER_PAGE = 20;
+export const PER_PAGE = [25, 50, 100];
 
 export const ALERT_TYPES = {
   SUCCESS: 'success',

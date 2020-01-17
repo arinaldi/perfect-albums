@@ -36,6 +36,30 @@ const Admin = (props) => {
     searchInput.current.focus();
   }, [searchInput]);
 
+  const PaginationBar = (
+    <Row className='justify-content-center'>
+      <Pagination>
+        <Pagination.First
+          onClick={handleFirst}
+          disabled={isFirstPage}
+        />
+        <Pagination.Prev
+          onClick={handlePrev}
+          disabled={isFirstPage}
+        />
+        <Pagination.Item disabled>{currentPage}</Pagination.Item>
+        <Pagination.Next
+          onClick={handleNext}
+          disabled={isLastPage}
+        />
+        <Pagination.Last
+          onClick={handleLast}
+          disabled={isLastPage}
+        />
+      </Pagination>
+    </Row>
+  );
+
   return (
     <Container>
       <Row>
@@ -83,6 +107,7 @@ const Admin = (props) => {
               </Col>
             </Form.Group>
           </Form>
+          {PaginationBar}
           {data.length
             ? (
               <AdminTable
@@ -97,27 +122,6 @@ const Admin = (props) => {
               />
             )}
         </Col>
-      </Row>
-      <Row className='justify-content-sm-center'>
-        <Pagination>
-          <Pagination.First
-            onClick={handleFirst}
-            disabled={isFirstPage}
-          />
-          <Pagination.Prev
-            onClick={handlePrev}
-            disabled={isFirstPage}
-          />
-          <Pagination.Item disabled>{currentPage}</Pagination.Item>
-          <Pagination.Next
-            onClick={handleNext}
-            disabled={isLastPage}
-          />
-          <Pagination.Last
-            onClick={handleLast}
-            disabled={isLastPage}
-          />
-        </Pagination>
       </Row>
     </Container>
   );

@@ -1,6 +1,11 @@
 export const TOAST_TIMEOUT = 2500;
 export const PER_PAGE = [25, 50, 100];
 
+export const SORT_DIRECTION = {
+  ASC: 'asc',
+  DESC: 'desc',
+};
+
 export const ALERT_TYPES = {
   SUCCESS: 'success',
   ERROR: 'danger',
@@ -24,6 +29,7 @@ export const MESSAGES = {
 
 export const ICONS = {
   CHECK: '✔',
+  DOWN: '↓',
   UP: '↑',
   X: '✖',
 };

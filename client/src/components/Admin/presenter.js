@@ -22,6 +22,8 @@ const Admin = (props) => {
     data,
     currentPage,
     perPage,
+    sort,
+    direction,
     searchInput,
     handleChange,
     clearInput,
@@ -30,6 +32,7 @@ const Admin = (props) => {
     handlePrev,
     handleNext,
     handlePageChange,
+    handleSort,
   } = props;
   const history = useHistory();
   const isFirstPage = currentPage === 1;
@@ -139,6 +142,9 @@ const Admin = (props) => {
               <AdminTable
                 data={data}
                 searchText={searchText}
+                sort={sort}
+                direction={direction}
+                handleSort={handleSort}
               />
             )
             : (
@@ -159,6 +165,8 @@ Admin.propTypes = {
   data: PropTypes.array.isRequired,
   currentPage: PropTypes.number.isRequired,
   perPage: PropTypes.number.isRequired,
+  sort: PropTypes.string.isRequired,
+  direction: PropTypes.string.isRequired,
   searchInput: PropTypes.object.isRequired,
   handleChange: PropTypes.func.isRequired,
   clearInput: PropTypes.func.isRequired,
@@ -167,6 +175,7 @@ Admin.propTypes = {
   handlePrev: PropTypes.func.isRequired,
   handleNext: PropTypes.func.isRequired,
   handlePageChange: PropTypes.func.isRequired,
+  handleSort: PropTypes.func.isRequired,
 };
 
 export default Admin;

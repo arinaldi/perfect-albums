@@ -4,7 +4,7 @@ import { useHistory, useLocation } from 'react-router-dom';
 import { getQuery } from '../../utils';
 import Api from '../../utils/api';
 import { useDebounce } from '../../utils/hooks';
-import { PER_PAGE } from '../../constants';
+import { PER_PAGE, SORT_DIRECTION } from '../../constants';
 
 import ErrorBoundary from '../ErrorBoundary';
 import Loader from '../Loader/presenter';
@@ -21,6 +21,8 @@ const AdminContainer = () => {
   const [hasError, setHasError] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
   const [perPage, setPerPage] = useState(PER_PAGE[0]);
+  const [sort, setSort] = useState('');
+  const [direction, setDirection] = useState('');
   const searchInput = useRef(null);
   const debouncedSearch = useDebounce(searchText, 250);
 
@@ -35,7 +37,7 @@ const AdminContainer = () => {
     const search = location.search ? getQuery(location.search) : '';
     const fetchData = async () => {
       try {
-        const url = `/api/albums?page=${currentPage}&per_page=${perPage}&search=${debouncedSearch}`;
+        const url = `/api/albums?page=${currentPage}&per_page=${perPage}&search=${debouncedSearch}&sort=${sort}&direction=${direction}`;
         const res = await Api.get(url);
         const { count, data: albums } = await res.json();
 
@@ -53,7 +55,14 @@ const AdminContainer = () => {
     } else {
       fetchData();
     }
-  }, [location.search, currentPage, perPage, debouncedSearch]);
+  }, [
+    debouncedSearch,
+    currentPage,
+    direction,
+    location.search,
+    perPage,
+    sort,
+  ]);
 
   const handleChange = ({ target: { value } }) => {
     handleFirst();
@@ -92,6 +101,21 @@ const AdminContainer = () => {
     handleFirst();
   };
 
+  const handleSort = (e) => {
+    const { value } = e.target.dataset;
+    const { ASC, DESC } = SORT_DIRECTION;
+
+    setSort(value);
+    setDirection(direction => {
+      if (sort !== value || !direction || direction === DESC) {
+        return ASC;
+      }
+
+      return DESC;
+    });
+    handleFirst();
+  };
+
   if (isLoading) return <Loader />;
   if (hasError) return <AppMessage />;
 
@@ -103,6 +127,8 @@ const AdminContainer = () => {
         data={data}
         currentPage={currentPage}
         perPage={perPage}
+        sort={sort}
+        direction={direction}
         searchInput={searchInput}
         handleChange={handleChange}
         clearInput={clearInput}
@@ -111,6 +137,7 @@ const AdminContainer = () => {
         handlePrev={handlePrev}
         handleNext={handleNext}
         handlePageChange={handlePageChange}
+        handleSort={handleSort}
       />
     </ErrorBoundary>
   );

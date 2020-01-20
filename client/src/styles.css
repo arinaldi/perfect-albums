@@ -98,3 +98,7 @@ button[type='submit'] {
   background-color: var(--black);
   border-color: var(--black);
 }
+
+th[data-value] {
+  cursor: pointer;
+}

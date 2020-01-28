@@ -11,10 +11,7 @@ const AuthRoute = ({ children, ...props }) => {
   return (
     state.isAuthenticated
       ? <Route {...props}>{children}</Route>
-      : <Redirect to={{
-        pathname: '/albums',
-        state: { from: location },
-      }} />
+      : <Redirect to={{ pathname: '/albums', state: { from: location } }} />
   );
 };
 

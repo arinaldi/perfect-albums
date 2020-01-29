@@ -1,13 +1,8 @@
 import React, { useContext } from 'react';
 
 import { useStateMachine } from '../../utils/hooks';
-import {
-  ALERT_TYPES,
-  MODAL_TYPES,
-  STATE_EVENTS,
-} from '../../constants';
+import { MODAL_TYPES, STATE_EVENTS } from '../../constants';
 import ErrorBoundary from '../ErrorBoundary';
-import AppMessage from '../AppMessage/presenter';
 import { Context } from '../Provider';
 import NewReleases from './presenter';
 
@@ -20,14 +15,11 @@ const NewReleasesContainer = () => {
     dispatch({ type: STATE_EVENTS.FETCH });
   };
 
-  if (error) {
-    return <AppMessage type={ALERT_TYPES.ERROR} message={error.message} />;
-  }
-
   return (
     <ErrorBoundary>
       <NewReleases
         cancel={() => dispatch({ type: STATE_EVENTS.CANCEL })}
+        error={error}
         data={data}
         handleCreateOpen={() => openModal({
           type: MODAL_TYPES.NEW_RELEASE_CREATE,

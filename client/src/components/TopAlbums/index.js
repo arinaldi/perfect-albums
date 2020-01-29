@@ -1,24 +1,16 @@
 import React from 'react';
 
 import ErrorBoundary from '../ErrorBoundary';
-import { useApiGet } from '../../utils/hooks';
-
-import Loader from '../Loader/presenter';
-import AppMessage from '../AppMessage/presenter';
+import { useStateMachine } from '../../utils/hooks';
 import TopAlbums from './presenter';
 
 const TopAlbumsContainer = () => {
-  const { data, isLoading, hasError } = useApiGet({
-    initialState: {},
-    pathname: 'favorites',
-  });
-
-  if (isLoading) return <Loader />;
-  if (hasError) return <AppMessage />;
+  const [state] = useStateMachine('/api/favorites');
+  const { data, error } = state;
 
   return (
     <ErrorBoundary>
-      <TopAlbums data={data} />
+      <TopAlbums data={data} error={error} />
     </ErrorBoundary>
   );
 };

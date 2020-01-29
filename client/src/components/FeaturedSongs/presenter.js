@@ -6,10 +6,11 @@ import Row from 'react-bootstrap/Row';
 import PropTypes from 'prop-types';
 
 import { Context } from '../Provider';
+import AppMessage from '../AppMessage/presenter';
 import CardWrapper from './CardWrapper';
 
 const FeaturedSongs = (props) => {
-  const { data, handleCreateOpen, handleDeleteOpen } = props;
+  const { data, error, handleCreateOpen, handleDeleteOpen } = props;
   const { state: { isAuthenticated } } = useContext(Context);
 
   return (
@@ -29,7 +30,8 @@ const FeaturedSongs = (props) => {
           </Col>
         )}
       </Row>
-      {data && (
+      {error && <AppMessage />}
+      {!error && data && (
         <Row data-testid='card-row'>
           {data.map(song => (
             <CardWrapper
@@ -46,6 +48,7 @@ const FeaturedSongs = (props) => {
 
 FeaturedSongs.propTypes = {
   data: PropTypes.array,
+  error: PropTypes.object,
   handleCreateOpen: PropTypes.func.isRequired,
   handleDeleteOpen: PropTypes.func.isRequired,
 };

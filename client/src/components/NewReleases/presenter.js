@@ -8,12 +8,14 @@ import PropTypes from 'prop-types';
 import { sortByDate } from '../../utils';
 import { STATE_STATUSES } from '../../constants';
 import { Context } from '../Provider';
+import AppMessage from '../AppMessage/presenter';
 import DateCol from './DateCol';
 
 const NewReleases = (props) => {
   const {
     cancel,
     data,
+    error,
     handleCreateOpen,
     handleDeleteOpen,
     refresh,
@@ -46,7 +48,8 @@ const NewReleases = (props) => {
           </Col>
         )}
       </Row>
-      {data && (
+      {error && <AppMessage />}
+      {!error && data && (
         <Row>
           {Object.keys(data).sort(sortByDate).map(date => (
             <DateCol
@@ -65,6 +68,7 @@ const NewReleases = (props) => {
 NewReleases.propTypes = {
   cancel: PropTypes.func.isRequired,
   data: PropTypes.object,
+  error: PropTypes.object,
   handleCreateOpen: PropTypes.func.isRequired,
   handleDeleteOpen: PropTypes.func.isRequired,
   refresh: PropTypes.func.isRequired,

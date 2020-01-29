@@ -46,7 +46,7 @@ const CreateReleaseContainer = ({ isOpen, closeModal, refresh }) => {
         await Api.post('/api/releases', release, signOut, showToast);
         setIsSaving(false);
         handleClose();
-        refresh(Date.now());
+        refresh();
         showToast({
           type: TOAST_TYPES.SUCCESS,
           message: `${MESSAGES.RELEASE_PREFIX} created`,

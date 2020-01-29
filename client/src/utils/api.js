@@ -40,7 +40,7 @@ const Api = {
     fetch(`${BASE_URL}${endpoint}`, {
       method: 'GET',
       headers: getHeaders(withAuth),
-    })
+    }).then(res => handleResponse(res))
   ),
   post: (endpoint, payload, signOut, showToast) => (
     fetch(`${BASE_URL}${endpoint}`, {

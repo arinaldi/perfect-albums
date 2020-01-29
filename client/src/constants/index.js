@@ -56,3 +56,17 @@ export const DECADES = [
     link: '#1976',
   },
 ];
+
+export const STATE_EVENTS = {
+  FETCH: 'fetch',
+  RESOLVE: 'resolve',
+  REJECT: 'reject',
+  CANCEL: 'cancel',
+};
+
+export const STATE_STATUSES = {
+  IDLE: 'idle',
+  LOADING: 'loading',
+  SUCCESS: 'success',
+  FAILURE: 'failure',
+};

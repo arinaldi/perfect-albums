@@ -1,92 +1,79 @@
-import React, { useReducer, useState } from 'react';
+import React, { useEffect, useReducer } from 'react';
 
-import { useApiGet } from '../../utils/hooks';
-
+import Api from '../../utils/api';
+import {
+  ALERT_TYPES,
+  STATE_EVENTS,
+  STATE_STATUSES,
+} from '../../constants';
 import ErrorBoundary from '../ErrorBoundary';
-import Loader from '../Loader/presenter';
 import AppMessage from '../AppMessage/presenter';
 import CreateReleaseModal from '../CreateReleaseModal';
 import DeleteDataModal from '../DeleteDataModal';
 import NewReleases from './presenter';
-
-const releaseReducer = (state, action) => {
-  const { type, payload } = action;
-
-  switch (type) {
-  case 'OPEN_CREATE':
-    return {
-      ...state,
-      isCreateOpen: true,
-    };
-  case 'CLOSE_CREATE':
-    return {
-      ...state,
-      isCreateOpen: false,
-    };
-  case 'OPEN_DELETE':
-    return {
-      ...state,
-      isDeleteOpen: true,
-      id: payload.id,
-      artist: payload.artist,
-      title: payload.title,
-    };
-  case 'CLOSE_DELETE':
-    return {
-      ...state,
-      isDeleteOpen: false,
-      id: '',
-      artist: '',
-      title: '',
-    };
-  default:
-    return state;
-  }
-};
-
-const initialState = {
-  isCreateOpen: false,
-  isDeleteOpen: false,
-  id: '',
-  artist: '',
-  title: '',
-};
+import { dataReducer, dataInitialState } from './dataReducer';
+import { modalReducer, modalInitialState } from './modalReducer';
 
 const NewReleasesContainer = () => {
-  const [shouldRefresh, setShouldRefresh] = useState(Date.now());
-  const [state, dispatch] = useReducer(releaseReducer, initialState);
-  const { data, isLoading, hasError } = useApiGet({
-    initialState: {},
-    pathname: 'releases',
-    dependency: shouldRefresh,
-  });
-  const { isCreateOpen, isDeleteOpen, id, artist, title } = state;
+  const [dataState, dataDispatch] = useReducer(dataReducer, dataInitialState);
+  const [modalState, modalDispatch] = useReducer(modalReducer, modalInitialState);
+  const { data, error, status } = dataState;
+  const { isCreateOpen, isDeleteOpen, id, artist, title } = modalState;
 
-  if (isLoading) return <Loader />;
-  if (hasError) return <AppMessage />;
+  useEffect(() => {
+    if (status === STATE_STATUSES.LOADING) {
+      let isCanceled = false;
+
+      Api.get('/api/releases')
+        .then(res => res.json())
+        .then(data => {
+          if (isCanceled) return;
+          dataDispatch({ type: STATE_EVENTS.RESOLVE, data });
+        })
+        .catch(error => {
+          if (isCanceled) return;
+          dataDispatch({ type: STATE_EVENTS.REJECT, error });
+        });
+
+      return () => {
+        isCanceled = true;
+      };
+    }
+  }, [status]);
+
+  const dispatchFetch = () => {
+    dataDispatch({ type: STATE_EVENTS.FETCH });
+  };
+
+  if (error) {
+    return <AppMessage type={ALERT_TYPES.ERROR} message={error.message} />;
+  }
 
   return (
     <ErrorBoundary>
       <NewReleases
+        cancel={() => dataDispatch({ type: STATE_EVENTS.CANCEL })}
         data={data}
-        handleCreateOpen={() => dispatch({ type: 'OPEN_CREATE' })}
-        handleDeleteOpen={({ id, artist, title }) => dispatch({
+        handleCreateOpen={() => modalDispatch({ type: 'OPEN_CREATE' })}
+        handleDeleteOpen={({ id, artist, title }) => modalDispatch({
           type: 'OPEN_DELETE',
           payload: { id, artist, title },
         })}
+        refresh={dispatchFetch}
+        status={status}
       />
       <CreateReleaseModal
         isOpen={isCreateOpen}
-        closeModal={() => dispatch({ type: 'CLOSE_CREATE' })}
-        refresh={setShouldRefresh}
+        closeModal={() => modalDispatch({ type: 'CLOSE_CREATE' })}
+        refresh={dispatchFetch}
       />
       <DeleteDataModal
         isOpen={isDeleteOpen}
         dataType='Release'
-        closeModal={() => dispatch({ type: 'CLOSE_DELETE' })}
+        closeModal={() => modalDispatch({ type: 'CLOSE_DELETE' })}
         path='releases'
         data={{ id, artist, title }}
-        refresh={setShouldRefresh}
+        refresh={dispatchFetch}
       />
     </ErrorBoundary>
   );

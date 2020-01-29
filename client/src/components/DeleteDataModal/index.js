@@ -1,5 +1,4 @@
 import React, { useState, useContext } from 'react';
-import PropTypes from 'prop-types';
 
 import Api from '../../utils/api';
 import { TOAST_TYPES, MESSAGES } from '../../constants';
@@ -7,8 +6,9 @@ import { TOAST_TYPES, MESSAGES } from '../../constants';
 import { Context } from '../Provider';
 import DeleteDataModal from './presenter';
 
-const DeleteDataContainer = ({ isOpen, dataType, closeModal, path, data, refresh }) => {
-  const { signOut, showToast } = useContext(Context);
+const DeleteDataContainer = () => {
+  const { state, signOut, showToast, closeModal } = useContext(Context);
+  const { isOpen, data, callback } = state.modal;
   const [isDeleting, setIsDeleting] = useState(false);
   const [error, setError] = useState('');
 
@@ -22,13 +22,13 @@ const DeleteDataContainer = ({ isOpen, dataType, closeModal, path, data, refresh
     setIsDeleting(true);
 
     try {
-      await Api.delete(`/api/${path}/${data.id}`, signOut, showToast);
+      await Api.delete(`/api/${data.path}/${data.id}`, signOut, showToast);
       setIsDeleting(false);
       handleClose();
-      refresh(Date.now());
+      callback();
       showToast({
         type: TOAST_TYPES.SUCCESS,
-        message: `${dataType} successfully deleted`,
+        message: `${data.dataType} successfully deleted`,
       });
     } catch (err) {
       if (err.message === MESSAGES.UNAUTHORIZED) {
@@ -43,7 +43,7 @@ const DeleteDataContainer = ({ isOpen, dataType, closeModal, path, data, refresh
   return (
     <DeleteDataModal
       isOpen={isOpen}
-      dataType={dataType}
+      dataType={data.dataType}
       artist={data.artist}
       title={data.title}
       isDeleting={isDeleting}
@@ -52,19 +52,6 @@ const DeleteDataContainer = ({ isOpen, dataType, closeModal, path, data, refresh
       error={error}
     />
   );
-};
-
-DeleteDataContainer.propTypes = {
-  isOpen: PropTypes.bool.isRequired,
-  dataType: PropTypes.string.isRequired,
-  closeModal: PropTypes.func.isRequired,
-  path: PropTypes.string.isRequired,
-  data: PropTypes.shape({
-    id: PropTypes.string.isRequired,
-    artist: PropTypes.string.isRequired,
-    title: PropTypes.string.isRequired,
-  }),
-  refresh: PropTypes.func.isRequired,
 };
 
 export default DeleteDataContainer;

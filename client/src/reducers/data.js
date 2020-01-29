@@ -1,4 +1,4 @@
-import { STATE_EVENTS, STATE_STATUSES } from '../../constants';
+import { STATE_EVENTS, STATE_STATUSES } from '../constants';
 
 export const dataReducer = (state, event) => {
   switch (event.type) {

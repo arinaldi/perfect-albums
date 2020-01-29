@@ -1,14 +1,12 @@
 import React, { useState, useContext } from 'react';
-import PropTypes from 'prop-types';
 
 import Api from '../../utils/api';
 import { TOAST_TYPES, MESSAGES } from '../../constants';
-
 import { Context } from '../Provider';
 import CreateReleaseModal from './presenter';
 
-const CreateReleaseContainer = ({ isOpen, closeModal, refresh }) => {
-  const { signOut, showToast } = useContext(Context);
+const CreateReleaseContainer = () => {
+  const { state, signOut, showToast, closeModal } = useContext(Context);
   const [release, setRelease] = useState({
     artist: '',
     title: '',
@@ -46,7 +44,7 @@ const CreateReleaseContainer = ({ isOpen, closeModal, refresh }) => {
         await Api.post('/api/releases', release, signOut, showToast);
         setIsSaving(false);
         handleClose();
-        refresh();
+        state.modal.callback();
         showToast({
           type: TOAST_TYPES.SUCCESS,
           message: `${MESSAGES.RELEASE_PREFIX} created`,
@@ -66,7 +64,7 @@ const CreateReleaseContainer = ({ isOpen, closeModal, refresh }) => {
 
   return (
     <CreateReleaseModal
-      isOpen={isOpen}
+      isOpen={state.modal.isOpen}
       release={release}
       isValidated={isValidated}
       isSaving={isSaving}
@@ -76,12 +74,6 @@ const CreateReleaseContainer = ({ isOpen, closeModal, refresh }) => {
       error={error}
     />
   );
-};
-
-CreateReleaseContainer.propTypes = {
-  isOpen: PropTypes.bool.isRequired,
-  closeModal: PropTypes.func.isRequired,
-  refresh: PropTypes.func.isRequired,
 };
 
 export default CreateReleaseContainer;

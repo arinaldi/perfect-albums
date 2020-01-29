@@ -8,9 +8,9 @@ import {
 
 import NavBar from '../NavBar/presenter';
 import ToastAlert from '../ToastAlert/presenter';
+import ModalContainer from '../ModalContainer';
 import PerfectSongs from '../PerfectSongs/presenter';
 import Loader from '../Loader/presenter';
-
 import { Context } from '../Provider';
 import SignIn from '../SignIn';
 import TopAlbums from '../TopAlbums';
@@ -44,6 +44,7 @@ const Routes = () => {
       <Fragment>
         <NavBar />
         <ToastAlert />
+        <ModalContainer />
         {isLoading ? <Loader /> : <AppRoutes />}
       </Fragment>
     </Router>

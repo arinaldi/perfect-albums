@@ -14,6 +14,12 @@ const Provider = ({ children }) => {
     type: '',
     message: '',
   });
+  const [modal, setModal] = useState({
+    isOpen: false,
+    type: '',
+    data: null,
+    callback: null,
+  });
 
   useEffect(() => {
     const checkUser = async () => {
@@ -64,13 +70,31 @@ const Provider = ({ children }) => {
     });
   };
 
+  const openModal = ({ type, data, callback }) => {
+    setModal({
+      isOpen: true,
+      type,
+      data,
+      callback,
+    });
+  };
+
+  const closeModal = () => {
+    setModal({
+      ...modal,
+      isOpen: false,
+    });
+  };
+
   return (
     <Context.Provider value={{
-      state: { isAuthenticated, isLoading, toast },
+      state: { isAuthenticated, isLoading, modal, toast },
       signIn: handleSignIn,
       signOut: handleSignOut,
       showToast,
       closeToast,
+      openModal,
+      closeModal,
     }}
     >
       {children}

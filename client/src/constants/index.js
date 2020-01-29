@@ -70,3 +70,9 @@ export const STATE_STATUSES = {
   SUCCESS: 'success',
   FAILURE: 'failure',
 };
+
+export const MODAL_TYPES = {
+  DATA_DELETE: 'Delete data',
+  FEATURED_SONGS_CREATE: 'Create Featured Song',
+  NEW_RELEASE_CREATE: 'Create New Release',
+};

@@ -1,48 +1,23 @@
-import React, { useEffect, useReducer } from 'react';
+import React, { useContext } from 'react';
 
-import Api from '../../utils/api';
+import { useStateMachine } from '../../utils/hooks';
 import {
   ALERT_TYPES,
+  MODAL_TYPES,
   STATE_EVENTS,
-  STATE_STATUSES,
 } from '../../constants';
 import ErrorBoundary from '../ErrorBoundary';
 import AppMessage from '../AppMessage/presenter';
-import CreateReleaseModal from '../CreateReleaseModal';
-import DeleteDataModal from '../DeleteDataModal';
+import { Context } from '../Provider';
 import NewReleases from './presenter';
-import { dataReducer, dataInitialState } from './dataReducer';
-import { modalReducer, modalInitialState } from './modalReducer';
 
 const NewReleasesContainer = () => {
-  const [dataState, dataDispatch] = useReducer(dataReducer, dataInitialState);
-  const [modalState, modalDispatch] = useReducer(modalReducer, modalInitialState);
-  const { data, error, status } = dataState;
-  const { isCreateOpen, isDeleteOpen, id, artist, title } = modalState;
-
-  useEffect(() => {
-    if (status === STATE_STATUSES.LOADING) {
-      let isCanceled = false;
-
-      Api.get('/api/releases')
-        .then(res => res.json())
-        .then(data => {
-          if (isCanceled) return;
-          dataDispatch({ type: STATE_EVENTS.RESOLVE, data });
-        })
-        .catch(error => {
-          if (isCanceled) return;
-          dataDispatch({ type: STATE_EVENTS.REJECT, error });
-        });
-
-      return () => {
-        isCanceled = true;
-      };
-    }
-  }, [status]);
+  const { openModal } = useContext(Context);
+  const [state, dispatch] = useStateMachine('/api/releases');
+  const { data, error, status } = state;
 
   const dispatchFetch = () => {
-    dataDispatch({ type: STATE_EVENTS.FETCH });
+    dispatch({ type: STATE_EVENTS.FETCH });
   };
 
   if (error) {
@@ -52,28 +27,23 @@ const NewReleasesContainer = () => {
   return (
     <ErrorBoundary>
       <NewReleases
-        cancel={() => dataDispatch({ type: STATE_EVENTS.CANCEL })}
+        cancel={() => dispatch({ type: STATE_EVENTS.CANCEL })}
         data={data}
-        handleCreateOpen={() => modalDispatch({ type: 'OPEN_CREATE' })}
-        handleDeleteOpen={({ id, artist, title }) => modalDispatch({
-          type: 'OPEN_DELETE',
-          payload: { id, artist, title },
+        handleCreateOpen={() => openModal({
+          type: MODAL_TYPES.NEW_RELEASE_CREATE,
+          callback: dispatchFetch,
+        })}
+        handleDeleteOpen={data => openModal({
+          type: MODAL_TYPES.DATA_DELETE,
+          data: {
+            ...data,
+            dataType: 'Release',
+            path: 'releases',
+          },
+          callback: dispatchFetch,
         })}
         refresh={dispatchFetch}
         status={status}
-      />
-      <CreateReleaseModal
-        isOpen={isCreateOpen}
-        closeModal={() => modalDispatch({ type: 'CLOSE_CREATE' })}
-        refresh={dispatchFetch}
-      />
-      <DeleteDataModal
-        isOpen={isDeleteOpen}
-        dataType='Release'
-        closeModal={() => modalDispatch({ type: 'CLOSE_DELETE' })}
-        path='releases'
-        data={{ id, artist, title }}
-        refresh={dispatchFetch}
       />
     </ErrorBoundary>
   );

@@ -8,8 +8,9 @@ import PropTypes from 'prop-types';
 import { Context } from '../Provider';
 import CardWrapper from './CardWrapper';
 
-const FeaturedSongs = ({ data, handleCreateOpen, handleDeleteOpen }) => {
-  const { state } = useContext(Context);
+const FeaturedSongs = (props) => {
+  const { data, handleCreateOpen, handleDeleteOpen } = props;
+  const { state: { isAuthenticated } } = useContext(Context);
 
   return (
     <Container>
@@ -17,7 +18,7 @@ const FeaturedSongs = ({ data, handleCreateOpen, handleDeleteOpen }) => {
         <Col>
           <h3>Featured Songs</h3>
         </Col>
-        {state.isAuthenticated && (
+        {isAuthenticated && (
           <Col xs='auto'>
             <Button
               variant='outline-dark'
@@ -28,21 +29,23 @@ const FeaturedSongs = ({ data, handleCreateOpen, handleDeleteOpen }) => {
           </Col>
         )}
       </Row>
-      <Row data-testid='card-row'>
-        {data.map(song => (
-          <CardWrapper
-            key={song.id}
-            song={song}
-            handleDeleteOpen={handleDeleteOpen}
-          />
-        ))}
-      </Row>
+      {data && (
+        <Row data-testid='card-row'>
+          {data.map(song => (
+            <CardWrapper
+              key={song.id}
+              song={song}
+              handleDeleteOpen={handleDeleteOpen}
+            />
+          ))}
+        </Row>
+      )}
     </Container>
   );
 };
 
 FeaturedSongs.propTypes = {
-  data: PropTypes.array.isRequired,
+  data: PropTypes.array,
   handleCreateOpen: PropTypes.func.isRequired,
   handleDeleteOpen: PropTypes.func.isRequired,
 };

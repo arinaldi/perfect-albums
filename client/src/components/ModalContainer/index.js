@@ -8,7 +8,6 @@ import DeleteDataModal from '../DeleteDataModal';
 
 const ModalContainer = () => {
   const { state: { modal } } = useContext(Context);
-  // const { type, callback } = state.modal;
 
   switch (modal.type) {
   case MODAL_TYPES.NEW_RELEASE_CREATE:

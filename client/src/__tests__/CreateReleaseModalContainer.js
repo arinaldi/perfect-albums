@@ -1,32 +1,32 @@
 import React from 'react';
 
 import { Context } from '../components/Provider';
-import CreateSongModalContainer from '../components/CreateSongModal';
+import CreateReleaseModalContainer from '../components/CreateReleaseModal';
 
 import render from '../__test-utils__';
 import { MODAL_TYPES } from '../constants';
 
 const modal = {
-  type: MODAL_TYPES.FEATURED_SONGS_CREATE,
+  type: MODAL_TYPES.NEW_RELEASE_CREATE,
   callback: jest.fn,
 };
 const renderModal = (modal) => (
   render(
     <Context.Provider value={{ state: { modal } }}>
-      <CreateSongModalContainer />
+      <CreateReleaseModalContainer />
     </Context.Provider>,
   )
 );
 
-test('CreateSongModalContainer renders', async () => {
+test('CreateReleaseModalContainer renders', async () => {
   const { getByText, getByLabelText, getAllByText } = renderModal({
     ...modal,
     isOpen: true,
   });
-  const titleHeader = getByText('Create Song');
+  const titleHeader = getByText('Create Release');
   const artistInput = getByLabelText('Artist');
   const titleInput = getByLabelText('Title');
-  const linkInput = getByLabelText('Link');
+  const linkInput = getByLabelText('Date');
   const closeButtons = getAllByText('Close');
   const saveButton = getByText('Save');
 
@@ -39,12 +39,12 @@ test('CreateSongModalContainer renders', async () => {
   expect(saveButton).toBeInTheDocument();
 });
 
-test('CreateSongModalContainer does not render when closed', async () => {
+test('CreateReleaseModalContainer does not render when closed', async () => {
   const { queryByText } = renderModal({
     ...modal,
     isOpen: false,
   });
-  const titleHeader = queryByText('Create Song');
+  const titleHeader = queryByText('Create Release');
 
   expect(titleHeader).not.toBeInTheDocument();
 });

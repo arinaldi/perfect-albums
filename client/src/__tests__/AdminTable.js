@@ -10,6 +10,9 @@ test('AdminTable renders with data', () => {
     <AdminTable
       data={mockAdminData}
       searchText=''
+      sort='artist'
+      direction='asc'
+      handleSort={jest.fn}
     />,
   );
   const firstRow = getByTestId('1');

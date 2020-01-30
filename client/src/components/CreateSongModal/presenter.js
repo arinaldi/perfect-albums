@@ -53,7 +53,8 @@ const CreateSongModal = ({
             color: 'red',
             marginBottom: 0,
             textAlign: 'center',
-          }}>
+          }}
+          >
             {error}
           </p>
         )}

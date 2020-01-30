@@ -8,8 +8,8 @@ test('SignIn renders with username and password inputs', () => {
     <SignIn
       username=''
       password=''
-      handleChange={() => {}}
-      handleSubmit={() => {}}
+      handleChange={jest.fn}
+      handleSubmit={jest.fn}
     />
   );
   const titleHeader = getByText('Sign In');

@@ -23,12 +23,10 @@ test('FeaturedSongsContainer handles successful data fetching', async () => {
     json: () => Promise.resolve(mockFeaturedSongsData),
   }));
 
-  const { getByText, getByTestId } = render(
+  const { getByTestId } = render(
     <FeaturedSongsContainer />,
   );
-  const loader = getByText('Loading...');
 
-  expect(loader).toBeInTheDocument();
   await wait(() => expect(getByTestId('card-row')).toBeInTheDocument());
   await wait(() => expect(getByTestId('card-row').children).toHaveLength(3));
 });
@@ -39,8 +37,6 @@ test('FeaturedSongsContainer handles error from data fetching', async () => {
   const { getByText } = render(
     <FeaturedSongsContainer />,
   );
-  const loader = getByText('Loading...');
 
-  expect(loader).toBeInTheDocument();
   await wait(() => expect(getByText(MESSAGES.ERROR)).toBeInTheDocument());
 });

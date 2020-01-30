@@ -8,9 +8,13 @@ import { mockNewReleasesData, releaseLabels } from '../__mocks__';
 test('NewReleases renders with data by year', () => {
   const { getByText, getByTestId } = render(
     <NewReleases
+      cancel={jest.fn}
       data={mockNewReleasesData}
-      handleCreateOpen={() => {}}
-      handleDeleteOpen={() => {}}
+      error={null}
+      handleCreateOpen={jest.fn}
+      handleDeleteOpen={jest.fn}
+      refresh={jest.fn}
+      status='success'
     />,
   );
   const titleHeader = getByText('New Releases');

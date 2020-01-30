@@ -20,10 +20,13 @@ afterAll(() => {
 
 test('AdminContainer handles successful data fetching', async () => {
   mockApi.get.mockImplementation(() => Promise.resolve({
-    json: () => Promise.resolve(mockAdminData),
+    json: () => Promise.resolve({
+      data: mockAdminData,
+      count: mockAdminData.length,
+    }),
   }));
 
-  const { getByText, getAllByText } = render(
+  const { getByText } = render(
     <AdminContainer />,
   );
   const loader = getByText('Loading...');
@@ -31,9 +34,8 @@ test('AdminContainer handles successful data fetching', async () => {
   expect(loader).toBeInTheDocument();
   await wait(() => expect(getByText('Admin')).toBeInTheDocument());
   await wait(() => {
-    const [badge1, badge2] = getAllByText(mockAdminData.length.toString());
-    expect(badge1).toBeInTheDocument();
-    expect(badge2).toBeInTheDocument();
+    const totalBadge = getByText(mockAdminData.length.toString());
+    expect(totalBadge).toBeInTheDocument();
   });
   await wait(() => expect(getByText('Clear')).toBeInTheDocument());
   await wait(() => expect(getByText('New')).toBeInTheDocument());

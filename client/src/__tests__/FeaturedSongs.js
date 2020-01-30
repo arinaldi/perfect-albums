@@ -9,8 +9,8 @@ test('FeaturedSongs renders with data', () => {
   const { getByText, getByTestId } = render(
     <FeaturedSongs
       data={mockFeaturedSongsData}
-      handleCreateOpen={() => {}}
-      handleDeleteOpen={() => {}}
+      handleCreateOpen={jest.fn}
+      handleDeleteOpen={jest.fn}
     />,
   );
   const titleHeader = getByText('Featured Songs');

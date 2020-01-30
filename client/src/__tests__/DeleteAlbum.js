@@ -12,7 +12,7 @@ test('DeleteAlbum renders with data', () => {
     <DeleteAlbum
       artist={artist}
       title={title}
-      handleSubmit={() => {}}
+      handleSubmit={jest.fn}
     />,
   );
   const titleHeader = getByText('Delete Album');

@@ -1,17 +1,18 @@
 import React from 'react';
 import { render } from '@testing-library/react';
 
-import CreateSongModal from '../components/CreateSongModal/presenter';
+import CreateReleaseModal from '../components/CreateReleaseModal/presenter';
 
-import { mockFeaturedSongsData } from '../__mocks__';
+import { releaseLabels, mockNewReleasesData } from '../__mocks__';
 
-const { artist, title, link } = mockFeaturedSongsData[0];
+const release = mockNewReleasesData[releaseLabels.two][0];
+const { artist, title, date } = release;
 
-test('CreateSongModal renders with data', () => {
+test('CreateReleaseModal renders with data', () => {
   const { getByText, getAllByText, getByLabelText } = render(
-    <CreateSongModal
+    <CreateReleaseModal
       isOpen
-      song={mockFeaturedSongsData[0]}
+      release={release}
       isValidated
       isSaving={false}
       handleChange={jest.fn}
@@ -20,17 +21,15 @@ test('CreateSongModal renders with data', () => {
       error=''
     />
   );
-  const titleHeader = getByText('Create Song');
+  const titleHeader = getByText('Create Release');
   const artistInput = getByLabelText('Artist');
   const titleInput = getByLabelText('Title');
-  const linkInput = getByLabelText('Link');
   const closeButtons = getAllByText('Close');
   const saveButton = getByText('Save');
 
   expect(titleHeader).toBeInTheDocument();
   expect(artistInput.value).toBe(artist);
   expect(titleInput.value).toBe(title);
-  expect(linkInput.value).toBe(link);
   expect(closeButtons[0]).toBeInTheDocument();
   expect(closeButtons[1]).toBeInTheDocument();
   expect(saveButton).toBeInTheDocument();

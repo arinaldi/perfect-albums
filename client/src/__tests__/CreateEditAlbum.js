@@ -12,9 +12,9 @@ test('CreateEditAlbum renders with data', () => {
     <CreateEditAlbum
       album={mockAdminData[0]}
       header='Edit'
-      handleChange={() => {}}
-      handleRadioChange={() => {}}
-      handleSubmit={() => {}}
+      handleChange={jest.fn}
+      handleRadioChange={jest.fn}
+      handleSubmit={jest.fn}
     />,
   );
   const titleHeader = getByText('Edit Album');

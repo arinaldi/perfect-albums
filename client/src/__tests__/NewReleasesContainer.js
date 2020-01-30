@@ -23,12 +23,10 @@ test('NewReleasesContainer handles successful data fetching', async () => {
     json: () => Promise.resolve(mockNewReleasesData),
   }));
 
-  const { getByText, getByTestId } = render(
+  const { getByTestId } = render(
     <NewReleasesContainer />,
   );
-  const loader = getByText('Loading...');
 
-  expect(loader).toBeInTheDocument();
   await wait(() => expect(getByTestId(`list-${releaseLabels.one}`)).toBeInTheDocument());
   await wait(() => expect(getByTestId(`list-${releaseLabels.two}`)).toBeInTheDocument());
 });
@@ -39,8 +37,6 @@ test('NewReleasesContainer handles error from data fetching', async () => {
   const { getByText } = render(
     <NewReleasesContainer />,
   );
-  const loader = getByText('Loading...');
 
-  expect(loader).toBeInTheDocument();
   await wait(() => expect(getByText(MESSAGES.ERROR)).toBeInTheDocument());
 });

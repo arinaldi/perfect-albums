@@ -14,8 +14,8 @@ test('DeleteDataModal renders with data', () => {
       artist={artist}
       title={title}
       isDeleting={false}
-      handleClose={() => {}}
-      handleDelete={() => {}}
+      handleClose={jest.fn}
+      handleDelete={jest.fn}
       error=''
     />
   );

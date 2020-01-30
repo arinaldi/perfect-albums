@@ -10,7 +10,12 @@ import AppMessage from '../AppMessage/presenter';
 import CardWrapper from './CardWrapper';
 
 const FeaturedSongs = (props) => {
-  const { data, error, handleCreateOpen, handleDeleteOpen } = props;
+  const {
+    data,
+    error,
+    handleCreateOpen,
+    handleDeleteOpen,
+  } = props;
   const { state: { isAuthenticated } } = useContext(Context);
 
   return (

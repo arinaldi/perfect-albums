@@ -17,6 +17,12 @@ export const TOAST_TYPES = {
   ERROR: 'error',
 };
 
+export const MODAL_TYPES = {
+  DATA_DELETE: 'Delete data',
+  FEATURED_SONGS_CREATE: 'Create Featured Song',
+  NEW_RELEASE_CREATE: 'Create New Release',
+};
+
 export const MESSAGES = {
   ALBUM_PREFIX: 'Album successfully',
   SONG_PREFIX: 'Song successfully',
@@ -69,10 +75,4 @@ export const STATE_STATUSES = {
   LOADING: 'loading',
   SUCCESS: 'success',
   FAILURE: 'failure',
-};
-
-export const MODAL_TYPES = {
-  DATA_DELETE: 'Delete data',
-  FEATURED_SONGS_CREATE: 'Create Featured Song',
-  NEW_RELEASE_CREATE: 'Create New Release',
 };

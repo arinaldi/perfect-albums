@@ -15,7 +15,6 @@ const NewReleases = (props) => {
   const {
     cancel,
     data,
-    error,
     handleCreateOpen,
     handleDeleteOpen,
     refresh,
@@ -48,8 +47,8 @@ const NewReleases = (props) => {
           </Col>
         )}
       </Row>
-      {error && <AppMessage />}
-      {!error && data && (
+      {status === STATE_STATUSES.FAILURE && <AppMessage />}
+      {status === STATE_STATUSES.SUCCESS && (
         <Row>
           {Object.keys(data).sort(sortByDate).map(date => (
             <DateCol
@@ -68,7 +67,6 @@ const NewReleases = (props) => {
 NewReleases.propTypes = {
   cancel: PropTypes.func.isRequired,
   data: PropTypes.object,
-  error: PropTypes.object,
   handleCreateOpen: PropTypes.func.isRequired,
   handleDeleteOpen: PropTypes.func.isRequired,
   refresh: PropTypes.func.isRequired,

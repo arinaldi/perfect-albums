@@ -8,13 +8,14 @@ import PropTypes from 'prop-types';
 
 import SubmitButton from '../SubmitButton/presenter';
 
-const DeleteAlbum = ({
-  artist,
-  title,
-  isDeleting,
-  query,
-  handleSubmit,
-}) => {
+const DeleteAlbum = (props) => {
+  const {
+    artist,
+    handleSubmit,
+    isDeleting,
+    query,
+    title,
+  } = props;
   const history = useHistory();
 
   return (
@@ -48,10 +49,10 @@ const DeleteAlbum = ({
 
 DeleteAlbum.propTypes = {
   artist: PropTypes.string.isRequired,
-  title: PropTypes.string.isRequired,
+  handleSubmit: PropTypes.func.isRequired,
   isDeleting: PropTypes.bool,
   query: PropTypes.string,
-  handleSubmit: PropTypes.func.isRequired,
+  title: PropTypes.string.isRequired,
 };
 
 DeleteAlbum.defaultProps = {

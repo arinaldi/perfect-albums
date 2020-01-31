@@ -78,7 +78,6 @@ const DeleteAlbumContainer = () => {
 
   return (
     <ErrorBoundary>
-      {error && <AppMessage message={error} />}
       <DeleteAlbum
         artist={artist}
         title={title}
@@ -86,6 +85,7 @@ const DeleteAlbumContainer = () => {
         query={query}
         handleSubmit={handleSubmit}
       />
+      {error && <AppMessage message={error} />}
     </ErrorBoundary>
   );
 };

@@ -4,11 +4,15 @@ import PropTypes from 'prop-types';
 
 import { ALERT_TYPES, MESSAGES } from '../../constants';
 
-const AppMessage = ({ type, message }) => (
-  <div className='alert-container'>
-    <Alert variant={type}>{message}</Alert>
-  </div>
-);
+const AppMessage = (props) => {
+  const { type, message } = props;
+
+  return (
+    <div className='alert-container'>
+      <Alert variant={type}>{message}</Alert>
+    </div>
+  );
+};
 
 AppMessage.propTypes = {
   type: PropTypes.string,

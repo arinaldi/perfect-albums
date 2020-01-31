@@ -9,30 +9,44 @@ import FeaturedSongs from './presenter';
 const FeaturedSongsContainer = () => {
   const { openModal } = useContext(Context);
   const [state, dispatch] = useStateMachine('/api/songs');
-  const { data, error } = state;
+  const { data, status } = state;
 
-  const dispatchFetch = () => {
+  const cancel = () => {
+    dispatch({ type: STATE_EVENTS.CANCEL });
+  };
+
+  const refresh = () => {
     dispatch({ type: STATE_EVENTS.FETCH });
+  };
+
+  const handleCreateOpen = () => {
+    openModal({
+      type: MODAL_TYPES.FEATURED_SONGS_CREATE,
+      callback: refresh,
+    });
+  };
+
+  const handleDeleteOpen = (data) => {
+    openModal({
+      type: MODAL_TYPES.DATA_DELETE,
+      data: {
+        ...data,
+        dataType: 'Song',
+        path: 'songs',
+      },
+      callback: refresh,
+    });
   };
 
   return (
     <ErrorBoundary>
       <FeaturedSongs
+        cancel={cancel}
         data={data}
-        error={error}
-        handleCreateOpen={() => openModal({
-          type: MODAL_TYPES.FEATURED_SONGS_CREATE,
-          callback: dispatchFetch,
-        })}
-        handleDeleteOpen={data => openModal({
-          type: MODAL_TYPES.DATA_DELETE,
-          data: {
-            ...data,
-            dataType: 'Song',
-            path: 'songs',
-          },
-          callback: dispatchFetch,
-        })}
+        handleCreateOpen={handleCreateOpen}
+        handleDeleteOpen={handleDeleteOpen}
+        refresh={refresh}
+        status={status}
       />
     </ErrorBoundary>
   );

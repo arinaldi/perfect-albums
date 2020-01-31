@@ -6,7 +6,8 @@ import { setToken, getToken, removeToken } from '../../utils/storage';
 
 const Context = createContext();
 
-const Provider = ({ children }) => {
+const Provider = (props) => {
+  const { children } = props;
   const [isAuthenticated, setIsAuthenticated] = useState(!!getToken());
   const [isLoading, setIsLoading] = useState(true);
   const [toast, setToast] = useState({

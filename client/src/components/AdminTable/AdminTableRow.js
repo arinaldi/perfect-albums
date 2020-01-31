@@ -8,7 +8,8 @@ import { ICONS } from '../../constants';
 const { CHECK } = ICONS;
 const margin = 2;
 
-const AdminTableRow = ({ item, searchText }) => {
+const AdminTableRow = (props) => {
+  const { item, searchText } = props;
   const history = useHistory();
   const { id, artist, title, year, cd, aotd, favorite } = item;
 

@@ -22,7 +22,7 @@
 }
 
 .alert {
-  position: absolute;
+  margin-top: 16px;
   min-width: 33%;
   z-index: 99;
 }

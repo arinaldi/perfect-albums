@@ -7,76 +7,81 @@ import Modal from 'react-bootstrap/Modal';
 import InputFeedback from '../InputFeedback/presenter';
 import SubmitButton from '../SubmitButton/presenter';
 
-const CreateReleaseModal = ({
-  isOpen,
-  release,
-  isValidated,
-  isSaving,
-  handleChange,
-  handleClose,
-  handleSubmit,
-  error,
-}) => (
-  <Modal show={isOpen} onHide={handleClose}>
-    <Modal.Header closeButton>
-      <Modal.Title>Create Release</Modal.Title>
-    </Modal.Header>
-    <Form
-      noValidate
-      validated={isValidated}
-      onSubmit={handleSubmit}
-    >
-      <Modal.Body>
-        <InputFeedback
-          controlId='formArtist'
-          label='Artist'
-          name='artist'
-          value={release.artist}
-          onChange={handleChange}
-        />
-        <InputFeedback
-          controlId='formTitle'
-          label='Title'
-          name='title'
-          value={release.title}
-          onChange={handleChange}
-        />
-        <InputFeedback
-          controlId='formLink'
-          label='Date'
-          name='date'
-          value={release.date}
-          onChange={handleChange}
-          type='date'
-          isRequired={false}
-        />
-        {error && (
-          <p style={{
-            color: 'red',
-            marginBottom: 0,
-            textAlign: 'center',
-          }}>
-            {error}
-          </p>
-        )}
-      </Modal.Body>
-      <Modal.Footer>
-        <Button
-          variant='outline-dark'
-          onClick={handleClose}
-        >
-          Close
-        </Button>
-        <SubmitButton
-          isDisabled={isSaving}
-          isLoading={isSaving}
-          text='Save'
-          loadingText='Saving...'
-        />
-      </Modal.Footer>
-    </Form>
-  </Modal>
-);
+const CreateReleaseModal = (props) => {
+  const {
+    isOpen,
+    release,
+    isValidated,
+    isSaving,
+    handleChange,
+    handleClose,
+    handleSubmit,
+    error,
+  } = props;
+
+  return (
+    <Modal show={isOpen} onHide={handleClose}>
+      <Modal.Header closeButton>
+        <Modal.Title>Create Release</Modal.Title>
+      </Modal.Header>
+      <Form
+        noValidate
+        validated={isValidated}
+        onSubmit={handleSubmit}
+      >
+        <Modal.Body>
+          <InputFeedback
+            controlId='formArtist'
+            label='Artist'
+            name='artist'
+            value={release.artist}
+            onChange={handleChange}
+          />
+          <InputFeedback
+            controlId='formTitle'
+            label='Title'
+            name='title'
+            value={release.title}
+            onChange={handleChange}
+          />
+          <InputFeedback
+            controlId='formLink'
+            label='Date'
+            name='date'
+            value={release.date}
+            onChange={handleChange}
+            type='date'
+            isRequired={false}
+          />
+          {error && (
+            <p style={{
+              color: 'red',
+              marginBottom: 0,
+              textAlign: 'center',
+            }}
+            >
+              {error}
+            </p>
+          )}
+        </Modal.Body>
+        <Modal.Footer>
+          <Button
+            variant='outline-dark'
+            onClick={handleClose}
+          >
+            Close
+          </Button>
+          <SubmitButton
+            isDisabled={isSaving}
+            isLoading={isSaving}
+            text='Save'
+            loadingText='Saving...'
+          />
+        </Modal.Footer>
+      </Form>
+    </Modal>
+  );
+};
 
 CreateReleaseModal.propTypes = {
   isOpen: PropTypes.bool.isRequired,

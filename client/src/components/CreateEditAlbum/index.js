@@ -129,7 +129,6 @@ const CreateEditAlbumContainer = () => {
 
   return (
     <ErrorBoundary>
-      {error && <AppMessage message={error} />}
       <CreateEditAlbum
         album={album}
         isValidated={isValidated}
@@ -140,6 +139,7 @@ const CreateEditAlbumContainer = () => {
         handleRadioChange={handleRadioChange}
         handleSubmit={handleSubmit}
       />
+      {error && <AppMessage message={error} />}
     </ErrorBoundary>
   );
 };

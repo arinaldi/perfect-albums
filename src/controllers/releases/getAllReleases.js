@@ -1,6 +1,6 @@
 const ReleaseModel = require('../../db/models/ReleaseModel');
 const { TBD } = require('../../constants');
-const { formatDate } = require('../../utils');
+const { formatDate, sortByAlbum } = require('../../utils');
 
 const formatData = (releases) => {
   const results = {};
@@ -15,6 +15,10 @@ const formatData = (releases) => {
     } else {
       results[releaseDate] = [release];
     }
+  });
+
+  Object.values(results).forEach((result) => {
+    result.sort(sortByAlbum);
   });
 
   return results;

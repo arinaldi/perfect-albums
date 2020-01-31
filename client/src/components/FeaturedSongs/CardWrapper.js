@@ -5,7 +5,8 @@ import PropTypes from 'prop-types';
 
 import { Context } from '../Provider';
 
-const CardWrapper = ({ song, handleDeleteOpen }) => {
+const CardWrapper = (props) => {
+  const { song, handleDeleteOpen } = props;
   const { state } = useContext(Context);
 
   const handleClick = () => {
@@ -13,10 +14,15 @@ const CardWrapper = ({ song, handleDeleteOpen }) => {
   };
 
   return (
-    <Col xs={12} md={6} lg={3} style={{
-      paddingTop: '7.5px',
-      paddingBottom: '7.5px',
-    }}>
+    <Col
+      xs={12}
+      md={6}
+      lg={3}
+      style={{
+        paddingTop: '7.5px',
+        paddingBottom: '7.5px',
+      }}
+    >
       <Card>
         <Card.Body>
           <Card.Title>{song.title}</Card.Title>

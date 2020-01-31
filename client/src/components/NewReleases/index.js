@@ -9,32 +9,43 @@ import NewReleases from './presenter';
 const NewReleasesContainer = () => {
   const { openModal } = useContext(Context);
   const [state, dispatch] = useStateMachine('/api/releases');
-  const { data, error, status } = state;
+  const { data, status } = state;
 
-  const dispatchFetch = () => {
+  const cancel = () => {
+    dispatch({ type: STATE_EVENTS.CANCEL });
+  };
+
+  const refresh = () => {
     dispatch({ type: STATE_EVENTS.FETCH });
+  };
+
+  const handleCreateOpen = () => {
+    openModal({
+      type: MODAL_TYPES.NEW_RELEASE_CREATE,
+      callback: refresh,
+    });
+  };
+
+  const handleDeleteOpen = (data) => {
+    openModal({
+      type: MODAL_TYPES.DATA_DELETE,
+      data: {
+        ...data,
+        dataType: 'Release',
+        path: 'releases',
+      },
+      callback: refresh,
+    });
   };
 
   return (
     <ErrorBoundary>
       <NewReleases
-        cancel={() => dispatch({ type: STATE_EVENTS.CANCEL })}
-        error={error}
+        cancel={cancel}
         data={data}
-        handleCreateOpen={() => openModal({
-          type: MODAL_TYPES.NEW_RELEASE_CREATE,
-          callback: dispatchFetch,
-        })}
-        handleDeleteOpen={data => openModal({
-          type: MODAL_TYPES.DATA_DELETE,
-          data: {
-            ...data,
-            dataType: 'Release',
-            path: 'releases',
-          },
-          callback: dispatchFetch,
-        })}
-        refresh={dispatchFetch}
+        handleCreateOpen={handleCreateOpen}
+        handleDeleteOpen={handleDeleteOpen}
+        refresh={refresh}
         status={status}
       />
     </ErrorBoundary>

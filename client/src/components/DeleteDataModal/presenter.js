@@ -6,60 +6,64 @@ import Button from 'react-bootstrap/Button';
 
 import SubmitButton from '../SubmitButton/presenter';
 
-const DeleteDataModal = ({
-  isOpen,
-  dataType,
-  artist,
-  title,
-  isDeleting,
-  handleClose,
-  handleDelete,
-  error,
-}) => (
-  <Modal show={isOpen} onHide={handleClose}>
-    <Modal.Header closeButton>
-      <Modal.Title>Delete {dataType}</Modal.Title>
-    </Modal.Header>
-    <Form noValidate onSubmit={handleDelete}>
-      <Modal.Body>
-        <p>{`Are you sure you want to delete ${artist} – ${title}?`}</p>
-        {error && (
-          <p style={{
-            color: 'red',
-            marginBottom: 0,
-            textAlign: 'center',
-          }}>
-            {error}
-          </p>
-        )}
-      </Modal.Body>
-      <Modal.Footer>
-        <Button
-          variant='outline-dark'
-          onClick={handleClose}
-        >
-          Close
-        </Button>
-        <SubmitButton
-          isDisabled={isDeleting}
-          isLoading={isDeleting}
-          text='Delete'
-          loadingText='Deleting...'
-        />
-      </Modal.Footer>
-    </Form>
-  </Modal>
-);
+const DeleteDataModal = (props) => {
+  const {
+    artist,
+    dataType,
+    error,
+    handleClose,
+    handleDelete,
+    isDeleting,
+    isOpen,
+    title,
+  } = props;
+
+  return (
+    <Modal show={isOpen} onHide={handleClose}>
+      <Modal.Header closeButton>
+        <Modal.Title>Delete {dataType}</Modal.Title>
+      </Modal.Header>
+      <Form noValidate onSubmit={handleDelete}>
+        <Modal.Body>
+          <p>{`Are you sure you want to delete ${artist} – ${title}?`}</p>
+          {error && (
+            <p style={{
+              color: 'red',
+              marginBottom: 0,
+              textAlign: 'center',
+            }}>
+              {error}
+            </p>
+          )}
+        </Modal.Body>
+        <Modal.Footer>
+          <Button
+            variant='outline-dark'
+            onClick={handleClose}
+          >
+            Close
+          </Button>
+          <SubmitButton
+            isDisabled={isDeleting}
+            isLoading={isDeleting}
+            text='Delete'
+            loadingText='Deleting...'
+          />
+        </Modal.Footer>
+      </Form>
+    </Modal>
+  );
+};
 
 DeleteDataModal.propTypes = {
-  isOpen: PropTypes.bool.isRequired,
-  dataType: PropTypes.string.isRequired,
   artist: PropTypes.string.isRequired,
-  title: PropTypes.string.isRequired,
-  isDeleting: PropTypes.bool,
+  dataType: PropTypes.string.isRequired,
+  error: PropTypes.string,
   handleClose: PropTypes.func.isRequired,
   handleDelete: PropTypes.func.isRequired,
-  error: PropTypes.string,
+  isDeleting: PropTypes.bool,
+  isOpen: PropTypes.bool.isRequired,
+  title: PropTypes.string.isRequired,
 };
 
 export default DeleteDataModal;

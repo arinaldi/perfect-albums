@@ -6,11 +6,14 @@ import TopAlbums from './presenter';
 
 const TopAlbumsContainer = () => {
   const [state] = useStateMachine('/api/favorites');
-  const { data, error } = state;
+  const { data, status } = state;
 
   return (
     <ErrorBoundary>
-      <TopAlbums data={data} error={error} />
+      <TopAlbums
+        data={data}
+        status={status}
+      />
     </ErrorBoundary>
   );
 };

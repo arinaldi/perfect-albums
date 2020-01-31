@@ -11,16 +11,17 @@ import InputFeedback from '../InputFeedback/presenter';
 import RadioGroup from '../RadioGroup/presenter';
 import SubmitButton from '../SubmitButton/presenter';
 
-const CreateEditAlbum = ({
-  album,
-  isValidated,
-  isSaving,
-  query,
-  header,
-  handleChange,
-  handleRadioChange,
-  handleSubmit,
-}) => {
+const CreateEditAlbum = (props) => {
+  const {
+    album,
+    isValidated,
+    isSaving,
+    query,
+    header,
+    handleChange,
+    handleRadioChange,
+    handleSubmit,
+  } = props;
   const history = useHistory();
 
   return (

@@ -9,6 +9,10 @@ export const useStateMachine = (path) => {
   const { status } = state;
 
   useEffect(() => {
+    dispatch({ type: STATE_EVENTS.FETCH });
+  }, []);
+
+  useEffect(() => {
     if (status === STATE_STATUSES.LOADING) {
       let isCanceled = false;
 

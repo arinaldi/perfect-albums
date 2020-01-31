@@ -30,7 +30,7 @@ export const dataReducer = (state, event) => {
 };
 
 export const dataInitialState = {
-  status: STATE_STATUSES.LOADING,
+  status: STATE_STATUSES.IDLE,
   data: null,
   error: null,
 };

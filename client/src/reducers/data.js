@@ -10,8 +10,8 @@ const loadingReducer = (state, event) => {
   switch (event.type) {
   case STATE_EVENTS.CANCEL:
     return {
+      ...state,
       status: STATE_STATUSES.IDLE,
-      data: null,
       error: null,
     };
   case STATE_EVENTS.RESOLVE:
@@ -22,8 +22,8 @@ const loadingReducer = (state, event) => {
     };
   case STATE_EVENTS.REJECT:
     return {
+      ...state,
       status: STATE_STATUSES.FAILURE,
-      data: null,
       error: event.error,
     };
   default:
@@ -35,8 +35,8 @@ const sharedReducer = (state, event) => {
   switch (event.type) {
   case STATE_EVENTS.FETCH:
     return {
+      ...state,
       status: STATE_STATUSES.LOADING,
-      data: null,
       error: null,
     };
   default:

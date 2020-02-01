@@ -48,7 +48,7 @@ const NewReleases = (props) => {
         )}
       </Row>
       {status === STATE_STATUSES.FAILURE && <AppMessage />}
-      {status === STATE_STATUSES.SUCCESS && (
+      {data && (
         <Row>
           {Object.keys(data).sort(sortByDate).map(date => (
             <DateCol

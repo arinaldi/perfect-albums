@@ -7,6 +7,7 @@ import { DECADES } from '../../constants';
 const DecadeSelector = () => (
   <DropdownButton
     variant='outline-dark'
+    style={{ display: 'inline-block' }}
     title='Jump to decade '
   >
     {DECADES.map(({ label, link }) => (

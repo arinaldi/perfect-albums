@@ -47,7 +47,7 @@ const FeaturedSongs = (props) => {
         )}
       </Row>
       {status === STATE_STATUSES.FAILURE && <AppMessage />}
-      {status === STATE_STATUSES.SUCCESS && (
+      {data && (
         <Row data-testid='card-row'>
           {data.map(song => (
             <CardWrapper

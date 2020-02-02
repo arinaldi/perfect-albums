@@ -1,4 +1,4 @@
-import React, { Fragment, useContext } from 'react';
+import React, { Fragment } from 'react';
 import {
   BrowserRouter as Router,
   Route,
@@ -10,8 +10,6 @@ import NavBar from '../NavBar/presenter';
 import ToastAlert from '../ToastAlert/presenter';
 import ModalContainer from '../ModalContainer';
 import PerfectSongs from '../PerfectSongs/presenter';
-import Loader from '../Loader/presenter';
-import { Context } from '../Provider';
 import SignIn from '../SignIn';
 import TopAlbums from '../TopAlbums';
 import FeaturedSongs from '../FeaturedSongs';
@@ -37,15 +35,13 @@ const AppRoutes = () => (
 );
 
 const Routes = () => {
-  const { state: { isLoading } } = useContext(Context);
-
   return (
     <Router>
       <Fragment>
         <NavBar />
         <ToastAlert />
         <ModalContainer />
-        {isLoading ? <Loader /> : <AppRoutes />}
+        <AppRoutes />
       </Fragment>
     </Router>
   );

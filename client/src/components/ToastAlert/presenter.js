@@ -25,7 +25,7 @@ const ToastAlert = () => {
         autohide
         style={{
           position: 'absolute',
-          top: 0,
+          top: 10,
           right: 10,
           minWidth: '300px',
         }}

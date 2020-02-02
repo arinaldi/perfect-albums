@@ -6,10 +6,6 @@
   vertical-align: middle;
 }
 
-.mb10 {
-  margin-bottom: 10px;
-}
-
 .album-title {
   font-weight: 500;
   font-size: 1.25rem;
@@ -37,12 +33,6 @@
   visibility: hidden;
   opacity: 0;
   transition: visibility 1s, opacity .5s;
-}
-
-.spinner {
-  display: flex;
-  justify-content: center;
-  margin-top: 60px;
 }
 
 .btn-group-toggle > .btn {
@@ -101,4 +91,13 @@ button[type='submit'] {
 
 th[data-value] {
   cursor: pointer;
+}
+
+.progress {
+  border-radius: 0;
+  height: 5px;
+}
+
+.progress-bar {
+  background-color: gray;
 }

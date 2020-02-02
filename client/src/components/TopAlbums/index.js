@@ -1,8 +1,12 @@
 import React from 'react';
 
 import { useStateMachine } from '../../utils/hooks';
-import { STATE_EVENTS } from '../../constants';
+import {
+  STATE_EVENTS,
+  STATE_STATUSES,
+} from '../../constants';
 import ErrorBoundary from '../ErrorBoundary';
+import ProgressLoader from '../ProgressLoader/presenter';
 import TopAlbums from './presenter';
 
 const TopAlbumsContainer = () => {
@@ -19,6 +23,7 @@ const TopAlbumsContainer = () => {
 
   return (
     <ErrorBoundary>
+      <ProgressLoader isVisible={status === STATE_STATUSES.LOADING} />
       <TopAlbums
         cancel={cancel}
         data={data}

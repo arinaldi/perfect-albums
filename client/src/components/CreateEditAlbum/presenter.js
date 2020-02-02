@@ -15,6 +15,7 @@ const CreateEditAlbum = (props) => {
   const {
     album,
     isValidated,
+    isLoading,
     isSaving,
     query,
     header,
@@ -27,77 +28,79 @@ const CreateEditAlbum = (props) => {
   return (
     <Container>
       <h3>{`${header} Album`}</h3>
-      <Form
-        noValidate
-        validated={isValidated}
-        onSubmit={handleSubmit}
-      >
-        <Row>
-          <Col>
-            <InputFeedback
-              controlId='formArtist'
-              label='Artist'
-              name='artist'
-              value={album.artist}
-              onChange={handleChange}
-            />
-            <InputFeedback
-              controlId='formTitle'
-              label='Title'
-              name='title'
-              value={album.title}
-              onChange={handleChange}
-            />
-            <InputFeedback
-              controlId='formYear'
-              label='Year'
-              name='year'
-              value={album.year}
-              onChange={handleChange}
-            />
-          </Col>
-          <Col sm={12} md='auto'>
-            <RadioGroup
-              controlId='formCd'
-              label='CD'
-              name='cd'
-              value={album.cd}
-              onChange={handleRadioChange}
-            />
-            <RadioGroup
-              controlId='formAotd'
-              label='AotD'
-              name='aotd'
-              value={album.aotd}
-              onChange={handleRadioChange}
-            />
-            <RadioGroup
-              controlId='formFavorite'
-              label='Favorite'
-              name='favorite'
-              value={album.favorite}
-              onChange={handleRadioChange}
-            />
-          </Col>
-        </Row>
-        <Row>
-          <Col style={{ paddingBottom: 15 }}>
-            <Button
-              onClick={() => history.push(`/admin?${query}`)}
-              variant='outline-dark'
-              style={{ marginRight: 5 }}
-            >
-              Cancel
-            </Button>
-            <SubmitButton
-              isDisabled={isSaving}
-              isLoading={isSaving}
-              text='Save'
-              loadingText='Saving...'
-            />
-          </Col>
-        </Row>
-      </Form>
+      {!isLoading && (
+        <Form
+          noValidate
+          validated={isValidated}
+          onSubmit={handleSubmit}
+        >
+          <Row>
+            <Col>
+              <InputFeedback
+                controlId='formArtist'
+                label='Artist'
+                name='artist'
+                value={album.artist}
+                onChange={handleChange}
+              />
+              <InputFeedback
+                controlId='formTitle'
+                label='Title'
+                name='title'
+                value={album.title}
+                onChange={handleChange}
+              />
+              <InputFeedback
+                controlId='formYear'
+                label='Year'
+                name='year'
+                value={album.year}
+                onChange={handleChange}
+              />
+            </Col>
+            <Col sm={12} md='auto'>
+              <RadioGroup
+                controlId='formCd'
+                label='CD'
+                name='cd'
+                value={album.cd}
+                onChange={handleRadioChange}
+              />
+              <RadioGroup
+                controlId='formAotd'
+                label='AotD'
+                name='aotd'
+                value={album.aotd}
+                onChange={handleRadioChange}
+              />
+              <RadioGroup
+                controlId='formFavorite'
+                label='Favorite'
+                name='favorite'
+                value={album.favorite}
+                onChange={handleRadioChange}
+              />
+            </Col>
+          </Row>
+          <Row>
+            <Col style={{ paddingBottom: 15 }}>
+              <Button
+                onClick={() => history.push(`/admin?${query}`)}
+                variant='outline-dark'
+                style={{ marginRight: 5 }}
+              >
+                Cancel
+              </Button>
+              <SubmitButton
+                isDisabled={isSaving}
+                isLoading={isSaving}
+                text='Save'
+                loadingText='Saving...'
+              />
+            </Col>
+          </Row>
+        </Form>
+      )}
     </Container>
   );
 };
@@ -112,6 +115,7 @@ CreateEditAlbum.propTypes = {
     favorite: PropTypes.bool.isRequired,
   }).isRequired,
   isValidated: PropTypes.bool,
+  isLoading: PropTypes.bool,
   isSaving: PropTypes.bool,
   query: PropTypes.string,
   header: PropTypes.string.isRequired,
@@ -122,6 +126,7 @@ CreateEditAlbum.propTypes = {
 
 CreateEditAlbum.defaultProps = {
   isValidated: false,
+  isLoading: false,
   isSaving: false,
   query: '',
 };

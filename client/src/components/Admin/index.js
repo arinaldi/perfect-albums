@@ -7,7 +7,7 @@ import { useDebounce } from '../../utils/hooks';
 import { PER_PAGE, SORT_DIRECTION } from '../../constants';
 
 import ErrorBoundary from '../ErrorBoundary';
-import Loader from '../Loader/presenter';
+import ProgressLoader from '../ProgressLoader/presenter';
 import AppMessage from '../AppMessage/presenter';
 import Admin from './presenter';
 
@@ -36,6 +36,8 @@ const AdminContainer = () => {
   useEffect(() => {
     const search = location.search ? getQuery(location.search) : '';
     const fetchData = async () => {
+      setIsLoading(true);
+
       try {
         const url = `/api/albums?page=${currentPage}&per_page=${perPage}&search=${debouncedSearch}&sort=${sort}&direction=${direction}`;
         const res = await Api.get(url);
@@ -116,12 +118,13 @@ const AdminContainer = () => {
     handleFirst();
   };
 
-  if (isLoading) return <Loader />;
   if (hasError) return <AppMessage />;
 
   return (
     <ErrorBoundary>
+      <ProgressLoader isVisible={isLoading} />
       <Admin
+        isLoading={isLoading}
         searchText={searchText}
         total={total}
         data={data}

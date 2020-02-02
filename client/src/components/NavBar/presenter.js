@@ -15,7 +15,6 @@ const NavBar = () => {
       bg='dark'
       variant='dark'
       expand='md'
-      className='mb10'
       id='top'
     >
       <Navbar.Brand>Perfect Albums</Navbar.Brand>

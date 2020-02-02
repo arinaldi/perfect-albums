@@ -1,9 +1,14 @@
 import React, { useContext } from 'react';
 
 import { useStateMachine } from '../../utils/hooks';
-import { MODAL_TYPES, STATE_EVENTS } from '../../constants';
-import ErrorBoundary from '../ErrorBoundary';
+import {
+  MODAL_TYPES,
+  STATE_EVENTS,
+  STATE_STATUSES,
+} from '../../constants';
 import { Context } from '../Provider';
+import ErrorBoundary from '../ErrorBoundary';
+import ProgressLoader from '../ProgressLoader/presenter';
 import NewReleases from './presenter';
 
 const NewReleasesContainer = () => {
@@ -40,6 +45,7 @@ const NewReleasesContainer = () => {
 
   return (
     <ErrorBoundary>
+      <ProgressLoader isVisible={status === STATE_STATUSES.LOADING} />
       <NewReleases
         cancel={cancel}
         data={data}

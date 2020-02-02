@@ -11,7 +11,7 @@ import { TOAST_TYPES, MESSAGES } from '../../constants';
 
 import ErrorBoundary from '../ErrorBoundary';
 import { Context } from '../Provider';
-import Loader from '../Loader/presenter';
+import ProgressLoader from '../ProgressLoader/presenter';
 import AppMessage from '../AppMessage/presenter';
 import CreateEditAlbum from './presenter';
 
@@ -125,13 +125,13 @@ const CreateEditAlbumContainer = () => {
     }
   };
 
-  if (isLoading) return <Loader />;
-
   return (
     <ErrorBoundary>
+      <ProgressLoader isVisible={isLoading} />
       <CreateEditAlbum
         album={album}
         isValidated={isValidated}
+        isLoading={isLoading}
         isSaving={isSaving}
         query={query}
         header={isEditMode ? 'Edit' : 'Create'}

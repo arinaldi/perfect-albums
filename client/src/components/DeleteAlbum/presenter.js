@@ -21,7 +21,7 @@ const DeleteAlbum = (props) => {
   return (
     <Container>
       <h3>Delete Album</h3>
-      <Form onSubmit={handleSubmit}>
+      {artist && title && <Form onSubmit={handleSubmit}>
         <Form.Row>
           <Form.Group as={Col} controlId='formConfirm'>
             {`Are you sure you want to delete ${artist} – ${title}?`}
@@ -42,7 +42,7 @@ const DeleteAlbum = (props) => {
             loadingText='Deleting...'
           />
         </Form.Row>
-      </Form>
+      </Form>}
     </Container>
   );
 };

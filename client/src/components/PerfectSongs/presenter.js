@@ -24,7 +24,7 @@ const songRows = data.songs.map((song, index) => (
 
 const PerfectSongs = () => (
   <ErrorBoundary>
-    <Container>
+    <Container style={{ marginTop: '15px' }}>
       <h3>Perfect Songs</h3>
       <Table striped hover>
         <thead>

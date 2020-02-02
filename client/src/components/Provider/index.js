@@ -9,7 +9,6 @@ const Context = createContext();
 const Provider = (props) => {
   const { children } = props;
   const [isAuthenticated, setIsAuthenticated] = useState(!!getToken());
-  const [isLoading, setIsLoading] = useState(true);
   const [toast, setToast] = useState({
     isOpen: false,
     type: '',
@@ -39,8 +38,6 @@ const Provider = (props) => {
           removeToken();
         }
       }
-
-      setIsLoading(false);
     };
 
     checkUser();
@@ -89,7 +86,7 @@ const Provider = (props) => {
 
   return (
     <Context.Provider value={{
-      state: { isAuthenticated, isLoading, modal, toast },
+      state: { isAuthenticated, modal, toast },
       signIn: handleSignIn,
       signOut: handleSignOut,
       showToast,

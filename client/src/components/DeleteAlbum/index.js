@@ -11,7 +11,7 @@ import { TOAST_TYPES, MESSAGES } from '../../constants';
 
 import ErrorBoundary from '../ErrorBoundary';
 import { Context } from '../Provider';
-import Loader from '../Loader/presenter';
+import ProgressLoader from '../ProgressLoader/presenter';
 import AppMessage from '../AppMessage/presenter';
 import DeleteAlbum from './presenter';
 
@@ -74,10 +74,9 @@ const DeleteAlbumContainer = () => {
     }
   };
 
-  if (isLoading) return <Loader />;
-
   return (
     <ErrorBoundary>
+      <ProgressLoader isVisible={isLoading} />
       <DeleteAlbum
         artist={artist}
         title={title}

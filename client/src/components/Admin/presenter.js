@@ -17,6 +17,7 @@ import AppMessage from '../AppMessage/presenter';
 
 const Admin = (props) => {
   const {
+    isLoading,
     searchText,
     total,
     data,
@@ -64,7 +65,7 @@ const Admin = (props) => {
     </ButtonGroup>
   );
 
-  const PaginationBar = (
+  const PaginationBar = () => (
     <Row className='justify-content-center'>
       <Pagination style={{ marginLeft: '10px', marginRight: '10px' }}>
         <Pagination.First
@@ -88,6 +89,27 @@ const Admin = (props) => {
       {PerPageSelector}
     </Row>
   );
+
+  const Content = () => {
+    if (isLoading) return null;
+
+    return data.length
+      ? (
+        <AdminTable
+          data={data}
+          searchText={searchText}
+          sort={sort}
+          direction={direction}
+          handleSort={handleSort}
+        />
+      )
+      : (
+        <AppMessage
+          type={ALERT_TYPES.INFO}
+          message={MESSAGES.NO_DATA}
+        />
+      );
+  };
 
   return (
     <Container>
@@ -136,23 +158,8 @@ const Admin = (props) => {
               </Col>
             </Form.Group>
           </Form>
-          {PaginationBar}
-          {data.length
-            ? (
-              <AdminTable
-                data={data}
-                searchText={searchText}
-                sort={sort}
-                direction={direction}
-                handleSort={handleSort}
-              />
-            )
-            : (
-              <AppMessage
-                type={ALERT_TYPES.INFO}
-                message={MESSAGES.NO_DATA}
-              />
-            )}
+          <PaginationBar />
+          <Content />
         </Col>
       </Row>
     </Container>
@@ -160,6 +167,7 @@ const Admin = (props) => {
 };
 
 Admin.propTypes = {
+  isLoading: PropTypes.bool.isRequired,
   searchText: PropTypes.string.isRequired,
   total: PropTypes.number.isRequired,
   data: PropTypes.array.isRequired,

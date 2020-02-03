@@ -9,11 +9,9 @@ const ProgressLoader = (props) => {
   return (
     <ProgressBar
       animated
+      className='progress-margin'
       now={100}
-      style={{
-        marginBottom: '10px',
-        visibility,
-      }}
+      style={{ visibility }}
     />
   );
 };

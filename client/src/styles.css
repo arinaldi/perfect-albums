@@ -1,5 +1,8 @@
 :root {
   --black: #212529;
+  --gray: #6C757D;
+  --progress-height: 7.5px;
+  --progress-margin: 10px;
 }
 
 .table td {
@@ -95,9 +98,17 @@ th[data-value] {
 
 .progress {
   border-radius: 0;
-  height: 5px;
+  height: var(--progress-height);
 }
 
 .progress-bar {
-  background-color: gray;
+  background-color: var(--gray);
+}
+
+.progress-margin {
+  margin-bottom: var(--progress-margin);
+}
+
+.no-loader {
+  margin-top: calc(var(--progress-height) + var(--progress-margin));
 }

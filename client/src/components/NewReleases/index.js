@@ -1,6 +1,6 @@
 import React, { useContext } from 'react';
 
-import { useStateMachine } from '../../utils/hooks';
+import useStateMachine from '../../hooks/useStateMachine';
 import {
   MODAL_TYPES,
   STATE_EVENTS,

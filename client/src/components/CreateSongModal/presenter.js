@@ -9,7 +9,6 @@ import SubmitButton from '../SubmitButton/presenter';
 
 const CreateSongModal = (props) => {
   const {
-    error,
     handleChange,
     handleClose,
     handleSubmit,
@@ -51,16 +50,6 @@ const CreateSongModal = (props) => {
             value={song.link}
             onChange={handleChange}
           />
-          {error && (
-            <p style={{
-              color: 'red',
-              marginBottom: 0,
-              textAlign: 'center',
-            }}
-            >
-              {error}
-            </p>
-          )}
         </Modal.Body>
         <Modal.Footer>
           <Button
@@ -82,7 +71,6 @@ const CreateSongModal = (props) => {
 };
 
 CreateSongModal.propTypes = {
-  error: PropTypes.string,
   handleChange: PropTypes.func.isRequired,
   handleClose: PropTypes.func.isRequired,
   handleSubmit: PropTypes.func.isRequired,

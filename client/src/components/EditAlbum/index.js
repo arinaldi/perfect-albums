@@ -2,18 +2,20 @@ import React, {
   useEffect,
   useState,
 } from 'react';
-import { useLocation, useParams } from 'react-router-dom';
+import { useHistory, useLocation, useParams } from 'react-router-dom';
 
 import { getQuery } from '../../utils';
 import Api from '../../utils/api';
-import { useStateMachine, useSubmit } from '../../utils/hooks';
-import { STATE_STATUSES } from '../../constants';
+import useStateMachine from '../../hooks/useStateMachine';
+import useSubmit from '../../hooks/useSubmit';
+import { MESSAGES, STATE_STATUSES } from '../../constants';
 
 import ErrorBoundary from '../ErrorBoundary';
 import ProgressLoader from '../ProgressLoader/presenter';
 import CreateEditAlbum from '../CreateAlbum/presenter';
 
 const EditAlbumContainer = () => {
+  const history = useHistory();
   const location = useLocation();
   const { id } = useParams();
   const [album, setAlbum] = useState({
@@ -29,11 +31,11 @@ const EditAlbumContainer = () => {
   const { data, status } = state;
   const isLoading = status === STATE_STATUSES.LOADING;
   const options = {
-    action: 'edited',
     apiFunc: Api.put,
+    callbacks: [() => history.push(`/admin?${query}`)],
     data: album,
     path: `/api/albums/${id}`,
-    query,
+    successMessage: `${MESSAGES.ALBUM_PREFIX} edited`,
   };
   const { handleSubmit, isSaving, isValidated } = useSubmit(options);
 

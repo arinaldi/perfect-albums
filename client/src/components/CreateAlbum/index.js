@@ -2,16 +2,18 @@ import React, {
   useEffect,
   useState,
 } from 'react';
-import { useLocation } from 'react-router-dom';
+import { useHistory, useLocation } from 'react-router-dom';
 
 import { getQuery } from '../../utils';
 import Api from '../../utils/api';
-import { useSubmit } from '../../utils/hooks';
+import useSubmit from '../../hooks/useSubmit';
+import { MESSAGES } from '../../constants';
 import ErrorBoundary from '../ErrorBoundary';
 import ProgressLoader from '../ProgressLoader/presenter';
 import CreateEditAlbum from './presenter';
 
 const CreateAlbumContainer = () => {
+  const history = useHistory();
   const location = useLocation();
   const [album, setAlbum] = useState({
     artist: '',
@@ -23,11 +25,11 @@ const CreateAlbumContainer = () => {
   });
   const [query, setQuery] = useState('');
   const options = {
-    action: 'created',
     apiFunc: Api.post,
+    callbacks: [() => history.push(`/admin?${query}`)],
     data: album,
     path: '/api/albums',
-    query,
+    successMessage: `${MESSAGES.ALBUM_PREFIX} created`,
   };
   const { handleSubmit, isSaving, isValidated } = useSubmit(options);
 

@@ -16,7 +16,6 @@ const CreateReleaseModal = (props) => {
     handleChange,
     handleClose,
     handleSubmit,
-    error,
   } = props;
 
   return (
@@ -53,16 +52,6 @@ const CreateReleaseModal = (props) => {
             type='date'
             isRequired={false}
           />
-          {error && (
-            <p style={{
-              color: 'red',
-              marginBottom: 0,
-              textAlign: 'center',
-            }}
-            >
-              {error}
-            </p>
-          )}
         </Modal.Body>
         <Modal.Footer>
           <Button
@@ -95,7 +84,6 @@ CreateReleaseModal.propTypes = {
   handleChange: PropTypes.func.isRequired,
   handleClose: PropTypes.func.isRequired,
   handleSubmit: PropTypes.func.isRequired,
-  error: PropTypes.string,
 };
 
 export default CreateReleaseModal;

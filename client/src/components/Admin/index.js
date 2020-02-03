@@ -3,7 +3,7 @@ import { useHistory, useLocation } from 'react-router-dom';
 
 import { getQuery } from '../../utils';
 import Api from '../../utils/api';
-import { useDebounce } from '../../utils/hooks';
+import useDebounce from '../../hooks/useDebounce';
 import { PER_PAGE, SORT_DIRECTION } from '../../constants';
 
 import ErrorBoundary from '../ErrorBoundary';

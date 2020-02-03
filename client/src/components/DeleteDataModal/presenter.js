@@ -10,7 +10,6 @@ const DeleteDataModal = (props) => {
   const {
     artist,
     dataType,
-    error,
     handleClose,
     handleDelete,
     isDeleting,
@@ -26,15 +25,6 @@ const DeleteDataModal = (props) => {
       <Form noValidate onSubmit={handleDelete}>
         <Modal.Body>
           <p>{`Are you sure you want to delete ${artist} – ${title}?`}</p>
-          {error && (
-            <p style={{
-              color: 'red',
-              marginBottom: 0,
-              textAlign: 'center',
-            }}>
-              {error}
-            </p>
-          )}
         </Modal.Body>
         <Modal.Footer>
           <Button
@@ -58,7 +48,6 @@ const DeleteDataModal = (props) => {
 DeleteDataModal.propTypes = {
   artist: PropTypes.string.isRequired,
   dataType: PropTypes.string.isRequired,
-  error: PropTypes.string,
   handleClose: PropTypes.func.isRequired,
   handleDelete: PropTypes.func.isRequired,
   isDeleting: PropTypes.bool,

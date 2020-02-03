@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { useStateMachine } from '../../utils/hooks';
+import useStateMachine from '../../hooks/useStateMachine';
 import {
   STATE_EVENTS,
   STATE_STATUSES,

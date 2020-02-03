@@ -35,7 +35,7 @@ test('SignInContainer submits credentials', async () => {
   expect(mockApi.post).toHaveBeenCalledTimes(1);
   expect(mockApi.post).toHaveBeenCalledWith(
     '/api/signin',
-    { username, password },
+    { data: { username, password } },
   );
 
   await wait(() => {

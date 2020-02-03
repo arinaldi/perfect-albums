@@ -1,23 +1,25 @@
 import React from 'react';
 
-import CreateEditAlbum from '../components/CreateEditAlbum/presenter';
+import CreateAlbum from '../components/CreateAlbum/presenter';
 
 import render from '../__test-utils__';
 import { mockAdminData } from '../__mocks__';
+import { STATE_STATUSES } from '../constants';
 
 const { artist, title, year, cd, aotd, favorite } = mockAdminData[0];
 
 test('CreateEditAlbum renders with data', () => {
   const { getByText, getByLabelText, container } = render(
-    <CreateEditAlbum
-      album={mockAdminData[0]}
-      header='Edit'
+    <CreateAlbum
+      data={mockAdminData[0]}
+      header='Create'
       handleChange={jest.fn}
       handleRadioChange={jest.fn}
       handleSubmit={jest.fn}
+      status={STATE_STATUSES.SUCCESS}
     />,
   );
-  const titleHeader = getByText('Edit Album');
+  const titleHeader = getByText('Create Album');
   const artistInput = getByLabelText('Artist');
   const titleInput = getByLabelText('Title');
   const yearInput = getByLabelText('Year');

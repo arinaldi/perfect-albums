@@ -24,6 +24,7 @@ test('Admin renders with data', () => {
       handleNext={jest.fn}
       handlePageChange={jest.fn}
       handleSort={jest.fn}
+      isLoading={false}
     />,
   );
   const titleHeader = getByText('Admin');

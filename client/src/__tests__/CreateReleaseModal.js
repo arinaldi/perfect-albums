@@ -6,7 +6,7 @@ import CreateReleaseModal from '../components/CreateReleaseModal/presenter';
 import { releaseLabels, mockNewReleasesData } from '../__mocks__';
 
 const release = mockNewReleasesData[releaseLabels.two][0];
-const { artist, title, date } = release;
+const { artist, title } = release;
 
 test('CreateReleaseModal renders with data', () => {
   const { getByText, getAllByText, getByLabelText } = render(

@@ -42,21 +42,21 @@ const Api = {
       headers: getHeaders(withAuth),
     }).then(res => handleResponse(res))
   ),
-  post: (endpoint, payload, signOut, showToast) => (
+  post: (endpoint, { data, signOut, showToast }) => (
     fetch(`${BASE_URL}${endpoint}`, {
       method: 'POST',
       headers: getHeaders(true),
-      body: JSON.stringify(payload),
+      body: JSON.stringify(data),
     }).then(res => handleResponse(res, signOut, showToast))
   ),
-  put: (endpoint, payload, signOut, showToast) => (
+  put: (endpoint, { data, signOut, showToast }) => (
     fetch(`${BASE_URL}${endpoint}`, {
       method: 'PUT',
       headers: getHeaders(true),
-      body: JSON.stringify(payload),
+      body: JSON.stringify(data),
     }).then(res => handleResponse(res, signOut, showToast))
   ),
-  delete: (endpoint, signOut, showToast) => (
+  delete: (endpoint, { signOut, showToast }) => (
     fetch(`${BASE_URL}${endpoint}`, {
       method: 'DELETE',
       headers: getHeaders(true),

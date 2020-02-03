@@ -22,7 +22,10 @@ const DeleteDataContainer = () => {
     setIsDeleting(true);
 
     try {
-      await Api.delete(`/api/${data.path}/${data.id}`, signOut, showToast);
+      await Api.delete(`/api/${data.path}/${data.id}`, {
+        signOut,
+        showToast,
+      });
       setIsDeleting(false);
       handleClose();
       callback();

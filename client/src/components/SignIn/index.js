@@ -31,7 +31,9 @@ const SignInContainer = () => {
     setIsSubmitting(true);
 
     try {
-      const res = await Api.post('/api/signin', credentials);
+      const res = await Api.post('/api/signin', {
+        data: credentials,
+      });
       const data = await res.json();
 
       setIsSubmitting(false);

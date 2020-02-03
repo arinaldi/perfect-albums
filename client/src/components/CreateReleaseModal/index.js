@@ -41,7 +41,11 @@ const CreateReleaseContainer = () => {
       setIsSaving(true);
 
       try {
-        await Api.post('/api/releases', release, signOut, showToast);
+        await Api.post('/api/releases', {
+          data: release,
+          signOut,
+          showToast,
+        });
         setIsSaving(false);
         handleClose();
         state.modal.callback();

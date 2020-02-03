@@ -15,7 +15,8 @@ import TopAlbums from '../TopAlbums';
 import FeaturedSongs from '../FeaturedSongs';
 import NewReleases from '../NewReleases';
 import Admin from '../Admin';
-import CreateEditAlbum from '../CreateEditAlbum';
+import CreateAlbum from '../CreateAlbum';
+import EditAlbum from '../EditAlbum';
 import DeleteAlbum from '../DeleteAlbum';
 import AuthRoute from '../AuthRoute';
 
@@ -26,8 +27,8 @@ const AppRoutes = () => (
     <Route path='/featured-songs'><FeaturedSongs /></Route>
     <Route path='/new-releases'><NewReleases /></Route>
     <AuthRoute path='/admin'><Admin /></AuthRoute>
-    <AuthRoute path='/new'><CreateEditAlbum /></AuthRoute>
-    <AuthRoute path='/edit/:id'><CreateEditAlbum /></AuthRoute>
+    <AuthRoute path='/new'><CreateAlbum /></AuthRoute>
+    <AuthRoute path='/edit/:id'><EditAlbum /></AuthRoute>
     <AuthRoute path='/delete/:id'><DeleteAlbum /></AuthRoute>
     <Route path='/signin'><SignIn /></Route>
     <Route><Redirect to='/albums' /></Route>

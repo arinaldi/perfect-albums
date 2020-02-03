@@ -1,90 +1,49 @@
 import React, {
-  useContext,
   useEffect,
   useState,
 } from 'react';
-import { useHistory, useLocation, useParams } from 'react-router-dom';
+import { useLocation, useParams } from 'react-router-dom';
 
 import { getQuery } from '../../utils';
 import Api from '../../utils/api';
-import { TOAST_TYPES, MESSAGES } from '../../constants';
+import { useStateMachine, useSubmit } from '../../utils/hooks';
+import { STATE_STATUSES } from '../../constants';
 
 import ErrorBoundary from '../ErrorBoundary';
-import { Context } from '../Provider';
 import ProgressLoader from '../ProgressLoader/presenter';
-import AppMessage from '../AppMessage/presenter';
 import DeleteAlbum from './presenter';
 
 const DeleteAlbumContainer = () => {
-  const { signOut, showToast } = useContext(Context);
-  const history = useHistory();
   const location = useLocation();
   const { id } = useParams();
-  const [artist, setArtist] = useState('');
-  const [title, setTitle] = useState('');
   const [query, setQuery] = useState('');
-  const [isLoading, setIsLoading] = useState(true);
-  const [isDeleting, setIsDeleting] = useState(false);
-  const [error, setError] = useState('');
+  const [state] = useStateMachine(`/api/albums/${id}`);
+  const { data, status } = state;
+  const options = {
+    action: 'deleted',
+    apiFunc: Api.delete,
+    data: null,
+    path: `/api/albums/${id}`,
+    query,
+  };
+  const { handleSubmit, isSaving } = useSubmit(options);
 
   useEffect(() => {
     const query = location.search ? getQuery(location.search) : '';
-    const fetchData = async () => {
-      try {
-        const res = await Api.get(`/api/albums/${id}`);
-        const { artist, title } = await res.json();
-
-        if (res.status === 200) {
-          setArtist(artist);
-          setTitle(title);
-        } else {
-          throw new Error(MESSAGES.ERROR);
-        }
-      } catch (err) {
-        setError(err.message);
-      }
-
-      setIsLoading(false);
-    };
 
     setQuery(query);
-    fetchData();
-  }, [location, id]);
-
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    setIsDeleting(true);
-
-    try {
-      await Api.delete(`/api/albums/${id}`, signOut, showToast);
-      setIsDeleting(false);
-      history.push(`/admin?${query}`);
-      showToast({
-        type: TOAST_TYPES.SUCCESS,
-        message: `${MESSAGES.ALBUM_PREFIX} deleted`,
-      });
-    } catch (err) {
-      if (err.message !== MESSAGES.UNAUTHORIZED) {
-        setIsDeleting(false);
-        showToast({
-          type: TOAST_TYPES.ERROR,
-          message: err.message || MESSAGES.ERROR,
-        });
-      }
-    }
-  };
+  }, [location.search]);
 
   return (
     <ErrorBoundary>
-      <ProgressLoader isVisible={isLoading} />
+      <ProgressLoader isVisible={status === STATE_STATUSES.LOADING} />
       <DeleteAlbum
-        artist={artist}
-        title={title}
-        isDeleting={isDeleting}
-        query={query}
+        data={data}
         handleSubmit={handleSubmit}
+        isDeleting={isSaving}
+        query={query}
+        status={status}
       />
-      {error && <AppMessage message={error} />}
     </ErrorBoundary>
   );
 };

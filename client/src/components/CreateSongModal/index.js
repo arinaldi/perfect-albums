@@ -41,7 +41,11 @@ const CreateSongContainer = () => {
       setIsSaving(true);
 
       try {
-        await Api.post('/api/songs', song, signOut, showToast);
+        await Api.post('/api/songs', {
+          data: song,
+          signOut,
+          showToast,
+        });
         setIsSaving(false);
         handleClose();
         state.modal.callback();

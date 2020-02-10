@@ -1,18 +1,19 @@
-import React, { useContext } from 'react';
+import React from 'react';
 
 import useStateMachine from '../../hooks/useStateMachine';
 import {
+  DISPATCH_TYPES,
   MODAL_TYPES,
   STATE_EVENTS,
   STATE_STATUSES,
 } from '../../constants';
-import { Context } from '../Provider';
+import { useAppDispatch } from '../Provider';
 import ErrorBoundary from '../ErrorBoundary';
 import ProgressLoader from '../ProgressLoader/presenter';
 import NewReleases from './presenter';
 
 const NewReleasesContainer = () => {
-  const { openModal } = useContext(Context);
+  const appDispatch = useAppDispatch();
   const [state, dispatch] = useStateMachine('/api/releases');
   const { data, status } = state;
 
@@ -25,21 +26,27 @@ const NewReleasesContainer = () => {
   };
 
   const handleCreateOpen = () => {
-    openModal({
-      type: MODAL_TYPES.NEW_RELEASE_CREATE,
-      callback: refresh,
+    appDispatch({
+      payload: {
+        callback: refresh,
+        type: MODAL_TYPES.NEW_RELEASE_CREATE,
+      },
+      type: DISPATCH_TYPES.OPEN_MODAL,
     });
   };
 
   const handleDeleteOpen = (data) => {
-    openModal({
-      type: MODAL_TYPES.DATA_DELETE,
-      data: {
-        ...data,
-        dataType: 'Release',
-        path: 'releases',
+    appDispatch({
+      payload: {
+        callback: refresh,
+        data: {
+          ...data,
+          dataType: 'Release',
+          path: 'releases',
+        },
+        type: MODAL_TYPES.DATA_DELETE,
       },
-      callback: refresh,
+      type: DISPATCH_TYPES.OPEN_MODAL,
     });
   };
 

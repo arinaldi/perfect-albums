@@ -76,3 +76,11 @@ export const STATE_STATUSES = {
   SUCCESS: 'success',
   FAILURE: 'failure',
 };
+
+export const DISPATCH_TYPES = {
+  SET_USER: 'SET_USER',
+  OPEN_TOAST: 'OPEN_TOAST',
+  CLOSE_TOAST: 'CLOSE_TOAST',
+  OPEN_MODAL: 'OPEN_MODAL',
+  CLOSE_MODAL: 'CLOSE_MODAL',
+};

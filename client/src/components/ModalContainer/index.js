@@ -1,13 +1,13 @@
-import React, { Fragment, useContext } from 'react';
+import React, { Fragment } from 'react';
 
 import { MODAL_TYPES } from '../../constants';
-import { Context } from '../Provider';
+import { useAppState } from '../Provider';
 import CreateReleaseModal from '../CreateReleaseModal';
 import CreateSongModal from '../CreateSongModal';
 import DeleteDataModal from '../DeleteDataModal';
 
 const ModalContainer = () => {
-  const { state: { modal } } = useContext(Context);
+  const { modal } = useAppState();
 
   switch (modal.type) {
   case MODAL_TYPES.NEW_RELEASE_CREATE:

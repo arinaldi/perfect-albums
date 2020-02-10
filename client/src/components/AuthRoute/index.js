@@ -1,15 +1,15 @@
-import React, { useContext } from 'react';
+import React from 'react';
 import { Route, Redirect, useLocation } from 'react-router-dom';
 import PropTypes from 'prop-types';
 
-import { Context } from '../Provider';
+import { useAppState } from '../Provider';
 
 const AuthRoute = ({ children, ...props }) => {
-  const { state } = useContext(Context);
+  const { user: { isAuthenticated } } = useAppState();
   const location = useLocation();
 
   return (
-    state.isAuthenticated
+    isAuthenticated
       ? <Route {...props}>{children}</Route>
       : <Redirect to={{ pathname: '/albums', state: { from: location } }} />
   );

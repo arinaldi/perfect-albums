@@ -1,7 +1,11 @@
-import { useContext, useState } from 'react';
+import { useState } from 'react';
 
-import { MESSAGES, TOAST_TYPES } from '../constants';
-import { Context } from '../components/Provider';
+import {
+  DISPATCH_TYPES,
+  MESSAGES,
+  TOAST_TYPES,
+} from '../constants';
+import { useAppDispatch } from '../components/Provider';
 
 const useSubmit = (options) => {
   const {
@@ -11,7 +15,7 @@ const useSubmit = (options) => {
     path,
     successMessage,
   } = options;
-  const { signOut, showToast } = useContext(Context);
+  const dispatch = useAppDispatch();
   const [isValidated, setIsValidated] = useState(false);
   const [isSaving, setIsSaving] = useState(false);
 
@@ -23,23 +27,29 @@ const useSubmit = (options) => {
       setIsSaving(true);
 
       try {
-        await apiFunc(path, { data, signOut, showToast });
+        await apiFunc(path, { data, dispatch });
         setIsSaving(false);
 
         callbacks.forEach(cb => {
           cb();
         });
 
-        showToast({
-          type: TOAST_TYPES.SUCCESS,
-          message: successMessage,
+        dispatch({
+          payload: {
+            message: successMessage,
+            type: TOAST_TYPES.SUCCESS,
+          },
+          type: DISPATCH_TYPES.OPEN_TOAST,
         });
       } catch (err) {
         if (err.message !== MESSAGES.UNAUTHORIZED) {
           setIsSaving(false);
-          showToast({
-            type: TOAST_TYPES.ERROR,
-            message: err.message || MESSAGES.ERROR,
+          dispatch({
+            payload: {
+              message: err.message || MESSAGES.ERROR,
+              type: TOAST_TYPES.ERROR,
+            },
+            type: DISPATCH_TYPES.OPEN_TOAST,
           });
         }
       }

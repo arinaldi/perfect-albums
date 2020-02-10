@@ -1,4 +1,4 @@
-import React, { Fragment, useContext } from 'react';
+import React, { Fragment } from 'react';
 import Button from 'react-bootstrap/Button';
 import Col from 'react-bootstrap/Col';
 import Container from 'react-bootstrap/Container';
@@ -7,7 +7,7 @@ import PropTypes from 'prop-types';
 
 import { sortDesc } from '../../utils';
 import { STATE_STATUSES } from '../../constants';
-import { Context } from '../Provider';
+import { useAppState } from '../Provider';
 import AppMessage from '../AppMessage/presenter';
 import AlbumCol from './AlbumCol';
 import DecadeSelector from './DecadeSelector';
@@ -20,7 +20,7 @@ const TopAlbums = (props) => {
     refresh,
     status,
   } = props;
-  const { state: { isAuthenticated } } = useContext(Context);
+  const { user: { isAuthenticated } } = useAppState();
   const isLoading = status === STATE_STATUSES.LOADING;
 
   return (

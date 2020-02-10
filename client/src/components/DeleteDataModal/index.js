@@ -1,13 +1,20 @@
-import React, { useContext } from 'react';
+import React from 'react';
 
+import { DISPATCH_TYPES } from '../../constants';
 import Api from '../../utils/api';
 import useSubmit from '../../hooks/useSubmit';
-import { Context } from '../Provider';
+import { useApp } from '../Provider';
 import DeleteDataModal from './presenter';
 
 const DeleteDataContainer = () => {
-  const { state, closeModal } = useContext(Context);
+  const [state, dispatch] = useApp();
   const { isOpen, data, callback } = state.modal;
+
+  const closeModal = () => {
+    dispatch({
+      type: DISPATCH_TYPES.CLOSE_MODAL,
+    });
+  };
 
   const options = {
     apiFunc: Api.delete,

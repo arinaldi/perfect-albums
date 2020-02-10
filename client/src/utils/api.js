@@ -1,5 +1,9 @@
-import { TOAST_TYPES, MESSAGES } from '../constants';
-import { getToken } from './storage';
+import {
+  DISPATCH_TYPES,
+  MESSAGES,
+  TOAST_TYPES,
+} from '../constants';
+import { getToken, removeToken } from './storage';
 
 const BASE_URL = process.env.NODE_ENV === 'production'
   ? 'https://perfectalbums.herokuapp.com'
@@ -15,17 +19,24 @@ const getHeaders = (withAuth = false) => {
   return headers;
 };
 
-const handleResponse = (res, signOut, showToast) => {
+const handleResponse = (res, dispatch) => {
   return new Promise((resolve, reject) => {
     if (res.status === 401) {
       if (res.url.includes('signin')) {
         reject(new Error(MESSAGES.SIGNIN));
       } else {
         reject(new Error(MESSAGES.UNAUTHORIZED));
-        signOut();
-        showToast({
-          type: TOAST_TYPES.ERROR,
-          message: MESSAGES.UNAUTHORIZED,
+        removeToken();
+        dispatch({
+          payload: false,
+          type: DISPATCH_TYPES.SET_USER,
+        });
+        dispatch({
+          payload: {
+            message: MESSAGES.UNAUTHORIZED,
+            type: TOAST_TYPES.ERROR,
+          },
+          type: DISPATCH_TYPES.OPEN_TOAST,
         });
       }
     } else if (!res.ok) {
@@ -42,25 +53,25 @@ const Api = {
       headers: getHeaders(withAuth),
     }).then(res => handleResponse(res))
   ),
-  post: (endpoint, { data, signOut, showToast }) => (
+  post: (endpoint, { data, dispatch }) => (
     fetch(`${BASE_URL}${endpoint}`, {
       method: 'POST',
       headers: getHeaders(true),
       body: JSON.stringify(data),
-    }).then(res => handleResponse(res, signOut, showToast))
+    }).then(res => handleResponse(res, dispatch))
   ),
-  put: (endpoint, { data, signOut, showToast }) => (
+  put: (endpoint, { data, dispatch }) => (
     fetch(`${BASE_URL}${endpoint}`, {
       method: 'PUT',
       headers: getHeaders(true),
       body: JSON.stringify(data),
-    }).then(res => handleResponse(res, signOut, showToast))
+    }).then(res => handleResponse(res, dispatch))
   ),
-  delete: (endpoint, { signOut, showToast }) => (
+  delete: (endpoint, { dispatch }) => (
     fetch(`${BASE_URL}${endpoint}`, {
       method: 'DELETE',
       headers: getHeaders(true),
-    }).then(res => handleResponse(res, signOut, showToast))
+    }).then(res => handleResponse(res, dispatch))
   ),
 };
 

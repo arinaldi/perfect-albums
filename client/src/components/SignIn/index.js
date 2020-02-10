@@ -1,15 +1,16 @@
-import React, { useState, useContext } from 'react';
+import React, { useState } from 'react';
 import { Redirect } from 'react-router-dom';
 
+import { DISPATCH_TYPES } from '../../constants';
 import Api from '../../utils/api';
-
-import { Context } from '../Provider';
+import { setToken } from '../../utils/storage';
+import { useApp } from '../Provider';
 import ErrorBoundary from '../ErrorBoundary';
 import AppMessage from '../AppMessage/presenter';
 import SignIn from './presenter';
 
 const SignInContainer = () => {
-  const { state, signIn } = useContext(Context);
+  const [state, dispatch] = useApp();
   const [credentials, setCredentials] = useState({
     username: '',
     password: '',
@@ -37,14 +38,18 @@ const SignInContainer = () => {
       const data = await res.json();
 
       setIsSubmitting(false);
-      signIn(data.token);
+      setToken(data.token);
+      dispatch({
+        payload: true,
+        type: DISPATCH_TYPES.SET_USER,
+      });
     } catch (err) {
       setIsSubmitting(false);
       setError(err.message);
     }
   };
 
-  if (state.isAuthenticated) {
+  if (state.user.isAuthenticated) {
     return <Redirect to='/admin' />;
   }
 

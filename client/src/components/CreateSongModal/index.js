@@ -1,13 +1,13 @@
-import React, { useState, useContext } from 'react';
+import React, { useState } from 'react';
 
 import Api from '../../utils/api';
 import useSubmit from '../../hooks/useSubmit';
-import { MESSAGES } from '../../constants';
-import { Context } from '../Provider';
+import { DISPATCH_TYPES, MESSAGES } from '../../constants';
+import { useApp } from '../Provider';
 import CreateSongModal from './presenter';
 
 const CreateSongContainer = () => {
-  const { state, closeModal } = useContext(Context);
+  const [state, dispatch] = useApp();
   const [song, setSong] = useState({
     artist: '',
     title: '',
@@ -22,7 +22,9 @@ const CreateSongContainer = () => {
   };
 
   const handleClose = () => {
-    closeModal();
+    dispatch({
+      type: DISPATCH_TYPES.CLOSE_MODAL,
+    });
     setSong({
       artist: '',
       title: '',

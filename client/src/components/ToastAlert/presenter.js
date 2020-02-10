@@ -1,13 +1,19 @@
-import React, { useContext } from 'react';
+import React from 'react';
 import Toast from 'react-bootstrap/Toast';
 
-import { TOAST_TIMEOUT } from '../../constants';
-import useAppState from '../../hooks/useAppState';
-// import { Context } from '../Provider';
+import { DISPATCH_TYPES, TOAST_TIMEOUT } from '../../constants';
+import { useApp } from '../Provider';
 
 const ToastAlert = () => {
-  const { state: { toast }, closeToast } =  useAppState(); // useContext(Context);
-  const zIndex = toast.isOpen ? 99 : 0;
+  const [state, dispatch] = useApp();
+  const { isOpen, message, type } = state.toast;
+  const zIndex = isOpen ? 99 : 0;
+
+  const closeToast = () => {
+    dispatch({
+      type: DISPATCH_TYPES.CLOSE_TOAST,
+    });
+  };
 
   return (
     <div
@@ -20,7 +26,7 @@ const ToastAlert = () => {
     >
       <Toast
         onClose={closeToast}
-        show={toast.isOpen}
+        show={isOpen}
         delay={TOAST_TIMEOUT}
         autohide
         style={{
@@ -30,10 +36,10 @@ const ToastAlert = () => {
           minWidth: '300px',
         }}
       >
-        <Toast.Header className={toast.type}>
-          <strong className='mr-auto capitalize'>{toast.type}</strong>
+        <Toast.Header className={type}>
+          <strong className='mr-auto capitalize'>{type}</strong>
         </Toast.Header>
-        <Toast.Body style={{ backgroundColor: 'white' }}>{toast.message}</Toast.Body>
+        <Toast.Body style={{ backgroundColor: 'white' }}>{message}</Toast.Body>
       </Toast>
     </div>
   );

@@ -1,9 +1,9 @@
-import React, { useContext } from 'react';
+import React from 'react';
 import Col from 'react-bootstrap/Col';
 import PropTypes from 'prop-types';
 
 import { ICONS } from '../../constants';
-import { Context } from '../Provider';
+import { useAppState } from '../Provider';
 
 const style = {
   cursor: 'pointer',
@@ -12,7 +12,7 @@ const style = {
 
 const DateCol = (props) => {
   const { data, date, handleDeleteOpen } = props;
-  const { state } = useContext(Context);
+  const { user: { isAuthenticated } } = useAppState();
 
   return (
     <Col xs={12} md={6} lg={4}>
@@ -23,7 +23,7 @@ const DateCol = (props) => {
             <span>
               {release.artist} &ndash; {release.title}
             </span>
-            {state.isAuthenticated && (
+            {isAuthenticated && (
               <span style={style} onClick={() => handleDeleteOpen(release)}>
                 &nbsp;&nbsp;{ICONS.X}
               </span>

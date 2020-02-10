@@ -1,13 +1,13 @@
-import React, { useContext } from 'react';
+import React from 'react';
 import Card from 'react-bootstrap/Card';
 import Col from 'react-bootstrap/Col';
 import PropTypes from 'prop-types';
 
-import { Context } from '../Provider';
+import { useAppState } from '../Provider';
 
 const CardWrapper = (props) => {
   const { song, handleDeleteOpen } = props;
-  const { state } = useContext(Context);
+  const { user: { isAuthenticated } } = useAppState();
 
   const handleClick = () => {
     handleDeleteOpen(song);
@@ -34,7 +34,7 @@ const CardWrapper = (props) => {
           >
             Listen
           </Card.Link>
-          {state.isAuthenticated && (
+          {isAuthenticated && (
             <Card.Link
               style={{ color: '#007bff', cursor: 'pointer' }}
               onClick={handleClick}

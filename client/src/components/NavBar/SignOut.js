@@ -1,10 +1,20 @@
-import React, { useContext } from 'react';
+import React from 'react';
 import Nav from 'react-bootstrap/Nav';
 
-import { Context } from '../Provider';
+import { removeToken } from '../../utils/storage';
+import { DISPATCH_TYPES } from '../../constants';
+import { useAppDispatch } from '../Provider';
 
 const SignOut = () => {
-  const { signOut } = useContext(Context);
+  const dispatch = useAppDispatch();
+
+  const signOut = () => {
+    removeToken();
+    dispatch({
+      type: DISPATCH_TYPES.SET_USER,
+      payload: false,
+    });
+  };
 
   return (
     <Nav.Link

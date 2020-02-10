@@ -1,25 +1,22 @@
-import React, { createContext, useState, useEffect } from 'react';
+import React, {
+  createContext,
+  useContext,
+  useEffect,
+  useReducer,
+} from 'react';
 import PropTypes from 'prop-types';
 
 import Api from '../../utils/api';
-import { setToken, getToken, removeToken } from '../../utils/storage';
+import { getToken, removeToken } from '../../utils/storage';
+import { providerReducer, providerInitialState } from '../../reducers/provider';
+import { DISPATCH_TYPES } from '../../constants';
 
-const Context = createContext();
+const StateContext = createContext();
+const DispatchContext = createContext();
 
 const Provider = (props) => {
   const { children } = props;
-  const [isAuthenticated, setIsAuthenticated] = useState(!!getToken());
-  const [toast, setToast] = useState({
-    isOpen: false,
-    type: '',
-    message: '',
-  });
-  const [modal, setModal] = useState({
-    isOpen: false,
-    type: '',
-    data: null,
-    callback: null,
-  });
+  const [state, dispatch] = useReducer(providerReducer, providerInitialState);
 
   useEffect(() => {
     const checkUser = async () => {
@@ -28,10 +25,13 @@ const Provider = (props) => {
       if (token) {
         try {
           const res = await Api.get('/api/auth', true);
-          const isUserValid = res.status === 200;
-          setIsAuthenticated(isUserValid);
 
-          if (!isUserValid) {
+          if (res.status === 200) {
+            dispatch({
+              payload: true,
+              type: DISPATCH_TYPES.SET_USER,
+            });
+          } else {
             removeToken();
           }
         } catch (err) {
@@ -43,60 +43,12 @@ const Provider = (props) => {
     checkUser();
   }, []);
 
-  const handleSignIn = (token) => {
-    setToken(token);
-    setIsAuthenticated(true);
-  };
-
-  const handleSignOut = () => {
-    removeToken();
-    setIsAuthenticated(false);
-  };
-
-  const showToast = ({ type, message }) => {
-    setToast({
-      isOpen: true,
-      type,
-      message,
-    });
-  };
-
-  const closeToast = () => {
-    setToast({
-      ...toast,
-      isOpen: false,
-    });
-  };
-
-  const openModal = ({ type, data, callback }) => {
-    setModal({
-      isOpen: true,
-      type,
-      data,
-      callback,
-    });
-  };
-
-  const closeModal = () => {
-    setModal({
-      ...modal,
-      isOpen: false,
-    });
-  };
-
   return (
-    <Context.Provider value={{
-      state: { isAuthenticated, modal, toast },
-      signIn: handleSignIn,
-      signOut: handleSignOut,
-      showToast,
-      closeToast,
-      openModal,
-      closeModal,
-    }}
-    >
-      {children}
-    </Context.Provider>
+    <StateContext.Provider value={state}>
+      <DispatchContext.Provider value={dispatch}>
+        {children}
+      </DispatchContext.Provider>
+    </StateContext.Provider>
   );
 };
 
@@ -104,5 +56,28 @@ Provider.propTypes = {
   children: PropTypes.node.isRequired,
 };
 
-export { Context };
-export default Provider;
+const useAppState = () => {
+  const context = useContext(StateContext);
+
+  if (context === undefined) {
+    throw new Error('useAppState must be used within a Provider');
+  }
+
+  return context;
+};
+
+const useAppDispatch = () => {
+  const context = useContext(DispatchContext);
+
+  if (context === undefined) {
+    throw new Error('useAppDispatch must be used within a Provider');
+  }
+
+  return context;
+};
+
+const useApp = () => {
+  return [useAppState(), useAppDispatch()];
+};
+
+export { Provider, useApp, useAppDispatch, useAppState };

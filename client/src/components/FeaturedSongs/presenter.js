@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React from 'react';
 import Button from 'react-bootstrap/Button';
 import Col from 'react-bootstrap/Col';
 import Container from 'react-bootstrap/Container';
@@ -6,7 +6,7 @@ import Row from 'react-bootstrap/Row';
 import PropTypes from 'prop-types';
 
 import { STATE_STATUSES } from '../../constants';
-import { Context } from '../Provider';
+import { useAppState } from '../Provider';
 import AppMessage from '../AppMessage/presenter';
 import CardWrapper from './CardWrapper';
 
@@ -19,7 +19,7 @@ const FeaturedSongs = (props) => {
     refresh,
     status,
   } = props;
-  const { state: { isAuthenticated } } = useContext(Context);
+  const { user: { isAuthenticated } } = useAppState();
   const isLoading = status === STATE_STATUSES.LOADING;
 
   return (

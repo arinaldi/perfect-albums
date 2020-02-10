@@ -1,13 +1,13 @@
-import React, { useContext } from 'react';
+import React from 'react';
 import Nav from 'react-bootstrap/Nav';
 import Navbar from 'react-bootstrap/Navbar';
 
-import { Context } from '../Provider';
+import { useAppState } from '../Provider';
 import LinkWrapper from './LinkWrapper';
 import SignOut from './SignOut';
 
 const NavBar = () => {
-  const { state: { isAuthenticated } } = useContext(Context);
+  const { user: { isAuthenticated } } = useAppState();
 
   return (
     <Navbar

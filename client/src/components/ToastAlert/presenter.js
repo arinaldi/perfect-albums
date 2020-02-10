@@ -2,11 +2,11 @@ import React, { useContext } from 'react';
 import Toast from 'react-bootstrap/Toast';
 
 import { TOAST_TIMEOUT } from '../../constants';
-
-import { Context } from '../Provider';
+import useAppState from '../../hooks/useAppState';
+// import { Context } from '../Provider';
 
 const ToastAlert = () => {
-  const { state: { toast }, closeToast } = useContext(Context);
+  const { state: { toast }, closeToast } =  useAppState(); // useContext(Context);
   const zIndex = toast.isOpen ? 99 : 0;
 
   return (

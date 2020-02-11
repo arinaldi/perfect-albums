@@ -1,4 +1,4 @@
-import { getToken } from '../utils/storage';
+import { getToken, removeToken, setToken } from '../utils/storage';
 import { DISPATCH_TYPES } from '../constants';
 
 export const providerInitialState = {
@@ -20,10 +20,17 @@ export const providerInitialState = {
 
 export const providerReducer = (state, action) => {
   switch (action.type) {
-  case DISPATCH_TYPES.SET_USER:
+  case DISPATCH_TYPES.SIGN_IN_USER:
+    setToken(action.payload);
     return {
       ...state,
-      user: { isAuthenticated: action.payload },
+      user: { isAuthenticated: true },
+    };
+  case DISPATCH_TYPES.SIGN_OUT_USER:
+    removeToken();
+    return {
+      ...state,
+      user: { isAuthenticated: false },
     };
   case DISPATCH_TYPES.OPEN_TOAST:
     return {

@@ -3,7 +3,7 @@ import {
   MESSAGES,
   TOAST_TYPES,
 } from '../constants';
-import { getToken, removeToken } from './storage';
+import { getToken } from './storage';
 
 const BASE_URL = process.env.NODE_ENV === 'production'
   ? 'https://perfectalbums.herokuapp.com'
@@ -26,10 +26,8 @@ const handleResponse = (res, dispatch) => {
         reject(new Error(MESSAGES.SIGNIN));
       } else {
         reject(new Error(MESSAGES.UNAUTHORIZED));
-        removeToken();
         dispatch({
-          payload: false,
-          type: DISPATCH_TYPES.SET_USER,
+          type: DISPATCH_TYPES.SIGN_OUT_USER,
         });
         dispatch({
           payload: {

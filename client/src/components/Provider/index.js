@@ -7,7 +7,7 @@ import React, {
 import PropTypes from 'prop-types';
 
 import Api from '../../utils/api';
-import { getToken, removeToken } from '../../utils/storage';
+import { getToken } from '../../utils/storage';
 import { providerReducer, providerInitialState } from '../../reducers/provider';
 import { DISPATCH_TYPES } from '../../constants';
 
@@ -28,14 +28,18 @@ const Provider = (props) => {
 
           if (res.status === 200) {
             dispatch({
-              payload: true,
-              type: DISPATCH_TYPES.SET_USER,
+              payload: token,
+              type: DISPATCH_TYPES.SIGN_IN_USER,
             });
           } else {
-            removeToken();
+            dispatch({
+              type: DISPATCH_TYPES.SIGN_OUT_USER,
+            });
           }
         } catch (err) {
-          removeToken();
+          dispatch({
+            type: DISPATCH_TYPES.SIGN_OUT_USER,
+          });
         }
       }
     };

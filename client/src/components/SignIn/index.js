@@ -3,7 +3,6 @@ import { Redirect } from 'react-router-dom';
 
 import { DISPATCH_TYPES } from '../../constants';
 import Api from '../../utils/api';
-import { setToken } from '../../utils/storage';
 import { useApp } from '../Provider';
 import ErrorBoundary from '../ErrorBoundary';
 import AppMessage from '../AppMessage/presenter';
@@ -38,10 +37,9 @@ const SignInContainer = () => {
       const data = await res.json();
 
       setIsSubmitting(false);
-      setToken(data.token);
       dispatch({
-        payload: true,
-        type: DISPATCH_TYPES.SET_USER,
+        payload: data.token,
+        type: DISPATCH_TYPES.SIGN_IN_USER,
       });
     } catch (err) {
       setIsSubmitting(false);

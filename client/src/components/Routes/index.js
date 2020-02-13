@@ -6,6 +6,7 @@ import {
   Switch,
 } from 'react-router-dom';
 
+import ErrorBoundary from '../ErrorBoundary';
 import NavBar from '../NavBar/presenter';
 import ToastAlert from '../ToastAlert/presenter';
 import ModalContainer from '../ModalContainer';
@@ -21,18 +22,20 @@ import DeleteAlbum from '../DeleteAlbum';
 import AuthRoute from '../AuthRoute';
 
 const AppRoutes = () => (
-  <Switch>
-    <Route path='/albums'><TopAlbums /></Route>
-    <Route path='/perfect-songs'><PerfectSongs /></Route>
-    <Route path='/featured-songs'><FeaturedSongs /></Route>
-    <Route path='/new-releases'><NewReleases /></Route>
-    <AuthRoute path='/admin'><Admin /></AuthRoute>
-    <AuthRoute path='/new'><CreateAlbum /></AuthRoute>
-    <AuthRoute path='/edit/:id'><EditAlbum /></AuthRoute>
-    <AuthRoute path='/delete/:id'><DeleteAlbum /></AuthRoute>
-    <Route path='/signin'><SignIn /></Route>
-    <Route><Redirect to='/albums' /></Route>
-  </Switch>
+  <ErrorBoundary>
+    <Switch>
+      <Route path='/albums'><TopAlbums /></Route>
+      <Route path='/perfect-songs'><PerfectSongs /></Route>
+      <Route path='/featured-songs'><FeaturedSongs /></Route>
+      <Route path='/new-releases'><NewReleases /></Route>
+      <AuthRoute path='/admin'><Admin /></AuthRoute>
+      <AuthRoute path='/new'><CreateAlbum /></AuthRoute>
+      <AuthRoute path='/edit/:id'><EditAlbum /></AuthRoute>
+      <AuthRoute path='/delete/:id'><DeleteAlbum /></AuthRoute>
+      <Route path='/signin'><SignIn /></Route>
+      <Route><Redirect to='/albums' /></Route>
+    </Switch>
+  </ErrorBoundary>
 );
 
 const Routes = () => {

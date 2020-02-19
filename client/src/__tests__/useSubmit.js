@@ -4,7 +4,7 @@ import { renderHook } from '@testing-library/react-hooks';
 import { mockAdminData } from '../__mocks__';
 import mockApi from '../utils/api';
 import useSubmit from '../hooks/useSubmit';
-import Provider from '../components/Provider';
+import { Provider } from '../components/Provider';
 
 jest.mock('../utils/api', () => {
   return {

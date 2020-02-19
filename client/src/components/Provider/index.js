@@ -11,8 +11,8 @@ import { getToken } from '../../utils/storage';
 import { providerReducer, providerInitialState } from '../../reducers/provider';
 import { DISPATCH_TYPES } from '../../constants';
 
-const StateContext = createContext();
-const DispatchContext = createContext();
+export const StateContext = createContext();
+export const DispatchContext = createContext();
 
 const Provider = (props) => {
   const { children } = props;

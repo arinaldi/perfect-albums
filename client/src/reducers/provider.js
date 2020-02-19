@@ -3,14 +3,14 @@ import { DISPATCH_TYPES } from '../constants';
 
 export const providerInitialState = {
   modal: {
-    isOpen: false,
-    message: '',
-    type: '',
-  },
-  toast: {
     callback: null,
     data: null,
     isOpen: false,
+    type: '',
+  },
+  toast: {
+    isOpen: false,
+    message: '',
     type: '',
   },
   user: {

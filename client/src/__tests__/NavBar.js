@@ -1,15 +1,25 @@
 import React from 'react';
-import { cleanup, act } from '@testing-library/react';
+import { cleanup, render } from '@testing-library/react';
+import { MemoryRouter } from 'react-router-dom';
 
-import { Context } from '../components/Provider';
+import { DispatchContext, StateContext } from '../components/Provider';
 import NavBar from '../components/NavBar/presenter';
-
-import render from '../__test-utils__';
 
 afterEach(cleanup);
 
+const renderProviders = (user) => render(
+  <StateContext.Provider value={{ user }}>
+    <DispatchContext.Provider value={jest.fn()}>
+      <MemoryRouter>
+        <NavBar />
+      </MemoryRouter>
+    </DispatchContext.Provider>
+  </StateContext.Provider>
+);
+
 test('NavBar renders when not authenticated', () => {
-  const { getByText } = render(<NavBar />);
+  const user = { isAuthenticated: false };
+  const { getByText } = renderProviders(user);
   const appHeader = getByText('Perfect Albums');
   const albumsLink = getByText('Top Albums');
   const songsLink = getByText('Perfect Songs');
@@ -26,20 +36,8 @@ test('NavBar renders when not authenticated', () => {
 });
 
 test('NavBar renders when authenticated', () => {
-  let handleSignIn;
-  const { getByText } = render(
-    <Context.Consumer>
-      {({ signIn }) => {
-        handleSignIn = signIn;
-        return <NavBar />;
-      }}
-    </Context.Consumer>
-  );
-
-  act(() => {
-    handleSignIn('token');
-  });
-
+  const user = { isAuthenticated: true };
+  const { getByText } = renderProviders(user);
   const adminLink = getByText('Admin');
   const signOutLink = getByText('Sign Out');
 

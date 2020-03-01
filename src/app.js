@@ -5,9 +5,12 @@ const cors = require('cors');
 const bodyParser = require('body-parser');
 const passport = require('passport');
 
-const publicRoutes = require('./routes/publicRoutes');
-const privateRoutes = require('./routes/privateRoutes');
-const authRoutes = require('./routes/authRoutes');
+const authRoutes = require('./routes/auth');
+const publicRoutes = require('./routes/public');
+
+const albumRoutes = require('./routes/private/albums');
+const releaseRoutes = require('./routes/private/releases');
+const songRoutes = require('./routes/private/songs');
 
 const app = express();
 app
@@ -24,6 +27,8 @@ app.get('*', (req, res) => {
 const authStrategy = passport.authenticate('authStrategy', { session: false });
 app
   .use(authStrategy)
-  .use(privateRoutes);
+  .use(albumRoutes)
+  .use(releaseRoutes)
+  .use(songRoutes);
 
 module.exports = app;

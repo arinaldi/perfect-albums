@@ -1,7 +1,8 @@
 const router = require('express').Router();
 const passport = require('passport');
 
-const { signIn, checkUser } = require('../controllers/authController');
+const signIn = require('../controllers/auth/signIn');
+const checkUser = require('../controllers/auth/checkUser');
 require('../services/passport');
 
 const signinStrategy = passport.authenticate('signinStrategy', { session: false });

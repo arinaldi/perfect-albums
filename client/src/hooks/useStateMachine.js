@@ -10,6 +10,7 @@ import {
 const useStateMachine = (path) => {
   const [state, dispatch] = useReducer(dataReducer, dataInitialState);
   const { status } = state;
+  const controller = new AbortController();
 
   useEffect(() => {
     dispatch({ type: STATE_EVENTS.FETCH });
@@ -17,24 +18,21 @@ const useStateMachine = (path) => {
 
   useEffect(() => {
     if (status === STATE_STATUSES.LOADING) {
-      let isCanceled = false;
-
-      Api.get(path)
+      Api.get(path, false, { signal: controller.signal })
         .then(res => res.json())
         .then(data => {
-          if (isCanceled) return;
           dispatch({ type: STATE_EVENTS.RESOLVE, data });
         })
         .catch(error => {
-          if (isCanceled) return;
+          if (error.name === 'AbortError') return;
           dispatch({ type: STATE_EVENTS.REJECT, error });
         });
 
       return () => {
-        isCanceled = true;
+        controller.abort();
       };
     }
-  }, [path, status]);
+  }, [controller, path, status]);
 
   return [state, dispatch];
 };

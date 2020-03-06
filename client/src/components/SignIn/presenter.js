@@ -17,7 +17,7 @@ const SignIn = (props) => {
   } = props;
 
   return (
-    <Container>
+    <Container className='no-loader'>
       <h3>Sign In</h3>
       <Row>
         <Col md={{ span: 6, offset: 3 }}>

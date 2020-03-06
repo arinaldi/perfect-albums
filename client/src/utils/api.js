@@ -45,8 +45,9 @@ const handleResponse = (res, dispatch) => {
 };
 
 const Api = {
-  get: (endpoint, withAuth = false) => (
+  get: (endpoint, withAuth = false, options = {}) => (
     fetch(`${BASE_URL}${endpoint}`, {
+      ...options,
       method: 'GET',
       headers: getHeaders(withAuth),
     }).then(res => handleResponse(res))

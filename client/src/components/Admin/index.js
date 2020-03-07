@@ -24,7 +24,7 @@ const AdminContainer = () => {
   const [sort, setSort] = useState('');
   const [direction, setDirection] = useState('');
   const searchInput = useRef(null);
-  const debouncedSearch = useDebounce(searchText, 250);
+  const debouncedSearch = useDebounce(searchText, 500);
 
   useEffect(() => {
     if (location.search) {

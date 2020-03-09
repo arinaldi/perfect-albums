@@ -30,7 +30,7 @@ const CreateEditAlbum = (props) => {
 
   return (
     <Container>
-      <h3>{`${header} Album`}</h3>
+      <h3>{header} Album</h3>
       {!isLoading && (
         <Form
           noValidate

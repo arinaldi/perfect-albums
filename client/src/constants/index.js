@@ -21,6 +21,7 @@ export const MODAL_TYPES = {
   DATA_DELETE: 'Delete data',
   FEATURED_SONGS_CREATE: 'Create Featured Song',
   NEW_RELEASE_CREATE: 'Create New Release',
+  NEW_RELEASE_EDIT: 'Edit New Release',
 };
 
 export const MESSAGES = {
@@ -38,6 +39,7 @@ export const ICONS = {
   DOWN: '↓',
   UP: '↑',
   X: '✖',
+  PENCIL: '✎',
 };
 
 export const DECADES = [

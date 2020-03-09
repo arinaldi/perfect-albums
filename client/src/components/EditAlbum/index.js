@@ -9,7 +9,6 @@ import Api from '../../utils/api';
 import useStateMachine from '../../hooks/useStateMachine';
 import useSubmit from '../../hooks/useSubmit';
 import { MESSAGES, STATE_STATUSES } from '../../constants';
-
 import ErrorBoundary from '../ErrorBoundary';
 import ProgressLoader from '../ProgressLoader/presenter';
 import CreateEditAlbum from '../CreateAlbum/presenter';

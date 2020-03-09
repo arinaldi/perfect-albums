@@ -14,3 +14,18 @@ export const sortByDate = (a, b) => {
 export const sortDesc = (a, b) => b - a;
 
 export const getQuery = (query) => decodeURI(query.substring(1));
+
+const addZeroPrefix = (value) => (
+  value < 10 ? `0${value}` : value
+);
+
+export const formatDate = (isoString) => {
+  if (!isoString) return '';
+
+  const date = new Date(isoString);
+  const year = date.getUTCFullYear();
+  const month = date.getUTCMonth() + 1;
+  const day = date.getUTCDate();
+
+  return `${year}-${addZeroPrefix(month)}-${addZeroPrefix(day)}`;
+};

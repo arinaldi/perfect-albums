@@ -1,13 +1,25 @@
-const formatDate = (isoDate) => {
-  const newDate = new Date(isoDate);
-  const date = newDate.getUTCDate();
-  const month = newDate.toLocaleDateString(
-    'en-US',
-    { month: 'short' },
-  );
-  const year = newDate.getFullYear();
+const months = [
+  'Jan',
+  'Feb',
+  'Mar',
+  'Apr',
+  'May',
+  'Jun',
+  'Jul',
+  'Aug',
+  'Sep',
+  'Oct',
+  'Nov',
+  'Dec',
+];
 
-  return `${date} ${month} ${year}`;
+const formatDate = (isoString) => {
+  const newDate = new Date(isoString);
+  const date = newDate.getUTCDate();
+  const month = newDate.getUTCMonth();
+  const year = newDate.getUTCFullYear();
+
+  return `${date} ${months[month]} ${year}`;
 };
 
 const sortByAlbum = (a, b) => {

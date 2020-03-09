@@ -16,6 +16,7 @@ const NewReleases = (props) => {
     cancel,
     data,
     handleCreateOpen,
+    handleEditOpen,
     handleDeleteOpen,
     refresh,
     status,
@@ -55,6 +56,7 @@ const NewReleases = (props) => {
               key={date}
               data={data[date]}
               date={date}
+              handleEditOpen={handleEditOpen}
               handleDeleteOpen={handleDeleteOpen}
             />
           ))}
@@ -68,6 +70,7 @@ NewReleases.propTypes = {
   cancel: PropTypes.func.isRequired,
   data: PropTypes.object,
   handleCreateOpen: PropTypes.func.isRequired,
+  handleEditOpen: PropTypes.func.isRequired,
   handleDeleteOpen: PropTypes.func.isRequired,
   refresh: PropTypes.func.isRequired,
   status: PropTypes.string.isRequired,

@@ -35,6 +35,21 @@ const NewReleasesContainer = () => {
     });
   };
 
+  const handleEditOpen = (data) => {
+    appDispatch({
+      payload: {
+        callback: refresh,
+        data: {
+          ...data,
+          dataType: 'Release',
+          path: 'releases',
+        },
+        type: MODAL_TYPES.NEW_RELEASE_EDIT,
+      },
+      type: DISPATCH_TYPES.OPEN_MODAL,
+    });
+  };
+
   const handleDeleteOpen = (data) => {
     appDispatch({
       payload: {
@@ -57,6 +72,7 @@ const NewReleasesContainer = () => {
         cancel={cancel}
         data={data}
         handleCreateOpen={handleCreateOpen}
+        handleEditOpen={handleEditOpen}
         handleDeleteOpen={handleDeleteOpen}
         refresh={refresh}
         status={status}

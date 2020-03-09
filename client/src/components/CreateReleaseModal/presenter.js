@@ -10,6 +10,7 @@ import SubmitButton from '../SubmitButton/presenter';
 const CreateReleaseModal = (props) => {
   const {
     isOpen,
+    header,
     release,
     isValidated,
     isSaving,
@@ -21,7 +22,7 @@ const CreateReleaseModal = (props) => {
   return (
     <Modal show={isOpen} onHide={handleClose}>
       <Modal.Header closeButton>
-        <Modal.Title>Create Release</Modal.Title>
+        <Modal.Title>{header} Release</Modal.Title>
       </Modal.Header>
       <Form
         noValidate
@@ -44,7 +45,7 @@ const CreateReleaseModal = (props) => {
             onChange={handleChange}
           />
           <InputFeedback
-            controlId='formLink'
+            controlId='formDate'
             label='Date'
             name='date'
             value={release.date}
@@ -74,6 +75,7 @@ const CreateReleaseModal = (props) => {
 
 CreateReleaseModal.propTypes = {
   isOpen: PropTypes.bool.isRequired,
+  header: PropTypes.string.isRequired,
   release: PropTypes.shape({
     artist: PropTypes.string.isRequired,
     title: PropTypes.string.isRequired,

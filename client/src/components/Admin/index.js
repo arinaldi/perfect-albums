@@ -40,7 +40,7 @@ const AdminContainer = () => {
 
       try {
         const url = `/api/albums?page=${currentPage}&per_page=${perPage}&search=${debouncedSearch}&sort=${sort}&direction=${direction}`;
-        const res = await Api.get(url);
+        const res = await Api.get(url, true);
         const { count, data: albums } = await res.json();
 
         setData(albums);

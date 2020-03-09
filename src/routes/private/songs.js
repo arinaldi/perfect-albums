@@ -5,7 +5,7 @@ const deleteSong = require('../../controllers/songs/deleteSong');
 
 const { ERRORS } = require('../../constants');
 
-router.post('/api/songs', async (req, res) => {
+router.post('/', async (req, res) => {
   try {
     const newSong = await createSong(req.body);
     res.send(newSong);
@@ -14,7 +14,7 @@ router.post('/api/songs', async (req, res) => {
   }
 });
 
-router.delete('/api/songs/:id', async (req, res) => {
+router.delete('/:id', async (req, res) => {
   const { id } = req.params;
   try {
     await deleteSong(id);

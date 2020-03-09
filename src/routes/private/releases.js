@@ -6,7 +6,7 @@ const deleteRelease = require('../../controllers/releases/deleteRelease');
 
 const { ERRORS } = require('../../constants');
 
-router.post('/api/releases', async (req, res) => {
+router.post('/', async (req, res) => {
   try {
     const newRelease = await createRelease(req.body);
     res.send(newRelease);
@@ -15,7 +15,7 @@ router.post('/api/releases', async (req, res) => {
   }
 });
 
-router.put('/api/releases/:id', async (req, res) => {
+router.put('/:id', async (req, res) => {
   try {
     const updatedRelease = await editRelease(req.params.id, req.body);
     if (!updatedRelease) {
@@ -28,7 +28,7 @@ router.put('/api/releases/:id', async (req, res) => {
   }
 });
 
-router.delete('/api/releases/:id', async (req, res) => {
+router.delete('/:id', async (req, res) => {
   const { id } = req.params;
   try {
     await deleteRelease(id);

@@ -7,7 +7,7 @@ import {
   STATE_STATUSES,
 } from '../constants';
 
-const useStateMachine = (path) => {
+const useStateMachine = (path, withAuth = false) => {
   const [state, dispatch] = useReducer(dataReducer, dataInitialState);
   const { status } = state;
   const controller = new AbortController();
@@ -18,7 +18,7 @@ const useStateMachine = (path) => {
 
   useEffect(() => {
     if (status === STATE_STATUSES.LOADING) {
-      Api.get(path, false, { signal: controller.signal })
+      Api.get(path, withAuth, { signal: controller.signal })
         .then(res => res.json())
         .then(data => {
           dispatch({ type: STATE_EVENTS.RESOLVE, data });
@@ -32,7 +32,7 @@ const useStateMachine = (path) => {
         controller.abort();
       };
     }
-  }, [controller, path, status]);
+  }, [controller, path, status, withAuth]);
 
   return [state, dispatch];
 };

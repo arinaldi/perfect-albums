@@ -27,7 +27,7 @@ const EditAlbumContainer = () => {
     favorite: false,
   });
   const [query, setQuery] = useState('');
-  const [state] = useStateMachine(`/api/albums/${id}`);
+  const [state] = useStateMachine(`/api/albums/${id}`, true);
   const { data, status } = state;
   const isLoading = status === STATE_STATUSES.LOADING;
   const options = {

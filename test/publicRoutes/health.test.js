@@ -12,7 +12,7 @@ describe('Public health route', () => {
   describe('GET /api/health', () => {
     it('returns 200 and {}', done => {
       chai.request(app)
-        .get('/health')
+        .get('/api/health')
         .end((_, res) => {
           res.should.have.status(200);
           res.body.should.be.eql({});

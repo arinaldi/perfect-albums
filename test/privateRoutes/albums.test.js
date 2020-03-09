@@ -5,6 +5,7 @@ const chaiHttp = require('chai-http');
 
 const app = require('../../src/app');
 const db = require('../../src/db');
+const Album = require('../../src/db/models/AlbumModel');
 const { saveUser } = require('../../src/controllers/auth/signUp');
 const { ERRORS } = require('../../src/constants');
 const { albums, invalidId, getUser } = require('../data');
@@ -26,7 +27,17 @@ describe('Private album routes', () => {
     db.connect()
       .then(() => {
         saveUser(user.username, user.password)
-          .then(() => done());
+          .then(() => {
+            for (let i = 0; i < albums.length; i++) {
+              const album = new Album(albums[i]);
+              album.save((err, album) => {
+                if (err) throw new Error(err);
+                if (i === 0) newAlbum = album;
+              });
+            }
+
+            done();
+          });
       })
       .catch(err => done(err));
   });
@@ -48,6 +59,71 @@ describe('Private album routes', () => {
           res.body.should.have.property('token');
 
           token = res.body.token;
+          done();
+        });
+    });
+  });
+
+  describe('GET /api/albums', () => {
+    it('gets an array paginated data', done => {
+      chai.request(app)
+        .get('/api/albums')
+        .set('Content-Type', 'application/json')
+        .set('authorization', `Bearer ${token}`)
+        .end((_, res) => {
+          res.should.have.status(200);
+          res.body.data.should.be.a('array');
+          res.body.count.should.be.eql(albums.length);
+
+          done();
+        });
+    });
+
+    it('gets an array of paginated and searched data', done => {
+      chai.request(app)
+        .get('/api/albums?page=1&per_page=20&search=nirvana')
+        .set('Content-Type', 'application/json')
+        .set('authorization', `Bearer ${token}`)
+        .end((_, res) => {
+          res.should.have.status(200);
+          res.body.data.should.be.a('array');
+          res.body.count.should.be.eql(1);
+
+          done();
+        });
+    });
+  });
+
+  describe('GET /api/albums/:id', () => {
+    it('gets an album', done => {
+      chai.request(app)
+        .get(`/api/albums/${newAlbum.id}`)
+        .set('Content-Type', 'application/json')
+        .set('authorization', `Bearer ${token}`)
+        .end((_, res) => {
+          res.should.have.status(200);
+          res.body.should.be.a('object');
+          res.body.id.should.be.eql(newAlbum.id);
+          res.body.artist.should.be.eql(newAlbum.artist);
+          res.body.title.should.be.eql(newAlbum.title);
+          res.body.year.should.be.eql(newAlbum.year);
+          res.body.cd.should.be.eql(newAlbum.cd);
+          res.body.aotd.should.be.eql(newAlbum.aotd);
+          res.body.favorite.should.be.eql(newAlbum.favorite);
+
+          done();
+        });
+    });
+
+    it('does not get an album with an invalid ID', done => {
+      chai.request(app)
+        .get(`/api/albums/${invalidId}`)
+        .set('Content-Type', 'application/json')
+        .set('authorization', `Bearer ${token}`)
+        .end((_, res) => {
+          res.should.have.status(404);
+          res.body.error.should.be.eql(ERRORS.ALBUM);
+
           done();
         });
     });

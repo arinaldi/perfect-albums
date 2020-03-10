@@ -13,7 +13,6 @@
     "both": "concurrently \"npm run dev\" \"npm run client\"",
     "lint": "eslint src/**/*.js",
     "lint:client": "eslint client/src/**/*.js",
-    "build": "cd client && npm install && npm run build",
     "test": "mocha --recursive --timeout 60000 --exit"
   },
   "author": "Tony Rinaldi",

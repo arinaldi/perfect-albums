@@ -1,7 +1,7 @@
 {
   "name": "perfect-albums",
   "version": "1.0.0",
-  "description": "Perfect Albums",
+  "description": "backend",
   "engines": {
     "node": "10.16.3",
     "npm": "6.11.3"
@@ -9,16 +9,12 @@
   "scripts": {
     "start": "node src/server.js",
     "dev": "nodemon src/server.js",
-    "client": "npm start --prefix client",
-    "both": "concurrently \"npm run dev\" \"npm run client\"",
     "lint": "eslint src/**/*.js",
-    "lint:client": "eslint client/src/**/*.js",
     "test": "mocha --recursive --timeout 60000 --exit"
   },
   "author": "Tony Rinaldi",
   "cacheDirectories": [
-    "node_modules",
-    "client/node_modules"
+    "node_modules"
   ],
   "license": "ISC",
   "devDependencies": {
@@ -27,15 +23,10 @@
     "chai-http": "^4.3.0",
     "concurrently": "^5.0.2",
     "eslint": "^6.4.0",
-    "eslint-config-react-app": "^5.0.2",
     "eslint-config-standard": "^14.1.0",
-    "eslint-config-standard-jsx": "^8.1.0",
-    "eslint-plugin-import": "^2.18.2",
-    "eslint-plugin-jsx-a11y": "^6.2.3",
+    "eslint-plugin-import": "^2.20.1",
     "eslint-plugin-node": "^10.0.0",
     "eslint-plugin-promise": "^4.2.1",
-    "eslint-plugin-react": "^7.18.3",
-    "eslint-plugin-react-hooks": "^2.0.1",
     "eslint-plugin-standard": "^4.0.1",
     "mocha": "^6.2.0",
     "mongodb-memory-server": "^5.2.5",

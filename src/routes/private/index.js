@@ -8,8 +8,4 @@ router.use('/api/albums', albums);
 router.use('/api/releases', releases);
 router.use('/api/songs', songs);
 
-router.get('/api/*', (req, res) => {
-  res.status(404).json({ message: 'Not Found' });
-});
-
 module.exports = router;

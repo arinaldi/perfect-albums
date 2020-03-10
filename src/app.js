@@ -19,8 +19,8 @@ app
   .use(staticFiles)
   .use(authRoutes)
   .use(publicRoutes)
+  .get('*', staticFiles)
   .use(passport.authenticate('authStrategy', { session: false }))
-  .use(privateRoutes)
-  .use('/*', staticFiles);
+  .use(privateRoutes);
 
 module.exports = app;

@@ -11,16 +11,16 @@ const privateRoutes = require('./routes/private');
 
 const app = express();
 
+const staticFiles = express.static(path.join(__dirname, '../client/dist'));
+
 app
-  .use(express.static(path.resolve(__dirname, '../client/dist')))
   .use(cors())
   .use(bodyParser.json())
+  .use(staticFiles)
   .use(authRoutes)
   .use(publicRoutes)
   .use(passport.authenticate('authStrategy', { session: false }))
   .use(privateRoutes)
-  .get('*', (req, res) => {
-    res.sendFile(path.resolve(__dirname, '../client/dist', 'index.html'));
-  });
+  .use('/*', staticFiles);
 
 module.exports = app;

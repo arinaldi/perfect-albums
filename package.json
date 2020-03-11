@@ -3,8 +3,8 @@
   "version": "1.0.0",
   "description": "backend",
   "engines": {
-    "node": "10.16.3",
-    "npm": "6.11.3"
+    "node": "12.16.1",
+    "npm": "6.13.6"
   },
   "scripts": {
     "start": "node src/server.js",

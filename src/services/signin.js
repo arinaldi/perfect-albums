@@ -1,7 +1,7 @@
 const LocalStrategy = require('passport-local');
 const bcrypt = require('bcrypt-nodejs');
 
-const User = require('../db/models/UserModel');
+const User = require('../models/user');
 
 const localStrategy = new LocalStrategy(async (username, password, done) => {
   try {

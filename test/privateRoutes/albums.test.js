@@ -5,7 +5,7 @@ const chaiHttp = require('chai-http');
 
 const app = require('../../src/app');
 const db = require('../../src/db');
-const Album = require('../../src/db/models/AlbumModel');
+const Album = require('../../src/models/album');
 const { saveUser } = require('../../src/controllers/auth/signUp');
 const { ERRORS } = require('../../src/constants');
 const { albums, invalidId, getUser } = require('../data');

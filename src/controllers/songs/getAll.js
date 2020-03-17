@@ -1,8 +1,8 @@
-const SongModel = require('../../db/models/SongModel');
+const Song = require('../../models/song');
 
 module.exports = () => (
   new Promise((resolve, reject) => {
-    SongModel
+    Song
       .find({})
       .sort({
         createdAt: 'desc',

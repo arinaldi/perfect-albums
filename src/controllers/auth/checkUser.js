@@ -1,4 +1,4 @@
-const User = require('../../db/models/UserModel');
+const User = require('../../models/user');
 const { ERRORS } = require('../../constants');
 const { decodeToken, getToken } = require('./utils');
 

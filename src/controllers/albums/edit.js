@@ -1,8 +1,8 @@
-const AlbumModel = require('../../db/models/AlbumModel');
+const Album = require('../../models/album');
 
 module.exports = (id, data) => (
   new Promise((resolve, reject) => {
-    AlbumModel.findByIdAndUpdate(
+    Album.findByIdAndUpdate(
       id,
       data,
       { new: true },

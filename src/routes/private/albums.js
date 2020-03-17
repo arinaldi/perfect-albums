@@ -1,10 +1,10 @@
 const router = require('express').Router();
 
-const getAllAlbums = require('../../controllers/albums/getAllAlbums');
-const getAlbumById = require('../../controllers/albums/getAlbumById');
-const createAlbum = require('../../controllers/albums/createAlbum');
-const editAlbum = require('../../controllers/albums/editAlbum');
-const deleteAlbum = require('../../controllers/albums/deleteAlbum');
+const getAllAlbums = require('../../controllers/albums/getAll');
+const getAlbumById = require('../../controllers/albums/getById');
+const createAlbum = require('../../controllers/albums/create');
+const editAlbum = require('../../controllers/albums/edit');
+const deleteAlbum = require('../../controllers/albums/delete');
 
 const { ERRORS } = require('../../constants');
 

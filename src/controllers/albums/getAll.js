@@ -1,4 +1,4 @@
-const AlbumModel = require('../../db/models/AlbumModel');
+const Album = require('../../models/album');
 
 module.exports = (queries) => (
   new Promise((resolve, reject) => {
@@ -14,8 +14,7 @@ module.exports = (queries) => (
     perPage = Math.abs(parseInt(perPage)) || 25;
     direction = direction || 'asc';
 
-    const query = AlbumModel
-      .find({});
+    const query = Album.find({});
 
     if (search) {
       query.or([{ artist: regex }, { title: regex }]);

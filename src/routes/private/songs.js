@@ -1,7 +1,7 @@
 const router = require('express').Router();
 
-const createSong = require('../../controllers/songs/createSong');
-const deleteSong = require('../../controllers/songs/deleteSong');
+const createSong = require('../../controllers/songs/create');
+const deleteSong = require('../../controllers/songs/delete');
 
 const { ERRORS } = require('../../constants');
 

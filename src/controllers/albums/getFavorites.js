@@ -1,4 +1,4 @@
-const AlbumModel = require('../../db/models/AlbumModel');
+const Album = require('../../models/album');
 
 const formatData = (albums) => {
   const results = {};
@@ -18,7 +18,7 @@ const formatData = (albums) => {
 
 module.exports = () => (
   new Promise((resolve, reject) => {
-    AlbumModel
+    Album
       .find({ favorite: true })
       .sort({ artist: 'asc', title: 'asc' })
       .exec((err, albums) => {

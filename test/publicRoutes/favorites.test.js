@@ -5,7 +5,7 @@ const chaiHttp = require('chai-http');
 
 const app = require('../../src/app');
 const db = require('../../src/db');
-const Album = require('../../src/db/models/AlbumModel');
+const Album = require('../../src/models/album');
 const { albums } = require('../data');
 
 const should = chai.should();

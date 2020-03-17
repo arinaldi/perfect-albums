@@ -1,9 +1,9 @@
-const ReleaseModel = require('../../db/models/ReleaseModel');
+const Release = require('../../models/release');
 const { ERRORS } = require('../../constants');
 
 module.exports = (id) => (
   new Promise((resolve, reject) => {
-    ReleaseModel
+    Release
       .findByIdAndDelete(id, (err) => {
         if (err) reject(err);
         resolve();

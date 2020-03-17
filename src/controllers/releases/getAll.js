@@ -1,4 +1,4 @@
-const ReleaseModel = require('../../db/models/ReleaseModel');
+const Release = require('../../models/release');
 const { TBD } = require('../../constants');
 const { formatDate, sortByAlbum } = require('../../utils');
 
@@ -26,7 +26,7 @@ const formatData = (releases) => {
 
 module.exports = () => (
   new Promise((resolve, reject) => {
-    ReleaseModel
+    Release
       .find({})
       .exec((err, data) => {
         if (err) reject(err);

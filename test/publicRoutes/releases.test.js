@@ -5,7 +5,7 @@ const chaiHttp = require('chai-http');
 
 const app = require('../../src/app');
 const db = require('../../src/db');
-const Release = require('../../src/db/models/ReleaseModel');
+const Release = require('../../src/models/release');
 const { formatDate } = require('../../src/utils');
 const { releases } = require('../data');
 

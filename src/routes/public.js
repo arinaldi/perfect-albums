@@ -1,8 +1,8 @@
 const router = require('express').Router();
 
 const getFavorites = require('../controllers/albums/getFavorites');
-const getAllSongs = require('../controllers/songs/getAllSongs');
-const getAllReleases = require('../controllers/releases/getAllReleases');
+const getAllSongs = require('../controllers/songs/getAll');
+const getAllReleases = require('../controllers/releases/getAll');
 
 router.get('/api/health', (req, res) => {
   res.send({});

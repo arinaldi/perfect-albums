@@ -1,8 +1,8 @@
-const ReleaseModel = require('../../db/models/ReleaseModel');
+const Release = require('../../models/release');
 
 module.exports = (id) => (
   new Promise((resolve, reject) => {
-    ReleaseModel
+    Release
       .findById(id)
       .exec((err, release) => {
         if (err) reject(err);

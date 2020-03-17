@@ -1,6 +1,6 @@
 const bcrypt = require('bcrypt-nodejs');
 
-const User = require('../../db/models/UserModel');
+const User = require('../../models/user');
 const { ERRORS } = require('../../constants');
 const { makeToken } = require('./utils');
 

@@ -1,8 +1,8 @@
-const AlbumModel = require('../../db/models/AlbumModel');
+const Album = require('../../models/album');
 
 module.exports = (id) => (
   new Promise((resolve, reject) => {
-    AlbumModel
+    Album
       .findById(id)
       .exec((err, album) => {
         if (err) reject(err);

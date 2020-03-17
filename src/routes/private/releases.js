@@ -1,8 +1,8 @@
 const router = require('express').Router();
 
-const createRelease = require('../../controllers/releases/createRelease');
-const editRelease = require('../../controllers/releases/editRelease');
-const deleteRelease = require('../../controllers/releases/deleteRelease');
+const createRelease = require('../../controllers/releases/create');
+const editRelease = require('../../controllers/releases/edit');
+const deleteRelease = require('../../controllers/releases/delete');
 
 const { ERRORS } = require('../../constants');
 

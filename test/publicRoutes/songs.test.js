@@ -5,7 +5,7 @@ const chaiHttp = require('chai-http');
 
 const app = require('../../src/app');
 const db = require('../../src/db');
-const Song = require('../../src/db/models/SongModel');
+const Song = require('../../src/models/song');
 const { songs } = require('../data');
 
 const should = chai.should();

@@ -9,6 +9,7 @@ const decodeToken = (token) => {
   } catch (err) {
     // eslint-disable-next-line no-console
     console.log(ERRORS.TOKEN, err.message);
+    return null;
   }
 };
 

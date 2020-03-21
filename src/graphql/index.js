@@ -11,7 +11,7 @@ const schema = new GraphQLSchema({
 
 const graphql = graphqlHTTP({
   schema,
-  graphiql: true,
+  graphiql: process.env.NODE_ENV === 'development',
 });
 
 module.exports = graphql;

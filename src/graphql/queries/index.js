@@ -22,7 +22,6 @@ const RootQueryType = new GraphQLObjectType({
       type: new GraphQLList(SongType),
       description: 'List of all featured songs',
       resolve: async () => {
-        // TODO: test error handling
         const songs = await getAllSongs();
         return songs;
       },

@@ -1,12 +1,12 @@
-const { GraphQLSchema } = require('graphql');
 const graphqlHTTP = require('express-graphql');
+const { makeExecutableSchema } = require('graphql-tools');
 
-const { RootQueryType } = require('./queries');
-const { RootMutationType } = require('./mutations');
+const typeDefs = require('./schema');
+const resolvers = require('./resolvers');
 
-const schema = new GraphQLSchema({
-  query: RootQueryType,
-  mutation: RootMutationType,
+const schema = makeExecutableSchema({
+  typeDefs,
+  resolvers,
 });
 
 const graphql = graphqlHTTP({

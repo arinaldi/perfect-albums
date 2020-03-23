@@ -7,8 +7,10 @@ const decodeToken = (token) => {
   try {
     return jwt.decode(token, process.env.SECRET);
   } catch (err) {
-    // eslint-disable-next-line no-console
-    console.log(ERRORS.TOKEN, err.message);
+    if (process.env.NODE_ENV === 'development') {
+      // eslint-disable-next-line no-console
+      console.log(ERRORS.TOKEN, err.message);
+    }
     return null;
   }
 };

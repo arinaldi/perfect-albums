@@ -14,10 +14,7 @@ const ERRORS = {
 
 const TBD = 'TBD';
 
-const ONE_WEEK = 60 * 60 * 24 * 7;
-
 module.exports = {
   ERRORS,
   TBD,
-  ONE_WEEK,
 };

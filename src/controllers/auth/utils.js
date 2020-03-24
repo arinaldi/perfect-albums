@@ -1,11 +1,11 @@
 require('dotenv').config();
-const jwt = require('jwt-simple');
+const jwt = require('jsonwebtoken');
 
-const { ERRORS, ONE_WEEK } = require('../../constants');
+const { ERRORS } = require('../../constants');
 
 const decodeToken = (token) => {
   try {
-    return jwt.decode(token, process.env.SECRET);
+    return jwt.verify(token, process.env.SECRET);
   } catch (err) {
     if (process.env.NODE_ENV === 'development') {
       // eslint-disable-next-line no-console
@@ -22,12 +22,11 @@ const getToken = (authHeader = '') => {
 };
 
 const makeToken = (user) => {
-  const TIMESTAMP = Math.round(Date.now() / 1000);
-  return jwt.encode({
-    user,
-    iat: TIMESTAMP,
-    exp: TIMESTAMP + ONE_WEEK,
-  }, process.env.SECRET);
+  return jwt.sign(
+    { user: { _id: user._id } },
+    process.env.SECRET,
+    { expiresIn: '7d' },
+  );
 };
 
 module.exports = { decodeToken, getToken, makeToken };

@@ -1,3 +1,4 @@
+const getFavorites = require('../controllers/albums/getFavorites');
 const getAllSongs = require('../controllers/songs/getAll');
 const createSong = require('../controllers/songs/create');
 const deleteSong = require('../controllers/songs/delete');
@@ -6,6 +7,10 @@ const { ERRORS } = require('../constants');
 module.exports = {
   Query: {
     health: () => 'OK',
+    favorites: async () => {
+      const favorites = await getFavorites();
+      return favorites;
+    },
     songs: async () => {
       const songs = await getAllSongs();
       return songs;

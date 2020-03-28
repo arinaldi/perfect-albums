@@ -1,4 +1,11 @@
 module.exports = `
+  type Favorite {
+    id: ID!
+    artist: String!
+    title: String!
+    year: String!
+  }
+
   type Song {
     id: ID!
     artist: String!
@@ -13,6 +20,7 @@ module.exports = `
 
   type Query {
     health: String!
+    favorites: [Favorite!]!
     songs: [Song!]!
   }
 

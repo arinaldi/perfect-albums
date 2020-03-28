@@ -1,6 +1,5 @@
 module.exports = `
   type Favorite {
-    id: ID!
     artist: String!
     title: String!
     year: String!

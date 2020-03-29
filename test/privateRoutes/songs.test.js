@@ -7,15 +7,15 @@ const app = require('../../src/app');
 const db = require('../../src/db');
 const { saveUser } = require('../../src/controllers/auth/signUp');
 const { ERRORS } = require('../../src/constants');
-const { songs, invalidId, getUser } = require('../data');
+const { featuredSongs, invalidId, getUser } = require('../data');
 
 const should = chai.should();
 chai.use(chaiHttp);
 
 const user = getUser();
 
-const validSong = { ...songs[2] };
-const invalidSong = { ...songs[0] };
+const validSong = { ...featuredSongs[2] };
+const invalidSong = { ...featuredSongs[0] };
 delete invalidSong.artist;
 
 let token = null;

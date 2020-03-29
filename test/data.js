@@ -33,7 +33,25 @@ const albums = [
   },
 ];
 
-const songs = [
+const favoriteAlbums = [
+  {
+    artist: 'HIM',
+    title: 'Razorblade Romance',
+    year: '1999',
+  },
+  {
+    artist: 'Nirvana',
+    title: 'Nevermind',
+    year: '1991',
+  },
+  {
+    artist: 'Pearl Jam',
+    title: 'Ten',
+    year: '1991',
+  },
+];
+
+const featuredSongs = [
   {
     artist: 'Nirvana',
     title: 'Smells Like Teen Spirit',
@@ -79,4 +97,11 @@ const getUser = () => {
   };
 };
 
-module.exports = { albums, songs, releases, invalidId, getUser };
+module.exports = {
+  albums,
+  favoriteAlbums,
+  featuredSongs,
+  releases,
+  invalidId,
+  getUser,
+};

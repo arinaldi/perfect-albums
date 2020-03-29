@@ -12,13 +12,13 @@ const { expect } = chai;
 chai.use(chaiHttp);
 
 const GET_FAVORITES = `
-{
-  favorites {
-    artist
-    title
-    year
+  {
+    favorites {
+      artist
+      title
+      year
+    }
   }
-}
 `;
 
 describe('Public favorites routes', () => {

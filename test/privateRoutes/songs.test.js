@@ -9,8 +9,27 @@ const { saveUser } = require('../../src/controllers/auth/signUp');
 const { ERRORS } = require('../../src/constants');
 const { featuredSongs, invalidId, getUser } = require('../data');
 
-const should = chai.should();
+const { expect } = chai;
 chai.use(chaiHttp);
+
+const CREATE_SONG = `
+  mutation CreateSong($artist: String!, $title: String!, $link: String!) {
+    createSong(artist: $artist, title: $title, link: $link) {
+      id
+      artist
+      title
+      link
+    }
+  }
+`;
+
+const DELETE_SONG = `
+  mutation DeleteSong($id: ID!) {
+    deleteSong(id: $id) {
+      id
+    }
+  }
+`;
 
 const user = getUser();
 
@@ -53,66 +72,82 @@ describe('Private song routes', () => {
     });
   });
 
-  describe('POST /api/songs', () => {
-    it('creates a song', done => {
+  describe('POST a feauted song', () => {
+    it('creates a featured song', done => {
       chai.request(app)
-        .post('/api/songs')
+        .post('/graphql')
         .set('Content-Type', 'application/json')
         .set('authorization', `Bearer ${token}`)
-        .send(validSong)
+        .send({
+          query: CREATE_SONG,
+          variables: validSong,
+        })
         .end((_, res) => {
-          res.should.have.status(200);
-          res.body.should.be.a('object');
-          res.body.should.have.property('id');
-          res.body.should.have.property('artist');
-          res.body.should.have.property('title');
-          res.body.should.have.property('link');
-          res.body.should.have.property('createdAt');
-          res.body.should.have.property('updatedAt');
+          const { createSong } = res.body.data;
+          const { id, ...song } = createSong;
 
-          newSong = res.body;
+          expect(res.status).to.equal(200);
+          expect(song).to.eql(validSong);
+
+          newSong = createSong;
           done();
         });
     });
 
-    it('does not create a song without the artist field', done => {
+    it('does not create a featured song without the artist field', done => {
       chai.request(app)
-        .post('/api/songs')
+        .post('/graphql')
         .set('Content-Type', 'application/json')
         .set('authorization', `Bearer ${token}`)
-        .send(invalidSong)
+        .send({
+          query: CREATE_SONG,
+          variables: invalidSong,
+        })
         .end((_, res) => {
-          res.should.have.status(500);
-          res.text.should.be.eql('Song validation failed: artist: Path `artist` is required.');
+          const { text } = res.error;
+
+          expect(res.status).to.equal(500);
+          expect(text).to.have.string('Variable \\"$artist\\" of required type \\"String!\\" was not provided.');
 
           done();
         });
     });
   });
 
-  describe('DELETE /api/songs/:id', () => {
-    it('deletes a song', done => {
+  describe('DELETE a featured song', () => {
+    it('deletes a featured song', done => {
       chai.request(app)
-        .delete(`/api/songs/${newSong.id}`)
+        .post('/graphql')
         .set('Content-Type', 'application/json')
         .set('authorization', `Bearer ${token}`)
+        .send({
+          query: DELETE_SONG,
+          variables: { id: newSong.id },
+        })
         .end((_, res) => {
-          res.should.have.status(200);
-          res.body.should.be.a('object');
-          res.body.should.be.eql({});
+          const { deleteSong } = res.body.data;
+
+          expect(res.status).to.equal(200);
+          expect(deleteSong).to.eql({ id: newSong.id });
 
           done();
         });
     });
 
-    it('does not delete a song with an invalid ID', done => {
+    it('does not delete a featured song with an invalid ID', done => {
       chai.request(app)
-        .delete(`/api/songs/${invalidId}`)
+        .post('/graphql')
         .set('Content-Type', 'application/json')
         .set('authorization', `Bearer ${token}`)
+        .send({
+          query: DELETE_SONG,
+          variables: { id: invalidId },
+        })
         .end((_, res) => {
-          res.should.have.status(404);
-          res.text.should.be.eql(ERRORS.SONG);
+          const { text } = res.error;
+
+          expect(res.status).to.equal(500);
+          expect(text).to.have.string(ERRORS.SONG);
 
           done();
         });

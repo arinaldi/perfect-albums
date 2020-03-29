@@ -12,14 +12,14 @@ const { expect } = chai;
 chai.use(chaiHttp);
 
 const GET_SONGS = `
-{
-  songs {
-    id
-    artist
-    title
-    link
+  {
+    songs {
+      id
+      artist
+      title
+      link
+    }
   }
-}
 `;
 
 describe('Public song routes', () => {

@@ -8,7 +8,7 @@ const db = require('../../src/db');
 const Album = require('../../src/models/album');
 const { albums, favoriteAlbums } = require('../data');
 
-const expect = chai.expect;
+const { expect } = chai;
 chai.use(chaiHttp);
 
 const GET_FAVORITES = `

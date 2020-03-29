@@ -1,5 +1,5 @@
 # Perfect Albums
-Built with Node, Express, and MongoDB.
+Built with Node, Express, GraphQL, and MongoDB.
 
 ### Backend
 Install dependencies: `npm install`

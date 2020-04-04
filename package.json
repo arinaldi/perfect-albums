@@ -10,7 +10,7 @@
     "start": "node src/server.js",
     "dev": "nodemon src/server.js",
     "lint": "eslint src/**/*.js",
-    "test": "mocha --recursive --timeout 60000 --exit"
+    "test": "mocha --recursive --timeout 10000 --exit"
   },
   "author": "Tony Rinaldi",
   "cacheDirectories": [

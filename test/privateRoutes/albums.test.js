@@ -1,5 +1,3 @@
-process.env.NODE_ENV = 'test';
-
 const chai = require('chai');
 const chaiHttp = require('chai-http');
 
@@ -28,13 +26,13 @@ describe('Private album routes', () => {
       .then(() => {
         saveUser(user.username, user.password)
           .then(() => {
-            for (let i = 0; i < albums.length; i++) {
-              const album = new Album(albums[i]);
-              album.save((err, album) => {
+            albums.forEach((album, i) => {
+              const newData = new Album(album);
+              newData.save(err => {
                 if (err) throw new Error(err);
-                if (i === 0) newAlbum = album;
+                if (i === 0) newAlbum = newData;
               });
-            }
+            });
 
             done();
           });

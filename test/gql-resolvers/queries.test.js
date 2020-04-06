@@ -1,14 +1,15 @@
-const chai = require('chai');
+const { expect } = require('chai');
 
 const { gqlCall } = require('../utils');
-const { favoriteAlbums, featuredSongs } = require('../data');
+const {
+  favoriteAlbums,
+  featuredSongs,
+} = require('../data');
 const {
   GET_HEALTH,
   GET_FAVORITES,
   GET_SONGS,
-} = require('./queries');
-
-const { expect } = chai;
+} = require('../graphql/queries');
 
 describe('Health query', () => {
   it('returns OK', async () => {

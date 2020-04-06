@@ -20,9 +20,7 @@ const gqlCall = (options) => {
     schema,
     source,
     variableValues,
-    contextValue: {
-      req: { isAuthorized },
-    },
+    contextValue: { isAuthorized },
   });
 };
 

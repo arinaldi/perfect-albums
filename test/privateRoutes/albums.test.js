@@ -158,7 +158,7 @@ describe('Private album routes', () => {
         .send(invalidAlbum)
         .end((_, res) => {
           res.should.have.status(500);
-          res.text.should.be.eql('Album validation failed: artist: Path `artist` is required.');
+          res.body.should.be.eql('Album validation failed: artist: Path `artist` is required.');
 
           done();
         });
@@ -189,7 +189,7 @@ describe('Private album routes', () => {
         .send({ cd: true })
         .end((_, res) => {
           res.should.have.status(404);
-          res.text.should.be.eql(ERRORS.ALBUM);
+          res.body.should.be.eql(ERRORS.ALBUM);
 
           done();
         });
@@ -204,8 +204,7 @@ describe('Private album routes', () => {
         .set('authorization', `Bearer ${token}`)
         .end((_, res) => {
           res.should.have.status(200);
-          res.body.should.be.a('object');
-          res.body.should.be.eql({});
+          res.body.should.be.eql(`Album successfully deleted: ${newAlbum.id}`);
 
           done();
         });
@@ -218,7 +217,7 @@ describe('Private album routes', () => {
         .set('authorization', `Bearer ${token}`)
         .end((_, res) => {
           res.should.have.status(404);
-          res.text.should.be.eql(ERRORS.ALBUM);
+          res.body.should.be.eql(ERRORS.ALBUM);
 
           done();
         });

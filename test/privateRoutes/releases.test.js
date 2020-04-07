@@ -80,7 +80,7 @@ describe('Private release routes', () => {
         .send(invalidRelease)
         .end((_, res) => {
           res.should.have.status(500);
-          res.text.should.be.eql('Release validation failed: artist: Path `artist` is required.');
+          res.body.should.be.eql('Release validation failed: artist: Path `artist` is required.');
 
           done();
         });
@@ -111,7 +111,7 @@ describe('Private release routes', () => {
         .send({ date })
         .end((_, res) => {
           res.should.have.status(404);
-          res.text.should.be.eql(ERRORS.RELEASE);
+          res.body.should.be.eql(ERRORS.RELEASE);
 
           done();
         });
@@ -126,8 +126,7 @@ describe('Private release routes', () => {
         .set('authorization', `Bearer ${token}`)
         .end((_, res) => {
           res.should.have.status(200);
-          res.body.should.be.a('object');
-          res.body.should.be.eql({});
+          res.body.should.be.eql(`Release successfully deleted: ${newRelease.id}`);
 
           done();
         });
@@ -140,7 +139,7 @@ describe('Private release routes', () => {
         .set('authorization', `Bearer ${token}`)
         .end((_, res) => {
           res.should.have.status(404);
-          res.text.should.be.eql(ERRORS.RELEASE);
+          res.body.should.be.eql(ERRORS.RELEASE);
 
           done();
         });

@@ -11,8 +11,8 @@ const checkUser = async (req, res) => {
     if (data && data.user) {
       const user = await User.findById(data.user._id);
 
-      if (user) return res.send('User is valid');
-      return res.status(404).send(ERRORS.USER.NOT_FOUND);
+      if (user) return res.json('User is valid');
+      return res.status(404).json(ERRORS.USER.NOT_FOUND);
     }
 
     return res.status(401).json(ERRORS.USER.NOT_VALID);

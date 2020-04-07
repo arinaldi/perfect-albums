@@ -11,7 +11,7 @@ const { ERRORS } = require('../../constants');
 router.get('/', async (req, res) => {
   try {
     const albums = await getAllAlbums(req.query);
-    res.send(albums);
+    res.json(albums);
   } catch (err) {
     res.status(500).json({ error: err.message });
   }
@@ -24,7 +24,7 @@ router.get('/:id', async (req, res) => {
     if (!album) {
       res.status(404).json({ error: ERRORS.ALBUM });
     } else {
-      res.send(album);
+      res.json(album);
     }
   } catch (err) {
     res.status(500).json({ error: err.message });
@@ -34,9 +34,9 @@ router.get('/:id', async (req, res) => {
 router.post('/', async (req, res) => {
   try {
     const newAlbum = await createAlbum(req.body);
-    res.send(newAlbum);
+    res.json(newAlbum);
   } catch (err) {
-    res.status(500).send(err.message);
+    res.status(500).json(err.message);
   }
 });
 
@@ -44,12 +44,12 @@ router.put('/:id', async (req, res) => {
   try {
     const updatedAlbum = await editAlbum(req.params.id, req.body);
     if (!updatedAlbum) {
-      res.status(404).send(ERRORS.ALBUM);
+      res.status(404).json(ERRORS.ALBUM);
     } else {
-      res.send(updatedAlbum);
+      res.json(updatedAlbum);
     }
   } catch (err) {
-    res.status(500).send(err.message);
+    res.status(500).json(err.message);
   }
 });
 
@@ -57,10 +57,10 @@ router.delete('/:id', async (req, res) => {
   const { id } = req.params;
   try {
     await deleteAlbum(id);
-    res.send(`Album successfully deleted: ${id}`);
+    res.json(`Album successfully deleted: ${id}`);
   } catch (err) {
     const status = err.message === ERRORS.ALBUM ? 404 : 500;
-    res.status(status).send(err.message);
+    res.status(status).json(err.message);
   }
 });
 

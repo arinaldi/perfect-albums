@@ -14,6 +14,17 @@ const GET_FAVORITES = `
   }
 `;
 
+const GET_RELEASES = `
+  {
+    releases {
+      id
+      artist
+      title
+      date
+    }
+  }
+`;
+
 const GET_SONGS = `
   {
     songs {
@@ -28,5 +39,6 @@ const GET_SONGS = `
 module.exports = {
   GET_HEALTH,
   GET_FAVORITES,
+  GET_RELEASES,
   GET_SONGS,
 };

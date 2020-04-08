@@ -4,10 +4,12 @@ const { gqlCall } = require('../utils');
 const {
   favoriteAlbums,
   featuredSongs,
+  releases: newReleases,
 } = require('../data');
 const {
   GET_HEALTH,
   GET_FAVORITES,
+  GET_RELEASES,
   GET_SONGS,
 } = require('../graphql/queries');
 
@@ -41,5 +43,18 @@ describe('Featured Songs query', () => {
     }));
 
     expect(songs).to.have.deep.members(featuredSongs);
+  });
+});
+
+describe('New Releases query', () => {
+  it('returns an array of new releases', async () => {
+    const response = await gqlCall({ source: GET_RELEASES });
+    const releases = response.data.releases.map(({ artist, title, date }) => ({
+      artist,
+      title,
+      date: date.toISOString(),
+    }));
+
+    expect(releases).to.have.deep.members(newReleases);
   });
 });

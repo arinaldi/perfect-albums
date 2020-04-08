@@ -1,4 +1,5 @@
 const getFavorites = require('../controllers/albums/getFavorites');
+const getAllReleases = require('../controllers/releases/getAll');
 const getAllSongs = require('../controllers/songs/getAll');
 const createSong = require('../controllers/songs/create');
 const deleteSong = require('../controllers/songs/delete');
@@ -10,6 +11,10 @@ module.exports = {
     favorites: async () => {
       const favorites = await getFavorites();
       return favorites;
+    },
+    releases: async () => {
+      const releases = await getAllReleases();
+      return releases;
     },
     songs: async () => {
       const songs = await getAllSongs();

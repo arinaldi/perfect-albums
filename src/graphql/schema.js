@@ -1,8 +1,17 @@
 module.exports = `
+  scalar Date
+
   type Favorite {
     artist: String!
     title: String!
     year: String!
+  }
+
+  type Release {
+    id: ID!
+    artist: String!
+    title: String!
+    date: Date
   }
 
   type Song {
@@ -10,7 +19,7 @@ module.exports = `
     artist: String!
     title: String!
     link: String!
-    createdAt: String!
+    createdAt: Date!
   }
 
   type Id {
@@ -20,6 +29,7 @@ module.exports = `
   type Query {
     health: String!
     favorites: [Favorite!]!
+    releases: [Release!]!
     songs: [Song!]!
   }
 

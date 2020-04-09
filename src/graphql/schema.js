@@ -34,6 +34,9 @@ module.exports = `
   }
 
   type Mutation {
+    createRelease(artist: String!, title: String!, date: Date): Release!
+    editRelease(id: ID!, artist: String!, title: String!, date: Date): Release!
+    deleteRelease(id: ID!): Id!
     createSong(artist: String!, title: String!, link: String!): Song!
     deleteSong(id: ID!): Id!
   }

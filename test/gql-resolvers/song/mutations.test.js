@@ -17,7 +17,7 @@ describe('Create Featured Song mutation', () => {
     link: 'google.com',
   };
 
-  it('does not created a featured song if not authorized', async () => {
+  it('does not create a featured song if not authorized', async () => {
     const response = await gqlCall({
       source: CREATE_SONG,
       variableValues: data,

@@ -10,6 +10,7 @@ const ERRORS = {
     NOT_VALID: 'User not valid',
     TAKEN: 'Username is in use',
   },
+  INVALID_DATE: 'Date is invalid',
 };
 
 const TBD = 'TBD';

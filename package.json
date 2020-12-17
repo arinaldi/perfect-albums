@@ -1,6 +1,6 @@
 {
   "name": "perfect-albums",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "backend",
   "engines": {
     "node": "12.16.1",

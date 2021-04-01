@@ -4,7 +4,7 @@
   "description": "backend",
   "engines": {
     "node": "12.16.1",
-    "npm": "6.13.6"
+    "npm": "7.7.0"
   },
   "scripts": {
     "start": "node src/server.js",

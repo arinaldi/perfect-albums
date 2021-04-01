@@ -11,11 +11,17 @@ const ERRORS = {
     TAKEN: 'Username is in use',
   },
   INVALID_DATE: 'Date is invalid',
+  LIMIT_REACHED: 'You have exceeded the limit',
 };
 
 const TBD = 'TBD';
 
+const THIRTY_SECONDS = 1000 * 30;
+const MAX_REQUEST_COUNT = 3;
+
 module.exports = {
   ERRORS,
   TBD,
+  THIRTY_SECONDS,
+  MAX_REQUEST_COUNT,
 };

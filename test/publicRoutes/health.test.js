@@ -9,8 +9,9 @@ chai.use(chaiHttp);
 
 describe('Public health route', () => {
   describe('GET /api/health', () => {
-    it('returns 200 and success if rate is not exceeded', done => {
-      chai.request(app)
+    it('returns 200 and success if rate is not exceeded', (done) => {
+      chai
+        .request(app)
         .get('/api/health')
         .end((_, res) => {
           res.should.have.status(200);
@@ -20,14 +21,13 @@ describe('Public health route', () => {
         });
     });
 
-    it('returns 429 and error if rate is exceeded', done => {
+    it('returns 429 and error if rate is exceeded', (done) => {
       Array.from({ length: MAX_REQUEST_COUNT }, (_, i) => i + 1).forEach(() => {
-        chai.request(app)
-          .get('/api/health')
-          .end();
+        chai.request(app).get('/api/health').end();
       });
 
-      chai.request(app)
+      chai
+        .request(app)
         .get('/api/health')
         .end((_, res) => {
           res.should.have.status(429);

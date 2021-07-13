@@ -3,10 +3,7 @@ const { expect } = require('chai');
 const { ERRORS } = require('../../../src/constants');
 const { gqlCall } = require('../../utils');
 const { invalidId } = require('../../data');
-const {
-  CREATE_SONG,
-  DELETE_SONG,
-} = require('../../graphql/mutations');
+const { CREATE_SONG, DELETE_SONG } = require('../../graphql/mutations');
 
 let newId;
 

@@ -4,7 +4,7 @@ const User = require('../../models/user');
 const { ERRORS } = require('../../constants');
 const { makeToken } = require('./utils');
 
-const saveUser = (username, password) => (
+const saveUser = (username, password) =>
   new Promise((resolve, reject) => {
     bcrypt.genSalt(10, (err, salt) => {
       if (err) reject(err);
@@ -17,16 +17,13 @@ const saveUser = (username, password) => (
         user.save().then((user) => resolve(user));
       });
     });
-  })
-);
+  });
 
 const signUp = async (req, res, next) => {
   const { username, password } = req.body;
 
   if (!username || !password) {
-    return res
-      .status(422)
-      .json({ error: ERRORS.USER.CREDENTIALS });
+    return res.status(422).json({ error: ERRORS.USER.CREDENTIALS });
   }
 
   try {

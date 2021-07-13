@@ -7,22 +7,21 @@ const DB_OPTIONS = {
   useUnifiedTopology: true,
 };
 
-const connect = () => (
+const connect = () =>
   new Promise((resolve, reject) => {
     if (process.env.NODE_ENV === 'test') {
       const { MongoMemoryServer } = require('mongodb-memory-server');
       const mongoServer = new MongoMemoryServer();
 
-      mongoServer.getConnectionString()
-        .then(mongoUri => (
-          mongoose.connect(mongoUri, DB_OPTIONS, err => {
-            if (err) reject(err);
-            resolve();
-          })
-        ));
+      mongoServer.getConnectionString().then((mongoUri) =>
+        mongoose.connect(mongoUri, DB_OPTIONS, (err) => {
+          if (err) reject(err);
+          resolve();
+        }),
+      );
     } else {
       mongoose.connect(process.env.DATABASE, DB_OPTIONS);
-      mongoose.connection.on('error', err => {
+      mongoose.connection.on('error', (err) => {
         // eslint-disable-next-line no-console
         console.log('Connection error', err.message);
         reject(err);
@@ -33,8 +32,7 @@ const connect = () => (
         resolve();
       });
     }
-  })
-);
+  });
 
 const close = () => mongoose.disconnect();
 

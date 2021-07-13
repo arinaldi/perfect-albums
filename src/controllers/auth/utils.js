@@ -22,11 +22,9 @@ const getToken = (authHeader = '') => {
 };
 
 const makeToken = (user) => {
-  return jwt.sign(
-    { user: { _id: user._id } },
-    process.env.SECRET,
-    { expiresIn: '7d' },
-  );
+  return jwt.sign({ user: { _id: user._id } }, process.env.SECRET, {
+    expiresIn: '7d',
+  });
 };
 
 module.exports = { decodeToken, getToken, makeToken };

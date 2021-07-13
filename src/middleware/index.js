@@ -25,7 +25,9 @@ const rateLimiter = (req, res, next) => {
 
   const now = new Date();
   const thirtySecondsAgo = new Date(now.getTime() - THIRTY_SECONDS);
-  const requestsInWindow = cache[ip].filter(item => item.createdAt >= thirtySecondsAgo);
+  const requestsInWindow = cache[ip].filter(
+    (item) => item.createdAt >= thirtySecondsAgo,
+  );
 
   if (requestsInWindow.length < MAX_REQUEST_COUNT) {
     cache[ip].push({ createdAt: Date.now() });

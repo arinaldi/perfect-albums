@@ -21,34 +21,34 @@ let token = null;
 let newAlbum = {};
 
 describe('Private album routes', () => {
-  before(done => {
+  before((done) => {
     db.connect()
       .then(() => {
-        saveUser(user.username, user.password)
-          .then(() => {
-            albums.forEach((album, i) => {
-              const newData = new Album(album);
-              newData.save(err => {
-                if (err) throw new Error(err);
-                if (i === 0) newAlbum = newData;
-              });
+        saveUser(user.username, user.password).then(() => {
+          albums.forEach((album, i) => {
+            const newData = new Album(album);
+            newData.save((err) => {
+              if (err) throw new Error(err);
+              if (i === 0) newAlbum = newData;
             });
-
-            done();
           });
+
+          done();
+        });
       })
-      .catch(err => done(err));
+      .catch((err) => done(err));
   });
 
-  after(done => {
+  after((done) => {
     db.close()
       .then(() => done())
-      .catch(err => done(err));
+      .catch((err) => done(err));
   });
 
   describe('POST /api/signin', () => {
-    it('signs in a user and returns a token', done => {
-      chai.request(app)
+    it('signs in a user and returns a token', (done) => {
+      chai
+        .request(app)
         .post('/api/signin')
         .set('Content-Type', 'application/json')
         .send(user)
@@ -63,8 +63,9 @@ describe('Private album routes', () => {
   });
 
   describe('GET /api/albums', () => {
-    it('gets an array paginated data', done => {
-      chai.request(app)
+    it('gets an array paginated data', (done) => {
+      chai
+        .request(app)
         .get('/api/albums')
         .set('Content-Type', 'application/json')
         .set('authorization', `Bearer ${token}`)
@@ -77,8 +78,9 @@ describe('Private album routes', () => {
         });
     });
 
-    it('gets an array of paginated and searched data', done => {
-      chai.request(app)
+    it('gets an array of paginated and searched data', (done) => {
+      chai
+        .request(app)
         .get('/api/albums?page=1&per_page=20&search=nirvana')
         .set('Content-Type', 'application/json')
         .set('authorization', `Bearer ${token}`)
@@ -93,8 +95,9 @@ describe('Private album routes', () => {
   });
 
   describe('GET /api/albums/:id', () => {
-    it('gets an album', done => {
-      chai.request(app)
+    it('gets an album', (done) => {
+      chai
+        .request(app)
         .get(`/api/albums/${newAlbum.id}`)
         .set('Content-Type', 'application/json')
         .set('authorization', `Bearer ${token}`)
@@ -113,8 +116,9 @@ describe('Private album routes', () => {
         });
     });
 
-    it('does not get an album with an invalid ID', done => {
-      chai.request(app)
+    it('does not get an album with an invalid ID', (done) => {
+      chai
+        .request(app)
         .get(`/api/albums/${invalidId}`)
         .set('Content-Type', 'application/json')
         .set('authorization', `Bearer ${token}`)
@@ -128,8 +132,9 @@ describe('Private album routes', () => {
   });
 
   describe('POST /api/albums', () => {
-    it('creates an album', done => {
-      chai.request(app)
+    it('creates an album', (done) => {
+      chai
+        .request(app)
         .post('/api/albums')
         .set('Content-Type', 'application/json')
         .set('authorization', `Bearer ${token}`)
@@ -150,15 +155,18 @@ describe('Private album routes', () => {
         });
     });
 
-    it('does not create an album without the artist field', done => {
-      chai.request(app)
+    it('does not create an album without the artist field', (done) => {
+      chai
+        .request(app)
         .post('/api/albums')
         .set('Content-Type', 'application/json')
         .set('authorization', `Bearer ${token}`)
         .send(invalidAlbum)
         .end((_, res) => {
           res.should.have.status(500);
-          res.body.should.be.eql('Album validation failed: artist: Path `artist` is required.');
+          res.body.should.be.eql(
+            'Album validation failed: artist: Path `artist` is required.',
+          );
 
           done();
         });
@@ -166,8 +174,9 @@ describe('Private album routes', () => {
   });
 
   describe('PUT /api/albums/:id', () => {
-    it('updates an album', done => {
-      chai.request(app)
+    it('updates an album', (done) => {
+      chai
+        .request(app)
         .put(`/api/albums/${newAlbum.id}`)
         .set('Content-Type', 'application/json')
         .set('authorization', `Bearer ${token}`)
@@ -181,8 +190,9 @@ describe('Private album routes', () => {
         });
     });
 
-    it('does not update an album with an invalid ID', done => {
-      chai.request(app)
+    it('does not update an album with an invalid ID', (done) => {
+      chai
+        .request(app)
         .put(`/api/albums/${invalidId}`)
         .set('Content-Type', 'application/json')
         .set('authorization', `Bearer ${token}`)
@@ -197,8 +207,9 @@ describe('Private album routes', () => {
   });
 
   describe('DELETE /api/albums/:id', () => {
-    it('deletes an album', done => {
-      chai.request(app)
+    it('deletes an album', (done) => {
+      chai
+        .request(app)
         .delete(`/api/albums/${newAlbum.id}`)
         .set('Content-Type', 'application/json')
         .set('authorization', `Bearer ${token}`)
@@ -210,8 +221,9 @@ describe('Private album routes', () => {
         });
     });
 
-    it('does not delete an album with an invalid ID', done => {
-      chai.request(app)
+    it('does not delete an album with an invalid ID', (done) => {
+      chai
+        .request(app)
         .delete(`/api/albums/${invalidId}`)
         .set('Content-Type', 'application/json')
         .set('authorization', `Bearer ${token}`)

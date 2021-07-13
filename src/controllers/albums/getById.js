@@ -1,12 +1,9 @@
 const Album = require('../../models/album');
 
-module.exports = (id) => (
+module.exports = (id) =>
   new Promise((resolve, reject) => {
-    Album
-      .findById(id)
-      .exec((err, album) => {
-        if (err) reject(err);
-        resolve(album);
-      });
-  })
-);
+    Album.findById(id).exec((err, album) => {
+      if (err) reject(err);
+      resolve(album);
+    });
+  });

@@ -1,6 +1,5 @@
 const express = require('express');
 const cors = require('cors');
-const bodyParser = require('body-parser');
 const passport = require('passport');
 
 const { isAuthorized } = require('./middleware');
@@ -13,7 +12,7 @@ const app = express();
 
 app
   .use(cors())
-  .use(bodyParser.json())
+  .use(express.json())
   .use(isAuthorized)
   .use('/graphql', graphql)
   .use(authRoutes)

@@ -1,9 +1,8 @@
 const Song = require('../../models/song');
 
-module.exports = () => (
+module.exports = () =>
   new Promise((resolve, reject) => {
-    Song
-      .find({})
+    Song.find({})
       .sort({
         createdAt: 'desc',
       })
@@ -11,5 +10,4 @@ module.exports = () => (
         if (err) reject(err);
         resolve(songs);
       });
-  })
-);
+  });

@@ -1,22 +1,24 @@
 const mongoose = require('mongoose');
 
-const SongSchema = new mongoose.Schema({
-  artist: {
-    type: String,
-    required: true,
+const SongSchema = new mongoose.Schema(
+  {
+    artist: {
+      type: String,
+      required: true,
+    },
+    title: {
+      type: String,
+      required: true,
+    },
+    link: {
+      type: String,
+      required: true,
+    },
   },
-  title: {
-    type: String,
-    required: true,
+  {
+    timestamps: true,
   },
-  link: {
-    type: String,
-    required: true,
-  },
-},
-{
-  timestamps: true,
-});
+);
 
 SongSchema.set('toJSON', {
   transform: (_, ret) => {

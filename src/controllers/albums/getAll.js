@@ -1,16 +1,10 @@
 const Album = require('../../models/album');
 
-module.exports = (queries) => (
+module.exports = (queries) =>
   new Promise((resolve, reject) => {
-    let {
-      page,
-      per_page: perPage,
-      search,
-      sort,
-      direction,
-    } = queries;
+    let { page, per_page: perPage, search, sort, direction } = queries;
     const regex = new RegExp(search, 'i');
-    page = (Math.abs(parseInt(page))) - 1;
+    page = Math.abs(parseInt(page)) - 1;
     perPage = Math.abs(parseInt(perPage)) || 25;
     direction = direction || 'asc';
 
@@ -44,5 +38,4 @@ module.exports = (queries) => (
           }
         });
     });
-  })
-);
+  });

@@ -90,7 +90,7 @@ const releases = [
 const invalidId = '5939ed45e97818dae5385493';
 
 const getUser = () => {
-  const epoch = (new Date()).getTime();
+  const epoch = new Date().getTime();
   return {
     username: `user-${epoch}`,
     password: '1234',

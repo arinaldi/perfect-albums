@@ -29,9 +29,9 @@
     "spaced-comment": "error"
   },
   "globals": {
-    "afterAll": false,
+    "after": false,
     "afterEach": false,
-    "beforeAll": false,
+    "before": false,
     "beforeEach": false,
     "context": false,
     "describe": false,

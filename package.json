@@ -43,7 +43,7 @@
     "eslint-plugin-promise": "^4.2.1",
     "eslint-plugin-standard": "^4.0.1",
     "mocha": "^7.1.1",
-    "mongodb-memory-server": "^5.2.5",
+    "mongodb-memory-server": "^7.2.1",
     "nodemon": "^2.0.12",
     "prettier": "2.3.2"
   }

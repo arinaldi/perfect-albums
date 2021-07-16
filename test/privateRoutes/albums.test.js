@@ -2,8 +2,6 @@ const chai = require('chai');
 const chaiHttp = require('chai-http');
 
 const app = require('../../src/app');
-const db = require('../../src/db');
-const Album = require('../../src/models/album');
 const { saveUser } = require('../../src/controllers/auth/signUp');
 const { ERRORS } = require('../../src/constants');
 const { albums, invalidId, getUser } = require('../data');
@@ -21,28 +19,8 @@ let token = null;
 let newAlbum = {};
 
 describe('Private album routes', () => {
-  before((done) => {
-    db.connect()
-      .then(() => {
-        saveUser(user.username, user.password).then(() => {
-          albums.forEach((album, i) => {
-            const newData = new Album(album);
-            newData.save((err) => {
-              if (err) throw new Error(err);
-              if (i === 0) newAlbum = newData;
-            });
-          });
-
-          done();
-        });
-      })
-      .catch((err) => done(err));
-  });
-
-  after((done) => {
-    db.close()
-      .then(() => done())
-      .catch((err) => done(err));
+  before(async () => {
+    await saveUser(user.username, user.password);
   });
 
   describe('POST /api/signin', () => {
@@ -73,6 +51,7 @@ describe('Private album routes', () => {
           res.should.have.status(200);
           res.body.data.should.be.a('array');
           res.body.count.should.be.eql(albums.length);
+          newAlbum = res.body.data[0];
 
           done();
         });

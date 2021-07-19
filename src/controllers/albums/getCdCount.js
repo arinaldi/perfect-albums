@@ -2,8 +2,8 @@ const Album = require('../../models/album');
 
 module.exports = () =>
   new Promise((resolve, reject) => {
-    Album.find({ cd: true }).exec((err, albums) => {
+    Album.countDocuments({ cd: true }, (err, count) => {
       if (err) reject(err);
-      resolve(albums.length);
+      resolve(count);
     });
   });

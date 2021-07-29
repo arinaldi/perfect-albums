@@ -1,40 +1,25 @@
-const { decodeToken, getToken } = require('../controllers/auth/utils');
-const { ERRORS, MAX_REQUEST_COUNT, THIRTY_SECONDS } = require('../constants');
+const { decodeSupabaseToken, getToken } = require('../utils');
+const { ERRORS } = require('../constants');
 
-const isAuthorized = async (req, res, next) => {
+function checkForUser(req, res, next) {
+  if (req.isAuthorized) {
+    next();
+  } else {
+    res.status(401).json({ error: ERRORS.USER.UNAUTHORIZED });
+  }
+}
+
+async function isAuthorized(req, _, next) {
   const token = getToken(req.headers.authorization);
-  let data = false;
+  let isAuthorized = false;
 
   if (token) {
-    data = decodeToken(token);
+    const user = await decodeSupabaseToken(token);
+    isAuthorized = Boolean(user);
   }
 
-  req.isAuthorized = Boolean(data);
+  req.isAuthorized = isAuthorized;
   next();
-};
+}
 
-const cache = {};
-
-const rateLimiter = (req, res, next) => {
-  const { ip } = req;
-
-  if (cache[ip] === undefined) {
-    cache[ip] = [{ createdAt: Date.now() }];
-    return next();
-  }
-
-  const now = new Date();
-  const thirtySecondsAgo = new Date(now.getTime() - THIRTY_SECONDS);
-  const requestsInWindow = cache[ip].filter(
-    (item) => item.createdAt >= thirtySecondsAgo,
-  );
-
-  if (requestsInWindow.length < MAX_REQUEST_COUNT) {
-    cache[ip].push({ createdAt: Date.now() });
-    return next();
-  }
-
-  return res.status(429).json({ error: ERRORS.LIMIT_REACHED });
-};
-
-module.exports = { isAuthorized, rateLimiter };
+module.exports = { checkForUser, isAuthorized };

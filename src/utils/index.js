@@ -1,3 +1,27 @@
+const supabase = require('../utils/supabase');
+
+async function decodeSupabaseToken(token) {
+  try {
+    const { error, user } = await supabase.auth.api.getUser(token);
+
+    if (error) throw error;
+
+    return user;
+  } catch (err) {
+    if (process.env.NODE_ENV === 'development') {
+      // eslint-disable-next-line no-console
+      console.log(err.error_description || err.message);
+    }
+    return null;
+  }
+}
+
+function getToken(authHeader = '') {
+  const headers = authHeader.split(' ');
+  const tokenIndex = headers.indexOf('Bearer');
+  return tokenIndex === -1 ? '' : headers[tokenIndex + 1];
+}
+
 const sortByAlbum = (a, b) => {
   if (a.artist < b.artist) return -1;
   if (a.artist > b.artist) return 1;
@@ -6,4 +30,4 @@ const sortByAlbum = (a, b) => {
   return 0;
 };
 
-module.exports = { sortByAlbum };
+module.exports = { decodeSupabaseToken, getToken, sortByAlbum };

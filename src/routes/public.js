@@ -2,13 +2,13 @@ const router = require('express').Router();
 
 const getArtists = require('../controllers/albums/getArtists');
 const { ERRORS } = require('../constants');
-const { rateLimiter } = require('../middleware');
+const rateLimiter = require('../middleware/rateLimiter');
 
-router.get('/api/health', rateLimiter, (req, res) => {
+router.get('/api/health', rateLimiter, (_, res) => {
   res.json({ success: true });
 });
 
-router.get('/api/artists', async (req, res) => {
+router.get('/api/artists', async (_, res) => {
   try {
     const artists = await getArtists();
     res.json(artists.sort());

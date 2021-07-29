@@ -47,6 +47,7 @@ describe('Create New Release mutation', () => {
 
   it('does not create a new release without a required field', async () => {
     delete data.artist;
+    // eslint-disable-next-line quotes, no-useless-escape
     const error = `Variable \"$artist\" of required type \"String!\" was not provided.`;
 
     const response = await gqlCall({

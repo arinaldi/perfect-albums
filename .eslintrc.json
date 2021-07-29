@@ -18,14 +18,13 @@
   "rules": {
     "comma-dangle": ["error", "always-multiline"],
     "eol-last": "error",
-    "indent": ["error", 2],
+    "indent": ["error", 2, { "SwitchCase": 1 }],
     "no-console": "warn",
     "no-dupe-else-if": "off",
     "no-setter-return": "off",
     "no-unused-vars": ["error", { "varsIgnorePattern": "should|expect" }],
     "quotes": ["error", "single"],
     "semi": ["error", "always"],
-    "space-before-function-paren": "error",
     "spaced-comment": "error"
   },
   "globals": {

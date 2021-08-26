@@ -11,7 +11,7 @@ router.get('/api/health', rateLimiter, (_, res) => {
 router.get('/api/artists', async (_, res) => {
   try {
     const artists = await getArtists();
-    res.json(artists.sort());
+    res.json(artists);
   } catch (err) {
     res.status(500).json({ error: err.message || ERRORS.GENERIC });
   }

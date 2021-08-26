@@ -16,6 +16,13 @@ async function decodeSupabaseToken(token) {
   }
 }
 
+function getRandomInt(min, max) {
+  const newMin = Math.ceil(min);
+  const newMax = Math.floor(max);
+
+  return Math.floor(Math.random() * (newMax - newMin + 1)) + newMin;
+}
+
 function getToken(authHeader = '') {
   const headers = authHeader.split(' ');
   const tokenIndex = headers.indexOf('Bearer');
@@ -30,4 +37,4 @@ const sortByAlbum = (a, b) => {
   return 0;
 };
 
-module.exports = { decodeSupabaseToken, getToken, sortByAlbum };
+module.exports = { decodeSupabaseToken, getRandomInt, getToken, sortByAlbum };

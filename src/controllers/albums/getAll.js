@@ -2,16 +2,21 @@ const Album = require('../../models/album');
 
 module.exports = (queries) =>
   new Promise((resolve, reject) => {
-    let { page, per_page: perPage, search, sort, direction } = queries;
-    const regex = new RegExp(search, 'i');
+    let { artist, direction, page, per_page: perPage, title, sort } = queries;
+    const artistRegex = new RegExp(artist, 'i');
+    const titleRegex = new RegExp(title, 'i');
     page = Math.abs(parseInt(page)) - 1;
     perPage = Math.abs(parseInt(perPage)) || 25;
     direction = direction || 'asc';
 
     const query = Album.find({});
 
-    if (search) {
-      query.or([{ artist: regex }, { title: regex }]);
+    if (artist) {
+      query.find({ artist: artistRegex });
+    }
+
+    if (title) {
+      query.find({ title: titleRegex });
     }
 
     const sortParams = sort

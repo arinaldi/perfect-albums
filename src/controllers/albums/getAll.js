@@ -2,12 +2,21 @@ const Album = require('../../models/album');
 
 module.exports = (queries) =>
   new Promise((resolve, reject) => {
-    let { artist, direction, page, per_page: perPage, title, sort } = queries;
+    let {
+      artist,
+      direction,
+      page,
+      per_page: perPage,
+      sort,
+      studio,
+      title,
+    } = queries;
     const artistRegex = new RegExp(artist, 'i');
     const titleRegex = new RegExp(title, 'i');
+    direction = direction || 'asc';
     page = Math.abs(parseInt(page)) - 1;
     perPage = Math.abs(parseInt(perPage)) || 25;
-    direction = direction || 'asc';
+    studio = studio || '';
 
     const query = Album.find({});
 
@@ -17,6 +26,10 @@ module.exports = (queries) =>
 
     if (title) {
       query.find({ title: titleRegex });
+    }
+
+    if (studio === 'true') {
+      query.find({ studio: true });
     }
 
     const sortParams = sort
